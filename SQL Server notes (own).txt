@@ -1,0 +1,17 @@
+Creating new DB
+===============
+After loggin
+>Right click on Databases
+ >New Database
+
+Creating date in DB
+===================
+CREATE TABLE EMP
+(
+EMPID SMALLINT,
+ENAME VARCAHR(10),
+JOB VARCHAR(10),
+SAL SAMLLMONEY,
+HIREDATE DATE,
+DNO TINYINT
+)
