@@ -97,6 +97,7 @@ Display Data in SQL Server
    > if cond is true row is selected
    > if cond is false row is not selected
  Examples:
+ ---------
   Display employee details whose id = 102
   > SELECT * FROM EMP WHERE EMPID=102 // goes every row and checks true or false and shows all the datails because '*'
   > SELECT ENAME FROM EMP WHERE EMPID=102 //only name will be shown here 
@@ -118,9 +119,21 @@ Compound condtion:
  Multilple condtions combined with AND / OR operators is called compound condtion.
  > WHERE COND1 AND/OR COND2 
  Examples:
+ ---------
   > WHERE CATEGORY = 'MOBILES' AND PRICE < 20000 // only mobiles under 20000
   > WHERE CATEGORY = 'MOBILES' OR PRICE < 20000 // any product that is under 20000, satisfying one condtion is enough
   Display Employee details whose id = 100, 103, 105
   > SELECT * FROM EMP WHERE EMPID = 100 OR EMPID = 103 OR EMPID = 105
   Display employees working as clerk, analyst
   > SELECT * FROM EMP WHERE JOB = 'CLERK' OR JOB = 'ANALYST'
+  Display employees working as analyst beloging to 20th Dept
+  > SELECT * FROM EMP WHERE JOB = 'ANALYST' AND DNO = '20'
+  Display employees earning >5000 and <10000
+  > SELECT * FROM EMP WHERE SAL > 5000 AND SAL < 10000
+  Display employees joined in 2020
+  > SELECT * FROM EMP WHERE HIREDATE >= '2020-01-01' AND HIREDATE <= '2020-12-31'
+  Display employees working as clerk, analyst and earning more than 5000
+  > SELECT * FROM EMP WHERE JOB = 'CLERK' OR JOB = 'ANALYST' AND SAL > 5000 // here JOB = 'ANALYST' AND SAL = 5000 are compared first i.e AND is prioritized and then it'll compare with JOB = 'CLERK'
+  > SELECT * FROM EMP WHERE ( JOB = 'CLERK' OR JOB = 'ANALYST' ) AND SAL > 5000 // () to force comparision
+  
+  
