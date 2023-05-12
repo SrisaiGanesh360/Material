@@ -1,17 +1,113 @@
 Creating new DB
 ===============
-After loggin
->Right click on Databases
+ After loggin
+ >Right click on Databases
  >New Database
+  
+Creating TABLE
+==============
 
-Creating date in DB
-===================
-CREATE TABLE EMP
-(
-EMPID SMALLINT,
-ENAME VARCAHR(10),
-JOB VARCHAR(10),
-SAL SAMLLMONEY,
-HIREDATE DATE,
-DNO TINYINT
-)
+ CREATE TABLE EMP
+ (
+ EMPID SMALLINT,
+ ENAME VARCAHR(10),
+ JOB VARCHAR(10),
+ SAL SAMLLMONEY,
+ HIREDATE DATE,
+ DNO TINYINT
+ )
+
+
+120523
+Operators in SQL Server
+=======================
+
+ + - * / % for calculation
+ gives value as output
+
+Relational operators in SQL Server
+==================================
+
+ => > >= < <= = <> or !=
+ gives True/False as output
+
+ 10 > 5 True
+ 10 < 5 False
+ 10 = 5 False
+ 10 <> 5 True ~ 10 != 5 True
+
+Logical Operators in SQL Server
+===============================
+
+ AND OR NOT
+
+Special Operators in SQL Server
+===============================
+
+ BETWEEN
+ IN
+ LIKE
+ IS
+ ANY
+ ALL
+ EXITS
+
+Set Operators in SQL Server
+===========================
+
+ UNION
+ UNION ALL
+ INTERSECT
+ EXCEPT
+
+Display Data in SQL Server
+==========================
+ 
+> "SELECT" command is used to display data from the table.
+
+ syn: SELECT <col/*> FROM <tabname>; // this whole statement is called querry or command and SELECT and FROM  are called clauses
+
+ SQL = English
+ QUERIES = Sentences
+ CLAUSES = Words
+
+ FROM clause -> specify tablename
+ SELECT clause -> specify column names
+ * -> all columns
+
+> Display employee names and salaries/hiredate/dno
+ SELECT ENAME,SAL FROM EMP
+ SELECT ENAME,HIREDATE FROM EMP
+ SELECT ENAME,DNO FROM EMP
+
+>Display all the data from EMP
+ SELECT * FROM EMP //shows all the data
+
+>WHERE caluse: ( Display specific )
+===============
+ Used to access specific row/rows based on a condition
+
+ SELECT columns
+ FROM tabname
+ WHERE condition
+
+ conditions: ( made of relational operators )
+  COLNAME OP VALUE
+   > OP is any relational operator like > >= < <= = <>
+   > if cond is true row is selected
+   > if cond is false row is not selected
+ Examples:
+ Display employee details whose id = 102
+ > SELECT * FROM EMP WHERE EMPID=102 // goes every row and checks true or false and shows all the datails because '*'
+ > SELECT ENAME FROM EMP WHERE EMPID=102 //only name will be shown here 
+ Display employee details whose name = 'Kumar'
+ > SELECT * FROM EMP WHERE ENAME = 'Kumar' // '' mandatory to display sting
+ Display employee details who earn more then 5000
+ > SELECT * FROM EMP WHERE SAL > 5000
+ Display employees joined after 2020
+ > SELECT * FROM EMP WHERE HIREDATE > 2020 // date is incompatable with number
+ > SELECT * FROM EMP WHERE HIREDATE > '2020-12-31' // Hiredate date type is compated with '2020-12-31' which is also date type
+ Display employees joined before 2020
+ > SELECT * FROM EMP WHERE HIREDATE < '2020-01-01'
+ Display employees not working for Dno 10
+ > SELECT * FROM EMP WHERE DNO <> 10
