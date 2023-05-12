@@ -97,17 +97,30 @@ Display Data in SQL Server
    > if cond is true row is selected
    > if cond is false row is not selected
  Examples:
- Display employee details whose id = 102
- > SELECT * FROM EMP WHERE EMPID=102 // goes every row and checks true or false and shows all the datails because '*'
- > SELECT ENAME FROM EMP WHERE EMPID=102 //only name will be shown here 
- Display employee details whose name = 'Kumar'
- > SELECT * FROM EMP WHERE ENAME = 'Kumar' // '' mandatory to display sting
- Display employee details who earn more then 5000
- > SELECT * FROM EMP WHERE SAL > 5000
- Display employees joined after 2020
- > SELECT * FROM EMP WHERE HIREDATE > 2020 // date is incompatable with number
- > SELECT * FROM EMP WHERE HIREDATE > '2020-12-31' // Hiredate date type is compated with '2020-12-31' which is also date type
- Display employees joined before 2020
- > SELECT * FROM EMP WHERE HIREDATE < '2020-01-01'
- Display employees not working for Dno 10
- > SELECT * FROM EMP WHERE DNO <> 10
+  Display employee details whose id = 102
+  > SELECT * FROM EMP WHERE EMPID=102 // goes every row and checks true or false and shows all the datails because '*'
+  > SELECT ENAME FROM EMP WHERE EMPID=102 //only name will be shown here 
+  Display employee details whose name = 'Kumar'
+  > SELECT * FROM EMP WHERE ENAME = 'Kumar' // '' mandatory to display sting
+  Display employee details who earn more then 5000
+  > SELECT * FROM EMP WHERE SAL > 5000
+  Display employees joined after 2020
+  > SELECT * FROM EMP WHERE HIREDATE > 2020 // date is incompatable with number
+  > SELECT * FROM EMP WHERE HIREDATE > '2020-12-31' // Hiredate date type is compated with '2020-12-31' which is also date type
+  Display employees joined before 2020
+  > SELECT * FROM EMP WHERE HIREDATE < '2020-01-01'
+  Display employees not working for Dno 10
+  > SELECT * FROM EMP WHERE DNO <> 10
+
+Adding multiple condtions to single querry
+Compound condtion:
+==================
+ Multilple condtions combined with AND / OR operators is called compound condtion.
+ > WHERE COND1 AND/OR COND2 
+ Examples:
+  > WHERE CATEGORY = 'MOBILES' AND PRICE < 20000 // only mobiles under 20000
+  > WHERE CATEGORY = 'MOBILES' OR PRICE < 20000 // any product that is under 20000, satisfying one condtion is enough
+  Display Employee details whose id = 100, 103, 105
+  > SELECT * FROM EMP WHERE EMPID = 100 OR EMPID = 103 OR EMPID = 105
+  Display employees working as clerk, analyst
+  > SELECT * FROM EMP WHERE JOB = 'CLERK' OR JOB = 'ANALYST'
