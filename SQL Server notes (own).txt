@@ -18,15 +18,16 @@ Creating TABLE
  )
 
 
-120523
-Operators in SQL Server
-=======================
+120523>>>>>>>>>>>>>>>>>>>>>>>
+
+ Operators in SQL Server
+ =======================
 
  + - * / % for calculation
  gives value as output
 
-Relational operators in SQL Server
-==================================
+ Relational operators in SQL Server
+ ==================================
 
  => > >= < <= = <> or !=
  gives True/False as output
@@ -36,13 +37,13 @@ Relational operators in SQL Server
  10 = 5 False
  10 <> 5 True ~ 10 != 5 True
 
-Logical Operators in SQL Server
-===============================
+ Logical Operators in SQL Server
+ ===============================
 
  AND OR NOT
 
-Special Operators in SQL Server
-===============================
+ Special Operators in SQL Server
+ ===============================
 
  BETWEEN
  IN
@@ -52,18 +53,18 @@ Special Operators in SQL Server
  ALL
  EXITS
 
-Set Operators in SQL Server
-===========================
+ Set Operators in SQL Server
+ ===========================
 
  UNION
  UNION ALL
  INTERSECT
  EXCEPT
 
-Display Data in SQL Server
-==========================
+ Display Data in SQL Server
+ ==========================
  
-> "SELECT" command is used to display data from the table.
+ > "SELECT" command is used to display data from the table.
 
  syn: SELECT <col/*> FROM <tabname>; // this whole statement is called querry or command and SELECT and FROM  are called clauses
 
@@ -75,16 +76,16 @@ Display Data in SQL Server
  SELECT clause -> specify column names
  * -> all columns
 
-> Display employee names and salaries/hiredate/dno
+ > Display employee names and salaries/hiredate/dno
  SELECT ENAME,SAL FROM EMP
  SELECT ENAME,HIREDATE FROM EMP
  SELECT ENAME,DNO FROM EMP
 
->Display all the data from EMP
+ >Display all the data from EMP
  SELECT * FROM EMP //shows all the data
 
->WHERE caluse: ( Display specific )
-===============
+ >WHERE caluse: ( Display specific )
+ ===============
  Used to access specific row/rows based on a condition
 
  SELECT columns
@@ -113,9 +114,9 @@ Display Data in SQL Server
   Display employees not working for Dno 10
   > SELECT * FROM EMP WHERE DNO <> 10
 
-Adding multiple condtions to single querry
-Compound condtion:
-==================
+ Adding multiple condtions to single querry
+ Compound condtion:
+ ==================
  Multilple condtions combined with AND / OR operators is called compound condtion.
  > WHERE COND1 AND/OR COND2 
  Examples:
@@ -135,5 +136,78 @@ Compound condtion:
   Display employees working as clerk, analyst and earning more than 5000
   > SELECT * FROM EMP WHERE JOB = 'CLERK' OR JOB = 'ANALYST' AND SAL > 5000 // here JOB = 'ANALYST' AND SAL = 5000 are compared first i.e AND is prioritized and then it'll compare with JOB = 'CLERK'
   > SELECT * FROM EMP WHERE ( JOB = 'CLERK' OR JOB = 'ANALYST' ) AND SAL > 5000 // () to force comparision
-  
-  
+   
+ 
+130523>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+  IN Operator
+  ===========
+   >Use IN operator for comparision with list.
+    >List is like 10, 20, 30, 40...
+   >Use IN operator for "=" comparision with multiple values.
+    > WHERE COLNAME = V1,V2,V3... //is invalid, = cannot be used with multiple values
+    > WHERE COLNAME IN(V1,V2,V3...) //is valid, if you want to use = with multiple values
+
+    >Display employees whose id = 100,103,105
+      > SELECT * FROM EMP WHERE EMPID IN (100,103,105) //Old WHERE EMPID = 100 OR EMPID = 103 OR EMPID =105
+    >Display employees working as clerk, manger
+     > SELECT * FROM EMP WHERE JOB IN ('CLERK', 'MANAGER')
+    >Display employees not working for deptno 10,20
+     > SELECT * FROM EMP WHERE DNO NOT IN (10,20)
+
+  WHERE Operator
+  ==============
+   >Use BETWEEN operator for comeparision with range
+    >like 10 to 50 is called range ( all the values between 10 and 50 are included i.e., 10,11,12,.....48,49,50)
+    > WHERE COLNAME BETWEEN V1 AND V2 // is equivalent to COL>=V1 AND COL<=V2
+
+    >Display the employees earning between 5000 and 10000
+     > SELECT * FROM EMP WHERE SAL BETWEEN 5000 AND 10000 //always use BETWEEN with lower limit and Upper limit
+    >Display the employees joined in 2020 year
+     > SELECT * FROM EMP WHERE HIREDATE BETWEEN '2020-01-01' AND '2020-12-31'
+    >Display the employees not joined in 2020 year
+     > SELECT * FROM EMP WHERE HIREDATE NOT BETWEEN '2020-01-01' AND '2020-12-31'
+    >Display the employees working as Clerk, manager and earning between 5000 and 10000 and joined in 2019 and not working for deptno 10,20
+     > SELECT * FROM EMP WHERE JOB IN ('CLERK', 'MANAGER') AND SAL BETWEEN 5000 AND 10000 AND HIREDATE BETWEEN '2019-01-01' AND '2019-12-31' AND DNO NOT IN (10,20)
+    
+    PRODUCTS
+    PRODID PNAME PRICE CATEGORY BRAND
+    
+    >Display list of Samsung, Redmi, Realme mobile phones between 10000 and 20000
+     > SELECT * FROM PRODUCTS WHERE CATEGORY = 'MOBILES' AND BRAND IN ('SAMSUNG', 'REDMI', 'REALME') AND PRICE BETWEEN 10000 AND 20000
+    
+    CUSTOMERS
+    CID NAME CITY AGE GENDER
+
+    >Display the list of male customers staying in HYD, MUM, DEL aged between 20 and 30
+     > SELECT * FROM CUSTOMERS WHERE GENDER = 'MALE' AND CITY IN ('HYD', 'MUM', 'DEL') AND AGE BETWEEN 20 AND 30
+
+  LIKE Operator
+  =============
+
+   >Use LIKE operator for comparision of patterns
+    > WHERE COLNAME LIKE 'PATTERN'
+   >Pattern contains alphabets, digits, wildcard characters
+
+   >Wildcard characters
+    --------------------
+    > % => 0 or many characters
+    > _ => exactly 1 characters
+
+    >Display employees with name starting with 'S'
+     > SELECT * FROM EMP WHRE ENAME LIKE 'S%'
+    >Display employees with name ending with 'S'
+     > SELECT * FROM EMP WHERE ENAME LIKE '%S'
+    >Display employees with name containing 'A'
+     > SELECT * FROM EMP WHERE ENAME LIKE '%A%'
+    >Display employees with 'A' is the 3rd character of their name
+     > SELECT * FROM EMP WHERE ENAME LIKE '__A%' // two underscores before A
+    >Display employees with 'A' is the 3rd character of their name from last 
+     > SELECT * FROM EMP WHERE ENAME LIKE '%A__' // two underscores after A
+    >Display employees with name containing 4 characters
+     > SELECT * FROM EMP WHERE ENAME LIKE '____' // four underscores, each underscore is equal to one character
+    >Display employees joined in Feb month
+     > SELECT * FROM EMP WHERE HIREDATE LIKE '_____02___' // date format is YYYY-MM-DD , %02% does not give only feb but also take dates like 2002-10-15, 2020-02-10, 2023-01-02 it may be month year or day, by giving _____02___ we're forcing SQL to consider it as month
+    >Display employees joined in 2020 year
+     > SELECT * FROM EMP WHERE HIREDATE LIKE '2020%' // % replaces -MM-DD or use 6 underscores after 2020
+    
