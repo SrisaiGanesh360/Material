@@ -97,6 +97,11 @@ Creating TABLE
  DNO TINYINT
  )
 
+To Display table information
+============================
+ > SELECT * FROM <tablename> 
+   > here from above table its SELECT * FROM EMP
+
 Inserting Date into table
 =========================
  > "INSERT" command for inserting data
@@ -107,6 +112,19 @@ Inserting Date into table
     > INSERT INTO <TABLENAME> VALUES(V1, V2, V3, V4, V5, V6,.....)
     Examples:
      > INSERT INTO EMP VALUES(100,'SACHIN','CLERK',5000,'2023-05-11',10)
+     > INSERT INTO EMP VALUES(101,'VIJAY','ANALYST',8000,getdate(),20) // getdate() returns that current days date
+
+   > Inserting multiple rows
+     -----------------------
+     > INSERT INTO EMP VALUES(102,'PHANI','MANAGER',9000,'2019-10-05',30),(103,'SINDHU','ANALYST',7000,'2021-04-20',20)
+
+   > Inserting blanks 'null' values (empty) // not equal to 0 or space
+     --------------------------------------
+     > Nulls can be inserted in two ways
+     > Method 1: INSERT INTO EMP VALUES(104,'KUMAR',null,3000,'2020-02-15',null)
+     > Method 2: INSERT INTO EMP(EMPID,ENAME,SAL,HIREDATE) VALUES(105,'JAMES',5000,getdate()) // remaining fields job,dno filled with nulls
+
+
 
 120523
 
