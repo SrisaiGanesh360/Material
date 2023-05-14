@@ -2,8 +2,73 @@ Creating new DB
 ===============
  After loggin
  >Right click on Databases
- >New Database
-  
+  >New Database 
+   > (two files are created, one is data file .MDF and one is log file .LDF )
+
+ To find it in explorer (to find files in your system)
+ ----------------------
+ >Programfiles
+  >Microsoft SQL Server
+   >MSSQL 15.MSSQLSERVER
+    >MSSQL
+     >DATA
+      >(your created DB)
+
+Datatypes
+=========
+ >CHAR
+  >ASCII // char/varchar allows ascii characters (256 characters) that includes a-z, A-Z, 0-9, special characters, i.e., char/varchar allows alphanumeric
+   Examples: PANNO CHAR(10), VEHNO CHAR(10), EMAIL VARCHAR(20)
+
+   >char //allows character data upto 8000 characters,
+    recommended for fixed length character columns. 
+    Example: NAME CHAR(10) here name can be upto 10 characters,
+    in char data type extra bytes are wasted, 
+    so char is not recommended for variable length fields 
+    and is recommended for fixed length fields.
+    Example: GENDER CHAR(1) M F , STATE_CODE CHAR(2) AP TS MH, COUNTRY_CODE CHAR(3) IND USA 
+               
+   >varchar //for variable length use varchar, allows character data upto 8000.
+    Example: NAME VARCHAR(10) SACHIN here extra bytes i.e., 4 bytes are released and 
+    allocated to other data
+
+   >varchar(max) //to store more than 8000 characters use varchar(max), upto 2GB, 
+
+  >UNICODE // allows unicode characters (65536 characters),
+   that includes characters of diff languages.
+   >nchar
+   >nvarchar
+   >nvarchar(max)
+
+ >INTEGER // allows numbers without decimal part
+   >tinyint
+   >smallint
+   >int
+   >bigint
+   >numberic(p)
+
+ >FLOAT
+   >numeric(p,s) or decimal(p,s)
+
+ >CURRENCY
+   >money
+   >smallmoney
+
+ >DATE
+   >date
+   >time
+   >datetime
+
+ >BINARY
+   >binary
+   >varbinary
+   >varbinary(max)
+
+To Work with Database
+=====================
+ >Right click on Databases
+  >New Querry // Querry window opens
+
 Creating TABLE
 ==============
 
@@ -18,7 +83,7 @@ Creating TABLE
  )
 
 
-120523>>>>>>>>>>>>>>>>>>>>>>>
+120523
 
  Operators in SQL Server
  =======================
@@ -138,7 +203,7 @@ Creating TABLE
   > SELECT * FROM EMP WHERE ( JOB = 'CLERK' OR JOB = 'ANALYST' ) AND SAL > 5000 // () to force comparision
    
  
-130523>>>>>>>>>>>>>>>>>>>>>>>>>>
+130523
 
   IN Operator
   ===========
