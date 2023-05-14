@@ -41,47 +41,72 @@ Datatypes
    >nvarchar(max)
 
  >INTEGER // allows numbers without decimal part
-   >tinyint
-   >smallint
-   >int
-   >bigint
-   >numberic(p)
+   >tinyint // 1 byte, value between 0 to 255, Examples: AGE
+   >smallint // 2 bytes, value between -32768 to 32768, Examples: EMPID
+   >int // 4 bytes, value between -2147483648 to 2147483647
+   >bigint // 8 bytes, valid number between -9223372036854775808 to 9223372036854775807
+
+   >numberic(p) // allows numbers upto 38 digits, Examples: EMPID NUMERIC(4) here maximum 
+    four digits are allowed like 10, 100, 1000, 2000 but 10000 which is 5 characters not allowed
+    AADHARNO NUMERIC(12), ACCNO NUMERIC(13), MOBILE NUMERIC(10)
 
  >FLOAT
-   >numeric(p,s) or decimal(p,s)
+   >numeric(p,s) or decimal(p,s) // allows numbers with decimal (float).
+    here P means precision that is total number of digits, 
+    S means scale that is number of digits after decimal.
+    Examples: SAlARY NUMERIC(7,2) like 10000.50 is valid 500000.60 is invalid, 
 
- >CURRENCY
-   >money
-   >smallmoney
+ >CURRENCY // used for fields related to money
+   >smallmoney // 4 bytes, range is -214748.3648 to 214748.3647
+   >money // 8 bytes, range is -922337203685477.5808 to 922337203685477.5807
+   Exmaples: SAL SMALLMONEY, BAL MONEY
 
- >DATE
-   >date
-   >time
-   >datetime
+ >DATE 
+   >date // only date
+   >time // only time
+   >datetime // allows date and time
+  Defalut date format for SQL Server is YYYY-MM-DD
+  Default time format for SQL Server is HH:MM:SS
+  Example: DOB DATE, LOGIN TIME, TXNDT DATETIME gives like 2023-05-11 9:30:00
 
- >BINARY
-   >binary
-   >varbinary
-   >varbinary(max)
+ >BINARY // allows mutimedia objects like audio, video, images
+   >binary // allows upto 8000 bytes
+   >varbinary // allows upto 8000 bytes
+   >varbinary(max) // allows upto 2GB
+  Example: photo BINARY(1000) here 1000 bytes allocated for photo and extra bytes are wasted.
+  photo VARBINARY(1000) here extra bytes are released
 
 To Work with Database
 =====================
  >Right click on Databases
   >New Querry // Querry window opens
 
-Creating TABLE
+Creating TABLE 
 ==============
+ > Tablename should start with alphabet, no spaces, only _ $ # are allowed,
+   can be upto 128 characters, can have 1024 columns, unlimited rows
+   Examples: 123EMPID invalid, EMP 123 INVALID, EMP*123 INVALID, EMP_123 VALID
 
  CREATE TABLE EMP
  (
  EMPID SMALLINT,
- ENAME VARCAHR(10),
+ ENAME VARCHAR(10),
  JOB VARCHAR(10),
- SAL SAMLLMONEY,
+ SAL SMALLMONEY,
  HIREDATE DATE,
  DNO TINYINT
  )
 
+Inserting Date into table
+=========================
+ > "INSERT" command for inserting data
+   > we can insert single row or multiple rows
+
+   > Inserting single row
+     --------------------
+    > INSERT INTO <TABLENAME> VALUES(V1, V2, V3, V4, V5, V6,.....)
+    Examples:
+     > INSERT INTO EMP VALUES(100,'SACHIN','CLERK',5000,'2023-05-11',10)
 
 120523
 
