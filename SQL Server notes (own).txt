@@ -1,3 +1,21 @@
+Downloading & installation :- 
+ -------------------------------------
+     
+ downloading sql server :- 
+ -----------------------------------
+
+ https://www.microsoft.com/en-in/sql-server/sql-server-downloads
+
+ step by step installation of sql server 2022 :- 
+ ---------------------------------------------------------
+
+ https://www.sqlshack.com/how-to-install-sql-server-developer-edition/
+
+ download ssms :- 
+ --------------------------
+
+ https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16
+
 Creating new DB
 ===============
  After loggin
@@ -302,7 +320,7 @@ Inserting Date into table
     > % => 0 or many characters
     > _ => exactly 1 characters
 
-    >Display employees with name starting with 'S'
+    >Display employees with name starting with 'S' // remaining characters we don't know
      > SELECT * FROM EMP WHRE ENAME LIKE 'S%'
     >Display employees with name ending with 'S'
      > SELECT * FROM EMP WHERE ENAME LIKE '%S'
@@ -318,4 +336,79 @@ Inserting Date into table
      > SELECT * FROM EMP WHERE HIREDATE LIKE '_____02___' // date format is YYYY-MM-DD , %02% does not give only feb but also take dates like 2002-10-15, 2020-02-10, 2023-01-02 it may be month year or day, by giving _____02___ we're forcing SQL to consider it as month
     >Display employees joined in 2020 year
      > SELECT * FROM EMP WHERE HIREDATE LIKE '2020%' // % replaces -MM-DD or use 6 underscores after 2020
-    
+
+150323
+
+ IS Operator 
+ ===========
+   > For comparision with NULL/ NOT NULL
+     > WHERE COLNAME IS NULL
+     > WHERE COLNAME IS NOT NULL // NULL cannot be compared with = , must be compared with IS Operator
+
+     > Display empleyees not assigened to any dept
+       > SELECT * FROM EMP WHERE DNO IS NULL
+     > Display empleyees not assigened to any job
+       > SELECT * FROM EMP WHERE JOB IS NULL
+     > Display empleyees who are assigened to any dept
+       > SELECT * FROM EMP WHERE DNO IS NOT NULL
+ 
+ Summary:
+ --------
+   WHERE COLNAME IN (V1,V2,V3,V4,V5,V6....)
+   WHERE COLNAME BETWEEN V1 AND V2
+   WHERE COLNAME LIKE 'PATTERN'
+   WHERE COLNAME IS NULL
+
+ Examples:
+
+  STUDENT
+  SID SNAME S1 S2 S3
+  1   A     80 90 70
+  2   B     30 60 50
+
+   > Display list of students who are passed
+     > SELECT * FROM STUDENT WHERE S1>=35 AND S2>=35 AND S3>=35
+   > Display list of students who are failed
+     > SELECT * FROM STUDENT WHERE S1<35 OR S2<35 OR S3<35
+  
+  CREATE INSERTING DATA Another method ( UI Method)
+  =============================
+    > Select DB ( your created)
+     > right click on table
+       > new table
+         > click save after entering data
+         > Table created
+
+    > Right click on table
+      > Edit     
+
+ > ALIAS:
+  =======
+   > Alias means another name
+   > Used to change column headings
+   > Syntax: COLNAME / EXPRESSION AS <ALIAS>
+   > Examples: // In SELECT on column headings and arthematic calculations are allowed
+     > Display ENAME ANNUAL SAlARY
+       >SELECT ENAME,SAL*12 AS [ANNUAL SALARY] // name should not contain space, keep it in [] / "" to make it exceptional
+     > Display a Table named 123 and (A INT, B INT, C INT)
+       > CREATE TABLE [123](A INT, B INT, C INT)
+     > Display a Table with ENAME SAL DA TAX TOTSAL
+       > HRA House Rent Allowance, take it 20% on sal 
+       > DA Dearness Allowance, take it 30% on sal
+       > TAX is tax, take it as 10% on sal
+       > TOTSAL is SAL+HRA+DA-TAX
+       > SELECT ENAME,SAL,SAL*0.2 AS HRA,SAL*0.3 AS DA,SAL*0.1 AS TAX,SAL + (SAL*0.2) + (SAL*0.3) - (SAL*0.1) AS TOTSAL FROM EMP
+
+ > ORDER BY Clause:
+  =================
+   > Used to sort rows based on one or more columns 
+     either in ascending or descending order.
+   > SELECT columns FROM tabname [WHERE condition] ORDER BY colname ASC/DESC, ...
+   > Default order is ASC for descending order use DESC option
+   > Examples:
+     > Arrange Employee list name wise asc order 
+       > SELECT * FROM EMP ORDER BY ENAME ASC 
+     > Arrange Employee list salary wise descending order
+       > SELECT * FROM EMP ORDER BY SAL DESC
+     > Arrange Employee list dept wise ascending order and with in dept sal wise descending
+       > SELECT * FROM EMPNO,ENAME,SAL,DEPTNO FROM EMP ORDER BY DEPTNO ASC, SAL DESC
