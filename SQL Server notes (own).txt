@@ -412,3 +412,84 @@ Inserting Date into table
        > SELECT * FROM EMP ORDER BY SAL DESC
      > Arrange Employee list dept wise ascending order and with in dept sal wise descending
        > SELECT * FROM EMPNO,ENAME,SAL,DEPTNO FROM EMP ORDER BY DEPTNO ASC, SAL DESC
+
+
+160523
+ 
+ To delete the table
+  > DROP TABLE <tablename>
+
+ Examples:
+ ---------
+  > STUDENT
+    SNO SNAME M  P  C
+    1   A     80 90 70
+    2   B     60 70 50
+    3   C     90 80 70
+    4   D     90 70 80
+   > Arrange student list average wise descending order, m descending order, p descending order
+     > SELECT * FROM STUDENTS ORDER BY (M+P+C)/3 DESC,M DESC,P DESC 
+     > but to display average in output SELECT *, (M+P+C)/3 AS AVG FROM STUDENTS ORDER BY (M+P+C)/3 DESC,M DESC,P DESC
+
+
+  > Display empleyees working as Clerk, manager and arrange list sal wise descending orderorder
+   > SELECT EMPNO,ENAME,JOB,SAL FROM EMP WHERE JOB IN ('CLERK','MANAGER') ORDER BY SAL DESC
+  
+  > Note: Nulls are considered as low in sorting
+    > like in ascending order nulls are arranged first and viseversa for descending order.
+
+ DISTINCT clause:
+ ----------------
+   > ELeminates duplicates from select statement output
+   > Syntax
+     > DISTINCT col
+     > DISTINCT col1,dol2,...
+     > DISTINCT *
+
+   > Example
+     > SELECT DISTINCT JOB FROM EMP ANALYST CLERK MANAGER PRESIDENT SALESMAN
+     > SELECT DISTINCT DEPTNO FROM EMP
+       > 10
+         20
+         30
+  
+ TOP clause:
+ -----------
+   > To select top N rows of table
+   > SELECT TOP <n> colnames/* FROM tablename [WHERE cond] [ORDER BY colnames]
+
+   > Examples
+     > Display first 5 rows from EMP table
+       > SELECT TOP 5 EMPNO,ENAME,SAL FROM EMP
+
+     > Display TOP 5 highest paid Employees based on salary
+       > SELECT TOP 5 EMPNO,ENAME,SAL FROM EMP ORDER BY SAL DESC 
+     
+     > Display TOP 5 empleyees based on experience
+       > SELECT TOP 5 EMPNO,ENAME,SAL,HIREDATE FROM EMP ORDER BY HIREDATE ASC //here ASC means who joined first will come first
+     
+     > Display TOP 3 Maximum salaries from empleyee list
+       > SELECT DISTINCT TOP 3 SAL FROM EMP ORDER BY SAL DESC // DISTINCt is applied to elemenate duplicates
+
+ DML Commands: ( Data Manipulation language)
+ ---------------------------------------
+
+   > Lke INSERT UPDATE DELETE MERGE
+   > DML commands acts on table data
+   > All these operations are auto committed i.e., 'automatically saved'
+     > To STOP autp commit execute the following command
+       > SET IMPLICIT_TRANSACTIONS ON
+     > To Save operations execute COMMIT command //as auto save is off from the above command
+     > To cancel operations execute ROLLBACK command
+   
+   > INSERT
+     > To create new row
+
+   > UPDATE command
+     > command used to modify data, can update all rows are specific row, 
+       can update sigle column or multiple columns
+     > Syntax 
+        > UPDATE tablename SET colname = value, colname = value,.... WHERE condition
+     > Examples:
+       > Update all empleyee commision with 500
+         > UPDATE EMP SET COMM = 500
