@@ -488,8 +488,19 @@ Inserting Date into table
    > UPDATE command
      > command used to modify data, can update all rows are specific row, 
        can update sigle column or multiple columns
+
      > Syntax 
         > UPDATE tablename SET colname = value, colname = value,.... WHERE condition
+
      > Examples:
        > Update all empleyee commision with 500
          > UPDATE EMP SET COMM = 500
+       > Update empleyee commision with 500 whose commision is null
+         > UPDATE EMP SET COMM = 500 WHERE COMM IS NULL
+       > Update commision with Null whose commision is not equal to null
+         > UPDATE EMP SET COMM = NULL WHERE COMM IS NOT NULL // null assignment is = and null comparision is 'IS'
+       > Update salary with 2000 and commision with 500 whose id = 7369
+         > UPDATE EMP SET SAL = 2000, COMM = 500 WHERE EMPNO = 7369
+       > Update increment salary by 20% and commision by 10% who working as SALESMAN and joined in 1981 
+         > UPDATE EMP SET SAL = SAL + (SAL * 0.2) COMM = COMM + (COMM * 0.1) WHERE JOB = 'SALESMAN' AND HIREDATE LIKE '1981%'
+         
