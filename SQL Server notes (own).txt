@@ -483,7 +483,7 @@ Inserting Date into table
      > To cancel operations execute ROLLBACK command
    
    > INSERT
-     > To create new row
+     > To create new row // refer 118 line INSERT at the start 
 
    > UPDATE command
      > command used to modify data, can update all rows are specific row, 
