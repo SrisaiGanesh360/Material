@@ -503,4 +503,61 @@ Inserting Date into table
          > UPDATE EMP SET SAL = 2000, COMM = 500 WHERE EMPNO = 7369
        > Update increment salary by 20% and commision by 10% who working as SALESMAN and joined in 1981 
          > UPDATE EMP SET SAL = SAL + (SAL * 0.2) COMM = COMM + (COMM * 0.1) WHERE JOB = 'SALESMAN' AND HIREDATE LIKE '1981%'
-         
+
+
+170523
+
+ Examples:
+  > PRODUCTS
+    prodid pname price category BRAND
+   >Increase the price of all samsung, realme, oneplus brand mobile phones by 10%
+     > UPDATE PRODUCTS SET PRICE = PRICE + (PIRCE*0.1) WHERE BRAND IN ('SAMSUNG','REALME','ONEPLUS') AND CATEGORY = 'MOBILES'
+
+  DELETE command
+  ==============
+   > Command used to delete row/rows based on condition
+   > We can delete all rows or specific row
+   > Syntax 
+      > DELETE FROM <tablename> [WHERE condition] // if Where condition is not given all rows are deleted
+   > Examples 
+     > Delete all rows from EMP table // dont forget to execute 'SET IMPLICIT_TRANSACTIONS ON' and save manually 'COMMIT'
+       > DELETE FROM EMP
+     > Delete empleyees joined in 1980
+       > DELETE FROM EMP WHERE HIREDATE LIKE '1980%'
+
+  DDL commands: ( DATA DEFINITION LANGUAGE)
+  =============
+   > CREATE ALTER DROP TRUNCATE are called DDL commands
+   > All DDL commands acts on table structure (columns, datatype and size)
+
+   ALTER command:
+   --------------
+    > command used to modify table structure
+    > using ALTER command we can 
+      > Add columns
+      > Drop columns
+      > modify columns
+        > changing datatype
+        > changing size
+     Adding columns:
+     > syntax 
+        > ALTER TABLE <tablename> ADD COLNAME DATATYPE(size), COLNAME DATATYPE(size),...
+     > Examples:
+       > Add column gender to emp table
+         > ALTER TABLE EMP ADD GENDER CHAR(1) // by default new column is filledw with 'NULL'
+         > To insert data into new column use update command
+          > UPDATE EMP SET GENDER = 'M' WHERE EMPNO = 7499
+  
+     DROP command
+       > ALTER TABLE <tablename> DROP COLUMN COL1, COL2
+       > Examples:
+       > Drop column gender from EMP table
+       > ALTER TABLE EMP DROP COLUMN GENDER
+  
+     Modify command:
+       > Syntax:
+         > ALTER TABLE <tablename> ALTER COLUMN <colname> TYPE(SIZE)
+       > Examples:
+         > Increase size of ENAME to 20
+           > ALTER TABLE EMP ALTER COUMN ENAME VARCHAR(20) // decrease also possible upto the exisiting data size
+           
