@@ -548,16 +548,60 @@ Inserting Date into table
          > To insert data into new column use update command
           > UPDATE EMP SET GENDER = 'M' WHERE EMPNO = 7499
   
-     DROP command
+     Dropping columns:
        > ALTER TABLE <tablename> DROP COLUMN COL1, COL2
        > Examples:
        > Drop column gender from EMP table
        > ALTER TABLE EMP DROP COLUMN GENDER
   
-     Modify command:
+     Modify columns:
        > Syntax:
          > ALTER TABLE <tablename> ALTER COLUMN <colname> TYPE(SIZE)
        > Examples:
          > Increase size of ENAME to 20
            > ALTER TABLE EMP ALTER COUMN ENAME VARCHAR(20) // decrease also possible upto the exisiting data size
-           
+         > Change data type of EMPNO to INT
+           > AKTER TABLE EMP ALTER COLUMN EMPNO INT // ALTER TABLE EMP ALTER COLUMN EMPNO TINYINT gives ERROR as exiting values are bigger for tinyint
+
+   DROP Command:
+   -------------
+   > Command drops table from DB
+   > Drops table structure along with data
+   > Syntax:
+      > DROP TABLE <tablename>
+   > Examples:
+     > DROP TABLE EMP
+  
+   TRUNCATE command:
+   ----------------
+    > Deletes all data from the table but keeps structure
+    > Will empty the table 
+    > Releases moemory allocated for table
+    > When truncate is executed sql server goes 
+      to memory and releases all the pages allocated for the table
+      and when pages are released then date stored in the page also deleted
+    > Syntax: TRUNCATE TABLE <table name>
+    > Examples: TRUNCATE TABLE EMP
+
+   Question: Differetiate between DROP DELETE TRUNCATE
+     > DROP deletes table structure with data
+     > DELETE/TRUNCATE deletes only data but not structure
+     > DELETE VS TRUNCATE
+       > DELETE comes under DML , TRUNCATE comes under DDL
+       > DELETE can delete specific rows, TRUNCATE cannot delete specific rows
+       > Where condition can be used with DELETE, Where condition cannot be used with TRUNCATE
+       > DELETE command deletes row by row, TRUNCATE deletes all rows at a time but cannot single row
+       > DELETE is slower, TRUNCATE is faster
+       > DELETE will not release memory, TRUNCATE will release memory immediately
+       > DELETE will not reset identity, TRUNCATE will reset identity
+  
+   SP_REMANE: ( SP is STORED PROCEDURE)
+   -------------------------------------
+     > Used to change the tablename and column name
+     > Syntax:
+       > SP_REMANE '<oldname>', '<newname>'
+     > Examples:
+        > Rename EMP table to EMPLOYEES table
+         > SP_REMANE 'EMP','EMPLOYEES'
+        > Rename column commision to bonus
+         > SP_REMANE 'EMPLOYEES.COMM','BONUS' // <tablename.columnname> to change column name in the table
