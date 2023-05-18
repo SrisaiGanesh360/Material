@@ -605,3 +605,13 @@ Inserting Date into table
          > SP_REMANE 'EMP','EMPLOYEES'
         > Rename column commision to bonus
          > SP_REMANE 'EMPLOYEES.COMM','BONUS' // <tablename.columnname> to change column name in the table
+
+180523
+
+ > Built-in Functions in SQL Server:
+   =================================
+    > A function accepts some inputs performs some calculations and returns one result
+
+    > Types of functions:
+      -------------------
+       > DATE STRING NUMERIC CONVERSION SPECIAL ANALYTICAL AGGREGATE
