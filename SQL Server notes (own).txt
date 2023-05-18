@@ -677,4 +677,22 @@ Inserting Date into table
                > SELECT ENAME,FORMAT(HIREDATE,'MM/dd/yyyy')AS HIREDATE FROM EMP
              
              > SELECT FORMAT(GETDATE(),'DD-MM-yyyy hh:mm:ss') // can get both date and time with formats
-             
+
+             > Display the list of empleyees joined today
+               > SELECT * FROM EMP WHERE HIREDATE = FORMAT(GETDATE(),'yyyy-MM-dd')
+         
+         > DATEDIFF():
+           > Function used to find difference between two dates
+           > DATEDIFF(INTERVAL,START DATE, END DATE)
+
+           > Examples:
+             > SELECT DATEDIFF(YY,'2022-05-18',GETDATE()) returns 1
+             > SELECT DATEDIFF(MM,'2022-05-18',GETDATE()) returns 12
+             > SELECT DATEDIFF(DD,'2022-05-18',GETDATE()) returns 365
+            
+             > Display name amd experience in years
+               > SELECT ENAME,DATEDIFF(YY,HIREDATE,GETDATE()) AS EXPERIENCE FROM EMP
+
+             > Display name amd experience in years,months
+               > SELECT ENAME,DATEDIFF(MM,HIREDATE,GETDATE())/12 AS YEARS, DATEDIFF(MM,HIREDATE,GETDATE())%12 AS MONTHS FROM EMP
+               
