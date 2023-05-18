@@ -614,4 +614,67 @@ Inserting Date into table
 
     > Types of functions:
       -------------------
-       > DATE STRING NUMERIC CONVERSION SPECIAL ANALYTICAL AGGREGATE
+       > DATE STRING NUMERIC CONVERSION SPECIAL ANALYTICAL AGGREGATE 
+
+       > DATE Functions:
+         > GETDATE():
+           > Returns current date, time and milliseconds
+             > SELECT GETDATE() returns 2023-05-18 11:26:41.820 
+
+         > DATEPART():
+           > Function used to extract part of the date
+             > DATEPART(INTERVAL,DATE)
+             > Examples:
+               > SELECT DATEPART(YY,GETDATE()) returns 2023
+               > SELECT DATEPART(MM,GETDATE()) returns 05
+               > SELECT DATEPART(DD,GETDATE()) returns 18
+               > SELECT DATEPART(DW,GETDATE()) returns 5 // 1 for Sunday .... 7 for Saturday ....
+               > SELECT DATEPART(HH,GETDATE()) returns Hours
+               > SELECT DATEPART(MI,GETDATE()) returns Minutes
+               > SELECT DATEPART(SS,GETDATE()) returns Seconds
+               > SELECT DATEPART(Q,GETDATE()) returns Quarter // like 1 Jan- Mar, 2 Apr- Jun, 3 Jul- Sept, 4 Oct- dec
+               > SELECT DATEPART(DAYOFYEAR,GETDATE()) returns day in a year
+               > SELECT DATEPART(DY,GETDATE()) returns day in a year
+
+               > Display Employees joined in 1980, 1983, 1985
+                 >SELECT * FROM EMP WHERE DATEPART(YY,HIREDATE) IN (1980,1983,1985)
+
+               > Display Employees joined in leap year
+                 > SELECT * FROM EMP WHERE DATEPART(YY,HIREDATE) % 4 = 0
+               
+               > Display Employees joined in January, April, December months
+                 > SELECT * FROM EMP WHERE DATEPART(MM,HIREDATE) IN (1,4,12)
+               
+               > Display Employees joined on Sunday
+                 > SELECT * FROM EMP WHERE DATEPART(DW,HIREDATE) IN (1)
+
+               > Display Employees joined in 2nd quarter of 1981
+                 > SELECT * FROM EMP WHERE DATEPART(YY,HIREDATE) = 1981 AND DATEPART(Q,HIREDATE) = 2
+               
+         > DATENAME();
+           > Used to extract part of the date
+
+           >                  MM                    DW
+           > DATEPART          5                     5
+           > DATENAME          MAY                   THURSDAY
+
+          > Examples:
+             > Display Employee with name and joinday
+               > SELECT ENAME, DATENAME(DW,HIREDATE) AS DAY FROM EMP
+
+             > Display day of India's Independence Day
+               > SELECT DATENAME(DW,'1947-08-15')
+           
+         > FORMAT():
+           > Used to display dates in different formats
+           > FORMAT(DATE,'<format>')
+           
+           > Examples:
+             > SELECT FORMAT(GETDATE(),'dd-MM-yyyy')
+             > SELECT FORMAT(GETDATE(),'MM/dd/yyyy')
+
+             > Display the name hiredate, hiredate in MM/DD,YYYY format
+               > SELECT ENAME,FORMAT(HIREDATE,'MM/dd/yyyy')AS HIREDATE FROM EMP
+             
+             > SELECT FORMAT(GETDATE(),'DD-MM-yyyy hh:mm:ss') // can get both date and time with formats
+             
