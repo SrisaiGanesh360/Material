@@ -695,4 +695,32 @@ Inserting Date into table
 
              > Display name amd experience in years,months
                > SELECT ENAME,DATEDIFF(MM,HIREDATE,GETDATE())/12 AS YEARS, DATEDIFF(MM,HIREDATE,GETDATE())%12 AS MONTHS FROM EMP
-               
+
+190523
+
+         > DATEADD():
+           > Used to add/subtract days, months,years to/from a date.
+           > Syntax:
+             > DATEADD(INTERVAL, INT, DATE)
+           > Examples:
+             > Add 10 days to GETDATE()
+               > SELECT DATEADD(DD, 10, GERDATE()) gives 2023-05-29 
+             > Add 2 months to GETDATE()
+               > SELECT DATEADD(MM,2,,GETDATE()) gives 2023-07-19
+             > subtract 1 year from GETDATE()
+               > SELECT DATEADD(YY,-1,GETDATE()) gives 2022-05-19
+
+             > Scenario:
+               > GOLD_RATES
+                 DATEID         RATE
+                 2020-01-01      ?
+                 2020-01-02      ?
+
+                 2023-05-19      ?
+
+               > Display today's gold rate
+                 > SELECT * FROM GOLD_RATES WHERE DATEID = FORMAT(GETDATE(),'yyyy-MM-dd')
+
+               > Display yesterday's gold rate
+               > Display last month same day gold rate
+               > Display last year same day gold rate
