@@ -722,5 +722,115 @@ Inserting Date into table
                  > SELECT * FROM GOLD_RATES WHERE DATEID = FORMAT(GETDATE(),'yyyy-MM-dd')
 
                > Display yesterday's gold rate
+                 > SELECT * FROM GOLD_RATES WHERE DATEID = FORMAT(DATEADD(DD,-1,GETDATE()),'yyyy-MM-dd')
+
                > Display last month same day gold rate
+                 > SELECT * FROM GOLD_RATES WHERE DATEID = FORMAT(DATEADD(MM,-1,GETDATE()),'yyyy-MM-dd')
+
                > Display last year same day gold rate
+                 > SELECT * FROM GOLD_RATES WHERE DATEID = FORMAT(DATEADD(YY,-1,GETDATE()),'yyyy-MM-dd')
+
+               > Display last one month gold rates
+                 > SELECT * FROM GOLD_RATES WHERE DATEID BETWEEN DATEADD(MM,-1,GETDATE()) AND GETDATE()
+
+----------------------------------------------------------------------------------------------------------------------
+ NOTE:
+   > SQL Server date stats from 1900-01-01 , 
+     > Examples:
+       > FIrst date in SQL calender
+         > SELECT DATEADD(DD,0,0) gives 1900-01-01
+----------------------------------------------------------------------------------------------------------------------
+
+          > EOMONTH():
+            > Returns last day of the month
+            > Syntax:
+              > EOMONTH(DATE,INT)
+            > Examples:
+              > SELECT EOMONTH(GETDATE(),0) gives 2023-05-31
+              > SELECT EOMONTH(GETDATE(),1) gives 2023-06-30
+              > SELECT EOMONTH(GETDATE(),-1) gives 2023-04-30
+              > Display next month first day
+              > Display current month first day
+              > Display next year first day
+              > Display current year first day
+
+       > STRING FUNCTIONS:
+        -------------------
+
+         > UPPER():
+           > Used to convert string to uppercase
+           > Syntax:
+             > UPPER(string)
+           > Examples:
+             > SELECT UPPER('hello') gives HELLO
+         
+         > LOWER():
+           > Used to convert string to lowercase
+           > Syntax:
+             > LOWER(string)
+           > Examples:
+             > SELECT LOWER('HELLO') gives hello
+
+             > Display EMPNO ENAME SAL, names in lowercase
+               > SELECT EMPNO,LOWER(ENAME) AS ENAME, SAL FROM EMP // SELECT will only display data not modify actual table data
+
+             > Change names to lowercase in table
+               > UPDATE EMP SET ENAME = LOWER(ENAME) // UPDATE changes data in table itself
+               
+         > LEN():
+           > Returns string length i.e., no of characters
+           > Syntax:
+             > LEN(string)
+           > Examples:
+             > SELECT LEN('hello world') gives 11 characters
+
+             > Display Employee name and length of the name
+               > SELECT ENAME, LEN(ENAME) AS LENGTH FROM EMP 
+             > Display Employee names containing 4 characters
+               > SELECT * FROM EMP WHERE ENAME LIKE '____' // not idel for all scenarios , like 30 characters
+               > SELECT * FROM EMP WHERE LEN(ENAME)=4 
+
+         > LEFT()
+           > Returns characters starting from left
+           > Syntax
+             > LEFT(string,LEN)
+           > Examples
+             > SELECT LEFT('hello world',5) returns 5 characters starting from left side
+
+             > Display empleyee names starting with 's'
+               > SELECT * FROM EMP WHERE LEFT(ENAME,1)='s'
+         
+         > RIGHT()
+            > Returns characters starting from right side
+            > Syntax
+              > RIGHT(string,LEN)
+            > Examples
+              > SELECT RIGHT('hello world',7) gives o world
+
+              > Display Employee names that ends with 's'
+                 > SELECT * FROM EMP WHERE RIGHT(ENAME,1)='s'
+              > Display Employee names that start and end with same characters
+                 > SELECT * FROM EMP WHERE LEFT(ENAME,1) = RIGHT(ENAME,1)
+         
+         > SUBSTRING():
+           > Returns characters starting from specific position
+           > Syntax 
+             > SUBSTRING(string,start,len)
+           > Examples 
+             > SELECT SUBSTRING('hello world',7,4) gives worl
+             > SELECT SUBSTRING('hello world',10,3) gives ld
+             
+             > Scenario:
+               > Generate emailids for employees
+                 > EMPNO    ENAME     EMAILID
+                   7369     Smith      smi736@tcs.com
+                   7499     Allen      all749@tcs.com
+               > SELECT EMPNO, ENAME, LEFT(ENAME,3) + LEFT(EMPNO,3) + '@tcs.com'AS EMAILID FROM EMP // displays only
+
+               > Add EMAILID in DB
+                > Step 1 : Add EMAILID column to EMP table
+                   > ALTER TABLE EMP ADD EMAILID VARCHAR(30)
+                > Step 2 : Update the column with emailids
+                   > UPDATE EMP SET EMAILID = LEFT(ENAME,3) + LEFT(EMPNO,3) + '@tcs.com'
+
+
