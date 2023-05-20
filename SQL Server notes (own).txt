@@ -906,11 +906,59 @@ Inserting Date into table
   > TRANSLATE():
     ------------
     > Used to translate one character to another character.
+    > Translation cannot be null like SELECT TRANSLATE('HELLO','ELO','') gives ERROR
     > Syntax:
       > TRANSLATE(str1,str2,str3)
     > Examples:
       > SELECT TRANSLATE('HELLO','ELO','ABC') gives 'HABBC' // here E to A, L to B, O to C
-      
+
+    > Note: TRANSLATE function can be used to encrypt data i.e., changing plain text to cipher text
+      > Examples:
+        > Encrypt Salaries of EMP table
+          > SELECT ENAME,TRANSLATE(SAL,'0123456789.','$bT*k@G^#%&') AS SAL FROM EMP
+        
+        > Remove all the special characters from '@#HE%$LL&^O*@'
+          > SELECT  REPLACE (TRANSLATE('@#HE%$LL&^O*@','@#%$&^*','*******'),'*','')  // first translate all the special characters to '*'s, then make it as input to replace
+            > Stepl: **HE**LL**O*
+            > Step2: HELLO
+
+ > Numeric finctions:
+   ===================
+   > ABS(): retunrs absolute value
+     > Syntax: ABS(NUMBER)
+     > Examples:
+       > SELECT ABS(10) returns 10
+       > SELECT ABS(-10) returns 10 // Always returns positive value
+
+   > POWER():
+     > Calculates POWER
+     > Syntax: POWER(NUM1,num2)
+     > Examples:
+       > SELECT POWER(3,2) returns 9
+
+   > SQRT():
+     > Returns square root
+     > Syntax: SQRT(NUM1)
+     > Examples: SELECT SQRT(16) returns 4
+
+   > SQUARE():
+     > Returns square of a number
+     > Syntax: SQUARE(NUM1)
+     > Examples: SELECT SQUARE(5) returns 25
+   
+   > SIGN():
+     > To check whether given number is positive or negative
+     > Syntax: SIGN(NUM1)
+     > Examples:
+        > SELECT SIGN(10) returns 1
+        > SELECT SIGN(-10) returns -1
+        > SELECT SIGN(0) returns 0
+
+   > Rounding number:
+    ------------------
+    > ROUND CEILING FLOOR are 3 functions available for Rounding numbers
+    
+
 
 
 
