@@ -833,4 +833,86 @@ Inserting Date into table
                 > Step 2 : Update the column with emailids
                    > UPDATE EMP SET EMAILID = LEFT(ENAME,3) + LEFT(EMPNO,3) + '@tcs.com'
 
+200523
+
+ > CHARINDEX():
+   ------------
+    > Used to returns position of a character in a string
+    > syntax
+      > CHARINDEZ(CHAR,STRING,[START]) // START is optional
+    > Examples:
+      > SELECT CHARINDEX('O','HELLO WELCOME') returns 5 // if characteris retunrs postion, if not retunrs 0
+      > SELECT CHARINDEX('X','HELLO WELCOME') returns 0
+
+      > In 'HELLO WELCOME" find position of O starting from 6
+        > SELECT CHARINDEX('O','HELLO WELCOME',6) returns 11
+
+      > Assignment
+        > CUST
+          CID    NAME
+          10     SACHIN TENDULKAR
+          11     ROHIT SHARMA
+
+          > Display CID FNAME      LNAME
+                    10  SACHIN     TENDULAKAR  
+            using LEFT RIGHT SUBSTRING CHARINDEX
+
+  > REPLICATE():
+    ------------
+    > Used to repeat character for  given numboer of times
+    > Syntax:
+      > REPLICATE(CHAR,LEN)
+    > Examples:
+      > SELECT REPLICATE('*',5) gives ***** // 5 stars
+
+      > Display salaries as stars
+        > SELECT ENAME,REPLICATE('*',LEN(SAL)) AS SAL FROM EMP
+
+      > Scenario
+        > ACCOUNTS 
+          ACCNO               ACTYPE    BAL
+          1234567892          S         10000
+         > Display 'your a/c no XXXX8962 debited _____' // XXXX in place of number 
+            > REPLICATE('X',4) + RIGHT(ACCNO,4)
+
+  > REPLACE():
+   -----------
+   > Used to replacee one string with another string
+   > Syntax:
+     > REPLACE(str1,str2,str3) returns in str1, str2 replaced with str3
+   > Examples:
+     > Replace 'ell' with 'abc' in 'hello'
+       > SELECT REPLACE('hello','ell','abc') returns 'habco'
+     > Replace 'l' with 'abc' in 'hello'
+       > SELECT REPLACE('hello','l','abc') returns 'heabcabco'
+     > Replace 'elo' with 'abc' in 'hello'
+       > SELECT REPLACE('hello','elo','abc') returns 'hello' // 'elo' is not there in string so not replaced
+     > Removing unwanted characters, like '@' here 
+       > SELECT REPLACE('@@he@@ll@@o@@','@','') gives 'hello' // '' refers null
+     > Remove only last ',' in " a,b,c,d,c,e, "
+       > 
+
+  > STUFF();
+    -------
+    > Also similar to replace i.e., used to replace one string with another string
+    > Based on start and length
+    > Syntax:
+       > STUFF(string1,start,length,string2)
+    > Examples:
+       > Replace 3 characters with 'ABC' starting from 10th character in 'HELLO WELCOME'
+         > SELECT STUFF('HELLO WELCOME',10,3,'ABC') gives 'HELLO WELABC'
+       > SELECT STUFF('A,B,C,D,',8,1,") gives A,B,C,D
+
+  > TRANSLATE():
+    ------------
+    > Used to translate one character to another character.
+    > Syntax:
+      > TRANSLATE(str1,str2,str3)
+    > Examples:
+      > SELECT TRANSLATE('HELLO','ELO','ABC') gives 'HABBC' // here E to A, L to B, O to C
+      
+
+
+
+
 
