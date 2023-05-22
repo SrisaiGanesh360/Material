@@ -962,11 +962,62 @@ Inserting Date into table
 220523
 
     > ROUND():
-       > Rounds number to integer or to decimal places 
-       > Round function acts according to average 
-       > Syntax: Round(number, decimal places)
-       > Examples:
-         > SELECT ROUND(38.4567,0) gives 38 //here 0 means this number is rounded to integer
-            > If number < Avg rounded to lowest
-            > If number > Avg rounded to highest
-            
+     > Rounds number to integer or to decimal places 
+     > Round function acts according to average 
+     > Syntax: Round(number, decimal places)
+     > Examples:
+       > SELECT ROUND(38.4567,0) gives 38 //here 0 means this number is rounded to integer
+         > If number < Avg rounded to lowest
+         > If number >= Avg rounded to highest
+       > SELECT ROUND(38.4567,2) gives 38.46
+       > SELECT ROUND(38.4547,2) gives 38.45
+       > SELECT ROUND(326,-2) gives 400 // -2 means rounding to 100s
+         > 300----------350----------400
+       > SELECT ROUND(326,-1) gives 360 // -1 means rounding to 10s
+         > 350-----------355---------360
+       > SELECT ROUND(356,-3) gives 0 // -3 means rounding to 1000s
+         > 0-------------500---------1000
+
+       > SELECT ROUND(4567,-1),ROUND(4567,-2),ROUND(4567,-3)
+         >            4570           4600            5000
+
+    > CEILING():
+      > Rounds number always to highest
+      > Example:
+        > SELECT FLOOR(38.9) gives 38
+    
+  > Conversion funcitons:
+    ---------------------
+    > Used to convert one datatype to another datatype
+    > There are two fucntions available CAST CONVERT
+    > CAST():
+      > Syntax
+        > CAST(SOURCE-EXPR AS TARGETTYPE)
+      > Examples:
+        > SELECT CAST(10.5 AS INT) gives 10 // 10.5 is converted to integer
+        > SELECT CAST(10 AS DECIMAL) gives 10
+
+        > Display employees 'Smith earns 800', 'ALLEN earns 1600' from EMP Table
+          > SELECT ENAME + 'ears' + SAL FROM EMP gives ERROR // All must be character type for concatination
+          > SELECT ENAME + 'ears' + CAST(SAL AS VARCHAR) FROM EMP
+
+        > Display 'Smith joined on 1980-12-17 as clerk'
+          > SELECT ENAME + ' joined on' + CAST(HIREDATE AS VARCHAR) + 'as' + job FROM EMP
+    
+    > CONVERT():
+      > Syntax:
+        > CONVERT(target-type,source-expr)
+      > Example:
+        > SELECT CONVERT(INT,10.5) gives 10
+    
+    Note: Using convert we can display dates/money in different formats which is not possible in cast 
+      > Date styles:
+        > CONVERT(VARCHAR,DATE,STYLE-NUMBER) 
+        > Examples:
+          > SELECT CONVERT(VARCHAR,GETDATE(),101) gives 05/22/2023 // 101 is predefines style number
+          > SELECT CONVERT(VARCHAR,GETDATE(),102) gives 2023.05.22 
+            > like this predefined Style-number ranges from 100 to 115 
+            > Compared to this FORMAT is more felxible
+        
+          > Display ENAME, HIREDATE as dd-MM-yyyy format
+            > SELECT ENAME,CONVERT(VARCHAR,HIREDATE,105) AS HOREDATE FROM EMP
