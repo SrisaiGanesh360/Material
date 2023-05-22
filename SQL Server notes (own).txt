@@ -93,7 +93,9 @@ Datatypes
    >varbinary(max) // allows upto 2GB
   Example: photo BINARY(1000) here 1000 bytes allocated for photo and extra bytes are wasted.
   photo VARBINARY(1000) here extra bytes are released
+ 
 
+   
 To Work with Database
 =====================
  >Right click on Databases
@@ -114,6 +116,9 @@ Creating TABLE
  HIREDATE DATE,
  DNO TINYINT
  )
+
+ > To check exiting Datatypes
+   > SP_HELP
 
 To Display table information
 ============================
@@ -1010,7 +1015,7 @@ Inserting Date into table
       > Example:
         > SELECT CONVERT(INT,10.5) gives 10
     
-    Note: Using convert we can display dates/money in different formats which is not possible in cast 
+     Note: Using convert we can display dates/money in different formats which is not possible in cast 
       > Date styles:
         > CONVERT(VARCHAR,DATE,STYLE-NUMBER) 
         > Examples:
@@ -1020,4 +1025,33 @@ Inserting Date into table
             > Compared to this FORMAT is more felxible
         
           > Display ENAME, HIREDATE as dd-MM-yyyy format
-            > SELECT ENAME,CONVERT(VARCHAR,HIREDATE,105) AS HOREDATE FROM EMP
+            > SELECT ENAME,CONVERT(VARCHAR,HIREDATE,105) AS HIREDATE FROM EMP
+          > DATEADD with CONVERT
+            > SELECT DATEADD(DD,5,CONVERT(DATE,'10/05/2023',103)) gives 2023-05-15 // here with CONVERT date is treated as dd/MM/yyy
+            > SELECT DATEADD(DD,5,'10-05-2023') gives 2023-10-10 00:00:00.000  // here without CONVERT date is treated as MM/dd/yyy
+      
+      > Money styles:
+        > Syntax:
+          > CONVERT(CARCHAR,NONEY,STYLE-NUMBER)
+          > SELECT ENAME,CONVERT(VARCHAR,SAL,0) AS SAL FROM EMP
+         > Exmaples:  
+           > SELECT ENAME,CONVERT(VARCHAR,SAL,0) AS SAL FROM EMP
+           > SELECT ENAME,CONVERT(VARCHAR,SAL,1) AS SAL FROM EMP
+           > SELECT ENAME,CONVERT(VARCHAR,SAL,2) AS SAL FROM EMP
+           > SELECT CONVERT(VARCHAR,CAST(5000 AS MONEY),1) gives 5,000.00
+      
+  > SPECIAL Functions:
+    ------------------
+    > ISNULL():
+      > Function used to convert null values
+      > This is used to skip NULL // as  NULL +-* NULL is NULL
+      > Syntax:
+        > ISNULL(arg1,arg2)
+      > Example:
+        > SELECT ISNULL(100,200) gives 100 // as first arg is not equal to null
+        > SELECT ISNULL(NULL,200) gives 00 // as first arg is equal to null gives arg2
+
+        > Display Employee salary with commision
+          > SELECT ENAME,SAL,COMM,SAL+COMM AS TOTSAL FROM EMP // Emplouyees with NULL commission were gives NULL TOTALSAL
+          > SELECT ENAME,SAL,COMM,SAL+ISNULL(COMM,0) AS TOTSAL FROM EMP gives SAL + COMM // NULL is taken as 0
+          
