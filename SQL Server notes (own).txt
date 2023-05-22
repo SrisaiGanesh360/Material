@@ -207,12 +207,13 @@ Inserting Date into table
  SELECT ENAME,HIREDATE FROM EMP
  SELECT ENAME,DNO FROM EMP
 
- >Display all the data from EMP
- SELECT * FROM EMP //shows all the data
+ > Display all the data from EMP
+   Syntax:
+     SELECT * FROM EMP //shows all the data
 
- >WHERE caluse: ( Display specific )
- ===============
- Used to access specific row/rows based on a condition
+ > WHERE caluse: ( Display specific )
+   ===============
+   Used to access specific row/rows based on a condition
 
  SELECT columns
  FROM tabname
@@ -733,13 +734,13 @@ Inserting Date into table
                > Display last one month gold rates
                  > SELECT * FROM GOLD_RATES WHERE DATEID BETWEEN DATEADD(MM,-1,GETDATE()) AND GETDATE()
 
-----------------------------------------------------------------------------------------------------------------------
+ ----------------------------------------------------------------------------------------------------------------------
  NOTE:
    > SQL Server date stats from 1900-01-01 , 
      > Examples:
        > FIrst date in SQL calender
          > SELECT DATEADD(DD,0,0) gives 1900-01-01
-----------------------------------------------------------------------------------------------------------------------
+ ----------------------------------------------------------------------------------------------------------------------
 
           > EOMONTH():
             > Returns last day of the month
