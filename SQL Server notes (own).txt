@@ -959,9 +959,14 @@ Inserting Date into table
     ------------------
     > ROUND CEILING FLOOR are 3 functions available for Rounding numbers
     
+220523
 
-
-
-
-
-
+    > ROUND():
+       > Rounds number to integer or to decimal places 
+       > Round function acts according to average 
+       > Syntax: Round(number, decimal places)
+       > Examples:
+         > SELECT ROUND(38.4567,0) gives 38 //here 0 means this number is rounded to integer
+            > If number < Avg rounded to lowest
+            > If number > Avg rounded to highest
+            
