@@ -1054,4 +1054,73 @@ Inserting Date into table
         > Display Employee salary with commision
           > SELECT ENAME,SAL,COMM,SAL+COMM AS TOTSAL FROM EMP // Emplouyees with NULL commission were gives NULL TOTALSAL
           > SELECT ENAME,SAL,COMM,SAL+ISNULL(COMM,0) AS TOTSAL FROM EMP gives SAL + COMM // NULL is taken as 0
-          
+
+230523
+
+        > Display ENAME SAL COMM TOTSAL, if COMM is NULL display 'No Commission'
+          > SELECT ENAME,SAL,ISNULL(CAST(COMM AS VARCHAR),'NO COMM') AS COMM FROM EMP // ISNULL(arg1,arg2) arg2 must be same type as arg1 type
+        
+  > Analytical functions or window functions:
+    =========================================
+    > Mainly useed for data analysis
+    > Mainly there two functions RANK, DENSE_RANK
+      > These both functions are used to find ranks
+      > Ranking is always based on columns like SAL,HIREDATE etc
+      > For rank functions data must be sorted 
+      > Syntax
+        > RANK() OVER ( ORDER BY COLNAME ASC/DESC)
+        > DENSE_RANK() OVER ( ORDER BY COLNAME ASC/DESC)
+      > Examples:
+        > RANK() OVER(ORDER BY SAL DESC)
+        > RANK() OVER(ORDER BY SAL ASC)
+        > Find ranks of the empleyees based on salary and highest paid should get first rank
+          > SELECT ENAME,SAL,RANK() OVER(ORDER BY SAL DESC) AS RANK FROM EMP
+          > SELECT ENAME,SAL,DENSE_RANK() OVER(ORDER BY SAL DESC) AS RANK FROM EMP
+      > Difference between RANK and DENSE_RANK
+        > RANK function generate gaps but DENSE_RANK will not generate gaps
+        > RANK function ranks may not be in sequence but in DENSE_RANK rank is always in sequence
+        > Example
+          > SAL       RANK       DENSE_RANK
+            5000      1          1
+            4000      2          2
+            3000      3          3
+            3000      3          3
+            3000      3          3
+            2000      6          4
+            2000      6          4
+            1000      8          5
+        > Display ranks of Emplouyees based on hiredate
+          > SELECT ENAME,HIREDATE,DENSE_RANK() OVER (ORDER BY HIREDATE ASC) AS RANK FROM EMP
+        > Display ranks of Emplouyees based on salary and if have same salary then rank bansed on hiredate
+          > SELECT ENAME,HIREDATE,SAL,DENSE_RANK() OVER (ORDER BY SAL DESC,HIREDATE ASC) AS RANK FROM EMP
+      
+    > PARTITION BY clause:
+      --------------------
+      > Used to find ranks within group
+        > Display ranks within a department
+          > Divide table department wise
+          > Apply DENSE_RANK on each department instead of ranking whole table
+          > SELECT ENAME,HIREDATE,SAL,DEPT, DENSE_RANK() OVER(PARTITION BY DEPT ORDER BY SAL DESC) AS RANK FROM EMP
+    
+    > ROW_NUMBER():
+      -------------
+      > Returns record number
+      > Also based on some column
+      > Syntax:
+        > ROW_NUMBER() OVER(ORDER BY COLNAME ASC/DESC,---)
+      > Examples:
+        > SELECT EMPNO, ENAME, SAL, ROW_NUMBER() OVER(ORDER BY SAL DESC) AS RNO FROM EMP
+        > SELECT EMPNO, ENAME, SAL, ROW_NUMBER() OVER(ORDER BY EMPNO ASC) AS RNO FROM EMP
+    
+    > LAG() & LEAD():
+      ---------------
+      > LAG(COLNAME,INT) OVER (ORDER BY COLNAME) returns previous value
+      > LEAD(COLNAME,INT) OVER (ORDER BY COLNAME) returns next value
+      > SELECT EMPNO, ENAME, HIREDATE, SAL, LAG(SAL,1) OVER( ORDER BY HIREDATE ASC) AS PREV_SAL FROM EMP 
+      > How many days employee hired in EMP table
+        > SELECT EMPNO, ENAME, HIREDATE, LAG( HIREDATE,1) OVER ( ORDER BY HIREDATE ASC ) AS PREV_HIREDATE FROM EMP
+        > SELECT EMPNO, ENAME, HIREDATE, LAG( HIREDATE,1) OVER ( ORDER BY HIREDATE ASC ) AS PREV_HIREDATE, DATEDIFF(DD,LAG(HIREDATE,1) OVER (ORDER BY HIREDATE ASC),HIREDATE) AS DAYS FROM EMP
+
+
+ 
+
