@@ -995,6 +995,7 @@ Inserting Date into table
     ---------------------
     > Used to convert one datatype to another datatype
     > There are two fucntions available CAST CONVERT
+    
     > CAST():
       > Syntax
         > CAST(SOURCE-EXPR AS TARGETTYPE)
@@ -1122,7 +1123,29 @@ Inserting Date into table
         > SELECT EMPNO, ENAME, HIREDATE, LAG( HIREDATE,1) OVER ( ORDER BY HIREDATE ASC ) AS PREV_HIREDATE, DATEDIFF(DD,LAG(HIREDATE,1) OVER (ORDER BY HIREDATE ASC),HIREDATE) AS DAYS FROM EMP
       > Days between the two employees hiredate in EMP Table
         > SELECT EMPNO, ENAME, HIREDATE, LAG( HIREDATE,1) OVER ( ORDER BY HIREDATE ASC ) AS PREV_HIREDATE, DATEDIFF(DD,LAG(HIREDATE,1) OVER (ORDER BY HIREDATE ASC), HIREDATE) AS GAP FROM EMP
-        >  
+        
+240523
 
- 
-
+ > Aggregate functions:
+   --------------------
+   > Takes group of rows, returns one value
+   > MAX():
+     > Returns maximum value
+     > Syntax:
+       > MAX(arg)
+         > Examples:
+           > SELECT MAX(SAL) FROM EMP  gives 5000// takes all the values and returns the maximum value
+           > SELECT MAX(HIREDATE) FROM EMP gives 1983-01-12
+           > SELECT MAX(ENAME) FROM EMP gives WARD
+       > MIN()
+         > Syntax:
+           > MIN(arg)
+         > Examples:
+           > SELECT MIN(SAL) FROM EMP gives 800// takes all the values and returns the minimum value
+       > SUM()
+         > Syntax:
+           > SUM(arg)
+         > Examples:
+           > SELECT SUM(SAL) FROM EMP gives 29025// takes all the values and adds them
+           > Round total salaries to 1000s
+           > SELECT ROUND(SUM(SAL),-2) FROM EMP gives 29000.00
