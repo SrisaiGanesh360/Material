@@ -1137,15 +1137,73 @@ Inserting Date into table
            > SELECT MAX(SAL) FROM EMP  gives 5000// takes all the values and returns the maximum value
            > SELECT MAX(HIREDATE) FROM EMP gives 1983-01-12
            > SELECT MAX(ENAME) FROM EMP gives WARD
-       > MIN()
-         > Syntax:
-           > MIN(arg)
-         > Examples:
-           > SELECT MIN(SAL) FROM EMP gives 800// takes all the values and returns the minimum value
-       > SUM()
-         > Syntax:
-           > SUM(arg)
-         > Examples:
-           > SELECT SUM(SAL) FROM EMP gives 29025// takes all the values and adds them
-           > Round total salaries to 1000s
-           > SELECT ROUND(SUM(SAL),-2) FROM EMP gives 29000.00
+   > MIN()
+     > Syntax:
+       > MIN(arg)
+     > Examples:
+       > SELECT MIN(SAL) FROM EMP gives 800// takes all the values and returns the minimum value
+   > SUM()
+     > Syntax:
+       > SUM(arg)
+     > Examples:
+       > SELECT SUM(SAL) FROM EMP gives 29025// takes all the values and adds them
+       > Round total salaries to 100s
+         > SELECT ROUND(SUM(SAL),-2) FROM EMP gives 29000.00
+       > After rounding to 100s display total salary with 1000 seperator
+         > SELECT CONVERT(VARCHAR,ROUND(SUM(SAL),-2),1) FROM EMP gives 29,000.00
+       > Display total salary paid to managers
+         > SELECT SUM(SAL) FROM EMP WHERE JOB = 'MANAGER' gives 8275
+       > Display totol salary including commission
+         > SELECT SUM(SAL + ISNULL(COMM,0)) AS TOTSAL FROM EMP gives 31225\
+   > AVG()
+     > Syntax
+       > AVG(arg)
+       > Examples:
+         > Display average salary of EMP table
+           > SELECT AVG(SAL) AS AVGSAL FROM EMP gives 2073.2142
+         > Round average salary of EMP table to lowest
+           > SELECT FLOOR(AVG(SAL)) AS LOWEST FROM EMP gives 2073
+   > NOTE:
+     > SUM, AVG, connot be applied on char, date columns, can be applied only on numberic columns
+       > SELECT SUM(HIREDATE) FROM EMP gives error
+   > COUNT()
+     > Returns number of values present in a column
+     > Syntax
+       > COUNT(arg)
+     > Examples
+       > Display number of values in EMPNO of EMP Table
+         > SELECT COUNT(EMPNO) FROM EMP //  COUNT function ignores NULLS
+       > Display numner of rows from EMP Table
+         > SELECT COUNT(*) FROM EMP  // here nulls are counted
+       > Display number of employees joiend in 1981 year from EMP Table
+         > SELECT COUNT(*) FROM EMP WHERE DATEPART(YY,HIREDATE) = 1981 gives 10 
+       > Display employees joind on Sunday from EMP Table 
+         > SELECT COUNT(*) FROM EMP WHERE DATENAME(DW,HIREDATE) = 'SUNDAY' gives 1
+       > Display number of employees joind in 2nd querter of 1981 from EMP Table
+         > SELECT COUNT(*) FROM EMP WHERE DATEPART(YY,HIREDATE) = 1981 AND DATEPART(Q,HIREDATE) = 2 gives 3
+   > Note: Aggregate function are not allowed in WHERE clause and are allowed in  SELECT, HAVING clauses
+  
+  > CASE statement:
+    ---------------
+    > Similar to switch case
+    > Used to implement if-then-else
+    > Used to return values based on condition
+    > Case statements are of two Types
+      > Simple case , Searched case
+    > SIMPLE case
+      > When conditions based on '=' operator
+      > Syntax
+        > CASE COLNAME WHEN value1 THEN RETURN expr1 WHEN value2 THEN RETURN expr2 .... [ELSE RETURN expr] END
+      > Examples:
+        > Display ENAME and DNAME like 
+          IF DEPTNO = 10 DISPLAY ACCOUNTS   
+                      20         RESEARCH
+                      30         SALES
+          > SELECT ENAME,DEPT, CASE DEPT WHEN 10 THEN 'ACCOUNTS' WHEN 20 THEN 'RESEARCH' WHEN 30 THEN 'SALES' ELSE 'UNKNOWN' END AS DNAME FROM EMP
+        > Update Employee salaries with Increment as follows
+          if job = CLERK incr sal by 10%
+                   SALESMAN          15%
+                   MANAGER           20%
+                   OTHERS            5%
+          > UPDATE EMP SET SAL = CASE JOB WHEN 'CLERK' THEN SAL + (SAL*0.1) WHEN 'SALEMAN' THEN SAL + (SAL*0.15) WHEN 'MANAGER' THEN SAL + (SAL*0.2) ELSE SAL + (SAL*0.05) END
+          
