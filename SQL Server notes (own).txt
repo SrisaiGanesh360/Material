@@ -268,8 +268,7 @@ Inserting Date into table
   Display employees working as clerk, analyst and earning more than 5000
   > SELECT * FROM EMP WHERE JOB = 'CLERK' OR JOB = 'ANALYST' AND SAL > 5000 // here JOB = 'ANALYST' AND SAL = 5000 are compared first i.e AND is prioritized and then it'll compare with JOB = 'CLERK'
   > SELECT * FROM EMP WHERE ( JOB = 'CLERK' OR JOB = 'ANALYST' ) AND SAL > 5000 // () to force comparision
-   
- 
+    
 130523
 
   IN Operator
@@ -419,7 +418,6 @@ Inserting Date into table
      > Arrange Employee list dept wise ascending order and with in dept sal wise descending
        > SELECT * FROM EMPNO,ENAME,SAL,DEPTNO FROM EMP ORDER BY DEPTNO ASC, SAL DESC
 
-
 160523
  
  To delete the table
@@ -509,7 +507,6 @@ Inserting Date into table
          > UPDATE EMP SET SAL = 2000, COMM = 500 WHERE EMPNO = 7369
        > Update increment salary by 20% and commision by 10% who working as SALESMAN and joined in 1981 
          > UPDATE EMP SET SAL = SAL + (SAL * 0.2) COMM = COMM + (COMM * 0.1) WHERE JOB = 'SALESMAN' AND HIREDATE LIKE '1981%'
-
 
 170523
 
@@ -1205,5 +1202,25 @@ Inserting Date into table
                    SALESMAN          15%
                    MANAGER           20%
                    OTHERS            5%
-          > UPDATE EMP SET SAL = CASE JOB WHEN 'CLERK' THEN SAL + (SAL*0.1) WHEN 'SALEMAN' THEN SAL + (SAL*0.15) WHEN 'MANAGER' THEN SAL + (SAL*0.2) ELSE SAL + (SAL*0.05) END
-          
+          > UPDATE EMP SET SAL = CASE JOB WHEN 'CLERK' THEN SAL + (SAL*0.1) WHEN 'SALEMAN' THEN SAL + (SAL*0.15) WHEN 'MANAGER' THEN SAL + (SAL*0.2) ELSE SAL + (SAL*0.05) END 
+
+250523
+    > Searched case
+      > When conditions not based on '=' operator
+      > Syntax
+        > CASE WHEN cond1 THEN RETURN expr1 WHEN cond2 THEN RETURN expr2 ..... [ELSE RETURN expr] END
+      > Examples:
+        > Display ENAME SAL SALRANGE
+          IF SAL > 3000 display HISAL
+             SAL < 3000 display LOSAL
+             SAL = 3000 display AVGSAL
+          > SELECT ENAME, SAL, CASE WHEN SAL > 3000 THEN 'HISAL' WHEN SAL < 3000 THEN 'LOSAL' ELSE 'AVGSAL' END AS SALRANGE FROM EMP 
+        > Display SNO TOTAL AVG RESULT from 
+          STUDENT 
+          SNO   SNAME   S1  S2  S3
+          1     A       80  90  70
+          2     B       30  60  50
+          > SELECT SNO, S1 + S2 + S3 AS TOTAL, (S1 + S2 + S3)/3 AS AVG, CASE WHEN S1 >= 35 AND S2 >= 35 AND S3 >= 35 THEN 'PASS' ELSE 'FAIL' END AS RESULT FROM STUDENT
+          > CASE statement with in sum fucntion
+            > SELECT SUM(CASE JOB WHEN 'CLERK' THEN SAL END) AS CLERK, SUM(CASE JOB WHEN 'MANAGER' THEN SAL END) AS MAMNAGR FROM EMP
+            
