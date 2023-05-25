@@ -1242,4 +1242,19 @@ Inserting Date into table
             > SELECT JOB, COUNT(*) AS CNT FROM EMP GROUP BY JOB
           > Display Year wise number of employees joined
             > SELECT DATEPART(YY,HIREDATE) AS YEAR, COUNT(*) AS CNT FROM EMP GROUP BY DATEPART (YY,HIREDATE)
-            
+          > Display Day wise number of employees joined
+            > SELECT DATEPART(DW,HIREDATE) AS DAY, COUNT(*) AS CNT FROM EMP GROUP BY DATEPART (DW,HIREDATE)
+          > Display Salary range for employees in EMP table
+            0-2000 2001-4000 >4000
+            > SELECT CASE
+             WHEN SAL BETWEEN 0 AND 2000 THEN '0-2000' 
+             WHEN SAL BETWEEN 2001 AND 4000 THEN '0-4000' 
+             WHEN SAL>4000 THEN '> 4000'
+             END AS SALRANGE, COUNT(*) AS CNT
+             FROM EMP 
+             GROUP BY CASE 
+             WHEN SAL BETWEEN 0 AND 2000 THEN '0-2000' 
+             WHEN SAL BETWEEN 2001 AND 4000 THEN '0-4000' 
+             WHEN SAL>4000 THEN '> 4000'  
+             END
+                 
