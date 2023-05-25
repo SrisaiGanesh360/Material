@@ -1223,4 +1223,23 @@ Inserting Date into table
           > SELECT SNO, S1 + S2 + S3 AS TOTAL, (S1 + S2 + S3)/3 AS AVG, CASE WHEN S1 >= 35 AND S2 >= 35 AND S3 >= 35 THEN 'PASS' ELSE 'FAIL' END AS RESULT FROM STUDENT
           > CASE statement with in sum fucntion
             > SELECT SUM(CASE JOB WHEN 'CLERK' THEN SAL END) AS CLERK, SUM(CASE JOB WHEN 'MANAGER' THEN SAL END) AS MAMNAGR FROM EMP
+          > Department wise total salary
+            > Group by clause can be used 
+
+      > GROUP BY clause:
+        > Used to group rows based on one or more columsn to calculate min, max, sum, avg, count for each group
+        > GROUP BY converts detailed data into summarized data which is useful for anlysis
+        > To calculate total salary of job wise, department wise....
+        > Syntax
+          > SELECT columns FROM tabname [WHERE cond] GROUP BY colname [JAVING cong] [ORDER BY colname ASC/SESC]
+          > Execution order
+            > FROM WHERE GROUP BY HAVING SELECT ORDER BY 
+        > Examples:
+          > To calculate department wise total salary
+            > first gorup records based on salary then calculate sum(sal) for each department
+            > SELECT DEPT, SUM(SAL) AS TOTSAL FROM EMP GROUP BY DEPT
+          > Display Job wise number of employees joined
+            > SELECT JOB, COUNT(*) AS CNT FROM EMP GROUP BY JOB
+          > Display Year wise number of employees joined
+            > SELECT DATEPART(YY,HIREDATE) AS YEAR, COUNT(*) AS CNT FROM EMP GROUP BY DATEPART (YY,HIREDATE)
             
