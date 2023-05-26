@@ -1260,3 +1260,72 @@ Inserting Date into table
                  
 260523
 
+          > Display number of joined in each month of year 1981
+            > SELECT DATENAME(MM,HIREDATE) WHERE DATEPART(YY,HIREDATE) = 1981 GROUP BY DATENAME(MM,HIREDATE)
+          > Display employees having more than 3 employees in EMP table
+            > SELECT DEPT, COUNT(*) AS CNT FROM EMP WHERE COUNT(*) > 3 GROUP BY DEPT gives error
+              > Above querry returns error as sql server cannot calculate dept wise count before group by and it can calculate only after group by, so apply the condition COUNT(*) > 3 after group by using HAVING clause
+              > SELECT DEPT,COUNT(*) AS CNT FROM EMP GROUP BY DEPT HAVING COUNT(*) > 3
+    
+      > WHERE VS HAVING :
+        > WHERE                                        HAVING
+          > Selects specific rows                      > Select specific group
+          > conditions applied before group by         > conditions applied after group by
+          > use WHERE clause if cond doesn't contain   > use HAVING clause if cond contains
+            aggregate funtion                            aggregate function
+      > Display number of employees for each job where job = CLERK,MANAGER and NO. of employees > 3
+        > SELECT JOB,COUNT(*) AS CNT FROM EMP WHERE JOB IN ('CLERK','MANAGER') GROUP BY JOB HAVING COUNT(*) > 3
+        > PERSONS
+          AADHARNO   NAME   AGE   GENDER  ADDR  CITY  STATE
+          > Display southern states having more than 5 cr population
+          > SELECT STATE,COUNT(*) FROM PERSONS WHERE STATE IN ('AP,TS,KA,KL,TN') GROUP BY STATE HAVING COUNT(*) > 5000000
+
+      > Goruping based on Multiple columns
+        ----------------------------------
+        > Display Dept wise and with in dept job wise total salary
+          > SELECT DEPT,JOB,SUM(SAL) AS TOTSAL FROM EMP GROUP BY DEPT,JOB ORDER BY DEPT ASC
+        > Questions:
+          >  PERSONS
+          AADHARNO   NAME   AGE   GENDER  ADDR  CITY  STATE
+           > Display state wise population
+           > Display gender wise population
+           > Display age group wise population
+           > Display state wise and with in state gender wise population
+          
+          > SALES
+            DATEID     PRODID  CUSTID  QTY  AMOUNT
+            2020-01-01  100    10      1    2000
+            
+
+            2023-05-26  127    11      1     3000
+            > Display year wise total amount
+            > Display year wise with in year quarter wise total amount
+            > Display quarter wise total amount in the year 2022
+              > QRT AMT PRE_QRT %INCR
+                1   200  NULL
+                2   150  200
+                3   250  150
+      
+      > ROLLUP & CUBE:
+        --------------
+        > Both functions are used to display subtotals and grand total
+        > Syntax:
+          > GROUP BY ROLLUP(col1,col2,...)
+          > GROUP BY CUBE(col1,col2,...)
+        > ROllUP :
+          > Displays subtotals for each group and also displays grand total
+          > Examples:
+            > SELECT DEPT,JOB,SUM(SAL) AS TOTSAL FROM EMP GROUP BY ROLLUP(DEPT,JOB) ORDER BY DEPT ASC
+        > CUBE:
+          > Displays subtotals for each group by column ( deptno,job)
+          > Example:
+            > SELECT DEPT,JOB,SUM(SAL) AS TOTSAL FROM EMP GROUP BY CUBE(DEPT,JOB) ORDER BY DEPT ASC
+        
+        > GROUPING_ID():
+          -----------
+          > Function accepts GROUP BY columns and returns subtortal belongs to which group by column
+          > Example:
+            > GROUPING_ID(DEPT,JOB) returns 1 
+              > 1 means subtotal belongs to 1st GROUP BY column
+              > 2 means subtotal belongs to 2nf GROUP BY column
+              > 3 means grand total
