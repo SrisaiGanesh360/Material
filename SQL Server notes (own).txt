@@ -1366,7 +1366,34 @@ Inserting Date into table
       > SELECT DATEPART(YY,CONVERT(DATE,DATE,105)) AS YEAR,SUM(CAST(TOTALSAMPLES AS BIGINT)) AS TOTAL, SUM(CAST(NEGATIVE AS BIGINT)) AS NEG, SUM(CAST(POSITIVE AS BIGINT)) AS POSIT FROM COVID WHERE STATE IN ('Andhra Pradesh','Telangana') GROUP BY STATE, DATEPART(YY,CONVERT(DATE,DATE,105)) ORDER BY STATE ASC 
 
  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- 
+
  > Integrity constraints:
    ======================
-   > 
+   > To maintain data quality
+   > Used to prevent users from entering invalid data
+   > Used to enforce rules like minimum balance must be 1000
+   > SQL Server supports the following integrity constraints
+     > NOT NULL
+     > UNIQUE
+     > PRIMARY KEY
+     > CHECK 
+     > FOREIGN KEY
+     > DEFAULT
+   > Above constraints are decalered in two ways
+     > Column level
+     > Table level
+   > Column level:
+     -------------
+     > If constraints are decalred immediately after declaring column then it is called column level
+     > Syntax:
+       > CREATE TABLE <tablename> ( COLNAME DATETYPE(SIZE) CONSTRAINT,COLNAME DATETYPE(SIZE) CONSTRAINT.....)
+     
+     > NOT NULL:
+       > NOT NULL doesn't accept NULL values
+       > A column declared with NOT NULL is Mandatory column
+       > Example
+         > CREATE TABLE EMP11 (EMPID INT,ENAME VARCHAR(10) NOT NULL)
+         > Testing
+           > INSERT INTO EMP VALUE(100,NULL) gives error
+           > INSERT INTO EMP VALUE(100,'SACHIN') gives 1 ROW AFFECTED
+           
