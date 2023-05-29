@@ -1414,7 +1414,7 @@ Inserting Date into table
          > INSERT INTO CUST VALUES( 102, 'C', 'null') gives 1 row effected
          > INSERT INTO CUST VALUES( 103, 'D', 'null') gives error // as nulls treated as same value everywhere
      
-     > PRIMARY KEY
+     > PRIMARY KEY:
        > Doen't accept duplicates and nulls
        > Combination of unique and not null
        > PRIMARY KEY is combination of UNIQUE and NOT NULL
@@ -1430,5 +1430,69 @@ Inserting Date into table
        > Note
          > Only one primary key is allowed per table
        > Example
-         > CREATE TALBE CUSTS(CID INT PRIMARY KEY, NAME VARCHAR(10) NOT NULL,AADHARNO NUMERIC(12) UNIQUE NOT NULL) // as primary can be used only once use UNIQUE NOT NULL which acts as primary to all others required
-          
+         > CREATE TALBE CUSTS(CID INT PRIMARY KEY, NAME VARCHAR(10) NOT NULL,AADHARNO NUMERIC(12) UNIQUE NOT NULL) // as primary can be used only once use UNIQUE NOT NULL( no commas here ) which acts as primary to all others required
+       
+     > Difference between PRIMARY key and UNIQUE key
+       > Primary doesn't allow nulls but unique allows one null
+       > Only single can be declared with Primary key but multiple columns can be decalred with Unique 
+     
+     > Candidate key: // this is theoritical
+       > A field eligible for Primary key is called Candidate key
+       > Example:
+         > Table for RTA
+           > VEHICLES
+             VEHNO NAME MODEL COST CHASSISNO BRAND
+           > Here Candidate keys are VEHNO and CHASSISNO
+           > PRIMARY KEY is VEHNO
+           > SECOUNDARY KEY is CHASSISNO
+       > While creating table SECOUNDARY keys are declared with UNIQUE NOT NULL
+    
+     > CHECK constraint:
+       > Used when rule based on condition
+       > Syntax
+         > CHECK(condition)
+       > Example:
+         > SAL must be minium 3000
+         > CREATE TABLE EMP33( EMPID INT PRIMARY KEY, ENAME VARCHAR(10) NOT NULL, SAL MONEY CHECK(SAL>=3000))
+         > Testing
+           > INSERT INTO EMP33 VALUES (100,'A',1000) gives Error
+           > INSERT INTO EMP33 VALUES (101,'B',5000) gives 1 row effected
+           > INSERT INTO EMP33 VALUES (102,'C',NULL) gives 1 row effected
+           > CHECK constraint allows NULL
+         > GENDER must be 'M','F'
+           > GENDER CHAR(1) CHECK(GENDER IN ('M','F'))
+         > AMT must be multiple of 100
+           > AMT MONEY CHECK(AMT%100=0) 
+         > PWD must be min 6 characters
+           > PWD VARCHAR(12) CHECK(LEN(PWD)>=6) // LEN(<text>) to check length
+         > EMAILID must contain '@' and must be ending with '.com' or '.co' or '.in'
+           > EMAILID VARCHAR(30) CHECK(EMAILID LIKE '%@%' AND (EMAILID LIKE '%.com' OR EMAILID LIKE '%.co' OR EMAILID LIKE '%.in'))
+     
+     > FOREIGN key:
+       > Used to establish relationship between two talbes
+       > To establish relationship between two talbes talbe PRIMARY key of one talbe and add it as 
+         FOREIGN key and declare with references constraint
+       > Example
+         > DEPT
+           DNO DNAME LOC
+           10  HR    BLR
+           20  IT    HYD
+           EMP
+           EMPID ENAME SAL  DNO REFERENCES DEPT(DNO)
+           1     A     5000 10  
+           2     B     6000 20
+           3     C     4000 90  is invalid 
+           4     D     3000 10
+           5     E     2000 NULL
+       > Values entered in FOREIGN key column should match values if PRIMARY key column
+       > FORERIGN Key allows Duolicates and NULLS
+       > Afer Declaring FORIEGN key a relatinship is estb between tables called parent/child relationship
+       > PRIMARY key table is parent and FOREIGN key table is child
+       > Referring table is child amd refferred table in parent
+       > Example
+          CREATE TABLE DEPT55(DNO INT PRIMARY KEY, DNAME VARCHAR(10) UNIQUE NOT NULL, LOC VARCHAR(3) CHECK(LOC IN ('HYD','BLR','MUM','DEL')))
+          INSERT INTO DEPT55 VALUES(10,'HR','HYD'),(20,'IT','BLR')
+          CREATE TALBE EMP55( EMPID INT PRIMARY KEY, EMANE VARCHAR(10) NOT NULL,SAL MONEY CHECK(SAL>=3000), DNO INT REFERENCES DEPT55(DNO))
+          > Testing:
+            INSERT INTO EMP55 VALUE(1,'A',5000,10)
+            INSERT INTO EMP55 VALUES(2,'B',4000,90)
