@@ -1205,6 +1205,7 @@ Inserting Date into table
           > UPDATE EMP SET SAL = CASE JOB WHEN 'CLERK' THEN SAL + (SAL*0.1) WHEN 'SALEMAN' THEN SAL + (SAL*0.15) WHEN 'MANAGER' THEN SAL + (SAL*0.2) ELSE SAL + (SAL*0.05) END 
 
 250523
+
     > Searched case
       > When conditions not based on '=' operator
       > Syntax
@@ -1330,7 +1331,6 @@ Inserting Date into table
               > 2 means subtotal belongs to 2nf GROUP BY column
               > 3 means grand total
 
-
 270523
 
             > SELECT DEPT,JOB,SUM(SAL) AS TOTSAL, CASE GROUPING_ID(DEPT,JOB) WHEN 1 THEN 'Dept Subtotal' WHEN 2 THEN 'Job Subtotal' WHEN 3 THEN 'Grand Total' END AS SUBTOTRAL FROM EMP GROUP BY CUBE(DEPT,JOB) ORDER BY DEPT,JOB
@@ -1338,12 +1338,13 @@ Inserting Date into table
  Note: Visit Kaggle.com for data sources examples
          > Datasets
            > Select desired Datasets
-             > download .csv file
+             > download .csv file // Comma Seperated Value .csv
         To load .csv file in your DB
         > Right click on your DB
-          > Task
+          > Tasks
+            > Import Data
             > SQL Server Import and Export Wizard
-              > Data Source : Flat file
+              > Data Source : Flat file // it's .csv file
               > File name: Select your downloaded .csv file
             > Specify where to copy data to
               > Destination : SQL Server
@@ -1353,7 +1354,8 @@ Inserting Date into table
 
         > To view all the exiting tables in DB
           > SELECT * FROM INFORMATION_SCHEMA.TABLES
-        > SP_RENAME 'existing table name', 'required change name'
+        > To ramane table 
+          > SP_RENAME 'existing table name', 'required change name'
 
   > Examples :  
     > Total samples by state wise from states table
@@ -1397,3 +1399,36 @@ Inserting Date into table
            > INSERT INTO EMP VALUE(100,NULL) gives error
            > INSERT INTO EMP VALUE(100,'SACHIN') gives 1 ROW AFFECTED
            
+290523
+
+           > INSER INTO EMP(EMPNO)VALUES(101) gives Error 
+     
+     > UNIQUE:
+       > UNIQUE constraint doesn't accept duplicates
+       > Examples:
+         > Create table CUST
+           > CREATE TABLE CUST(CID INT,CNAME VARCHAR(10) NOT NULL,EMAIL VARCHAR(30) UNIQUE) 
+       > Testing:
+         > INSERT INTO CUST VALUES( 100, 'A', 'abc@gmail.com')
+         > INSERT INTO CUST VALUES( 101, 'B', 'abc@gmail.com') gives ERROR
+         > INSERT INTO CUST VALUES( 102, 'C', 'null') gives 1 row effected
+         > INSERT INTO CUST VALUES( 103, 'D', 'null') gives error // as nulls treated as same value everywhere
+     
+     > PRIMARY KEY
+       > Doen't accept duplicates and nulls
+       > Combination of unique and not null
+       > PRIMARY KEY is combination of UNIQUE and NOT NULL
+       > In talbe one column must be there to identify records 
+         and into that column duolicates and nulls are not allowed 
+         and declare that column as primary key
+       > Example
+         > CREATE TABLE EMP22(EMPID INT PRIMARY KEY, ENAME VARCHAR(10) NOT NULL)
+         > Testing
+           > INSERT INTO EMP22 VALUES (100,'A')
+           > INSERT INTO EMP22 VALUES (100,'B') gives Error // duplicates not allowed
+           > INSERT INTO EMP22 VALUES (NULL,'C') gives Error // NULLS are not allowed
+       > Note
+         > Only one primary key is allowed per table
+       > Example
+         > CREATE TALBE CUSTS(CID INT PRIMARY KEY, NAME VARCHAR(10) NOT NULL,AADHARNO NUMERIC(12) UNIQUE NOT NULL) // as primary can be used only once use UNIQUE NOT NULL which acts as primary to all others required
+          
