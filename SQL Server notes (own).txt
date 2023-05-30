@@ -1496,3 +1496,82 @@ Inserting Date into table
           > Testing:
             INSERT INTO EMP55 VALUE(1,'A',5000,10)
             INSERT INTO EMP55 VALUES(2,'B',4000,90)
+            INSERT INTO EMP55 VALUES(3,'C',3000,10)
+            INSERT INTO EMP55 VALUES(4,'D',4000,NULL)
+
+300523
+
+       > Assignment
+         > Create table with given rules
+           > ACCOUNTS
+             ACCNO  ACTTYPE  balance
+           > Rules:
+             > Accno should not be dubplicate and null
+             > Acttype must be 'S' or 'C'
+             > Bal must be min 1000
+
+           > TRANSACTIONS
+             TRID TTYPE TDATE TAMT ACCNO
+           > Rules
+             > TTYPE must be 'W' or 'D'
+             > TRID should not be duplicate & null
+             > TDATE must be today's date
+             > TAMT must ebe multiple of 100
+             > ACCNO should match with accounts table accno
+
+    > Relationships types between two tables (parent child)
+      ===================
+        > One to One (1:1)
+        > One to Many (1:m)
+        > Many to One (m:1)
+        > Many to Many (m:m)
+
+      > By default SQL Server creates One to Many (1:m) relationship between two tables
+
+      > One to One Realtionship (1:1)
+        ------------------------
+        > To estb between two tables declare foreign key with unique constraint
+        > Examples:
+          > DEPT 
+            DNO DNAME LOC
+            10  HR    HYD
+            20  IT    BLR
+          > MGR
+            MGRNO MNAME DNO REFERENCES DEPT(DNO) UNIQUE 
+            1     A     10
+            2     B     20
+          > In the above example one dept is managed by one manger
+            and one manager manages exaclty one dept, 
+            so relationship between dept and manager is one to one,
+            so decalre foreign key with unique constraint.
+          
+          > CREATE TABLE DEPT ( DNO INT PRIMARY KEY, DNAME VARCHAR(10) UNIQUE NOT NULL, LOC VARCHAR(3))
+            CREATE TABLE MGR ( MGRNO NUMBER(4) PRIMARY KEY, MNAME VARCHAR(10) NOT NULL, DNO INT REFERENCES DEPT(DNO) UNIQUE)
+      
+      > Many to Many (m:m) 
+        ------------------
+        > To estb many to many relationship between two tables create 3rd table
+          and in third table take primary keys of both the tables as foreign keys
+        > Example:
+          > CUST
+            CID  NAME  ADDR
+            10   A     HYD
+            11   B     HYD
+            12   C     HYD
+          > PRODUCTS
+            PRODID  PNAME  PRICE
+            100     A       1000
+            101     B       2000
+            102     C       1500
+          > In the above example one cust purchases many products and product purchased by many
+            customers, sp relationship between cust & product is many to many, so crete 
+            third table and take primary key of both tables ( CID,PRODID) as FOREIGN keys
+            > SALES
+              DATEID  PRODID  CID  QTY  AMT
+              10-     100     10   ?    ?
+              10-     100     11   ?    ?
+              11-     101     10   ?    ?
+            > CREATE TABLE CUST(CID INT PRIMARY KEY, CNAME VARCHAR(10) NOT NULL)
+              CREATE TABL E PRODUCTS(PRODID INT PRIMARY KEY,PNAME VARCHAR(10) NOT NULL)
+              CREATE TABLE SALES(DATEID INT,PRODID INT REFERENCES PRODUCTS(PRODID),CID INT REFERENCES CUST(CID),QTY INT,AMT MONEY)
+             
