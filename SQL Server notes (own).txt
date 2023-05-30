@@ -1575,3 +1575,65 @@ Inserting Date into table
               CREATE TABL E PRODUCTS(PRODID INT PRIMARY KEY,PNAME VARCHAR(10) NOT NULL)
               CREATE TABLE SALES(DATEID INT,PRODID INT REFERENCES PRODUCTS(PRODID),CID INT REFERENCES CUST(CID),QTY INT,AMT MONEY)
              
+        > ER DIAGRAM
+
+          ER MODEL     RELATIONAL MODEL
+
+          ENTITIES     TABLES
+          ATTRIBUTES   FIELDS
+          RELATIONSHIP FOREIGN KEY
+
+          Example: Bank Realtional model for ER Model
+           > BANK
+             CODE NAME ADDR
+           > BRANCH
+             BRANCH_ID NAME ADDR CODE(FK)
+           > ACCOUNTS
+             ACCNO ACTYPE BAL BRANCH_ID(FK)
+           > LOANS 
+             LOAN_ID LOAD_TYPE AMOUNT BRANCH_ID(FK) CUSTID(FK)
+           > CUSTOMERS
+             CUSTID NAME PHONE ADDR
+        
+    > DEFAULT values
+      -------
+      > A column can be declared with default values as follows
+      > While inserting if we skip HIREDATE SQL Server inserts DEFAULT value
+      > Example
+        > HIREDATE DATE DEFAULT GETDATE()
+        > CREATE TABLE EMP44(EMPID INT,ENAME VARCHAR(10),HIREDATE DATE DEFAULT GETDATE())
+          INSERT INTO EMP44(EMPID,ENAME) VALUES(100,'A') // here default date is inseted
+          INSERT INTO EMP44 VALUES(101,'B','2023-01-01') // here given date is inserted
+          INSERT INTO EMP44 VALUES(102,'B',NULL)
+          SELECT * FROM EMP44
+    
+    > TABLE LEVEL
+      -----------
+      > If constraints are declared after declaring all columns thne it is called table level
+      > Syntax
+        > CREATE TABLE<tablename>
+          (
+            COLNAME DATETYPE(SIZE),
+            ---------------------,
+            ---------------------,
+            CONSTRAINT
+          )
+      > Use TABLE LEVEL for declaring constraints for multiple or combination of columns
+
+    > Declating check constraints at table level
+      ------------------------------------------
+      > PRODUCTS
+        PRODID PRNAME PRICE MFD_DT      EXP_DT
+        100    A      50    2023-05-30  2023-01-01   gives invalid 
+        > Rule
+          > EXP_DT  > MFD_DT  this must be declared at table level
+        > CREATE TABLE PRODUCTS 
+         (
+          PRODID INT PRIMARY KEY,
+          PNAME VARCHAR(10) NOT NULL,
+          MFD_DT DATE,
+          EXP_DT DATE,
+          CHECK (EXP_DT > MFD_DT)
+         ) 
+         INSERT INTO PRODUCTS VALUES(1,'A',GETDATE(),'2023-01-01') gives error
+         INSERT INTO PRODUCTS VALUES(1,'A',GETDATE(),'2023-10-01')
