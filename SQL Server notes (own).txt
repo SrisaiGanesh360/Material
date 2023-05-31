@@ -1637,3 +1637,23 @@ Inserting Date into table
          ) 
          INSERT INTO PRODUCTS VALUES(1,'A',GETDATE(),'2023-01-01') gives error
          INSERT INTO PRODUCTS VALUES(1,'A',GETDATE(),'2023-10-01')
+
+310223
+
+ > Composite Primary key:
+   ---------------------
+   > In saome tables we may not be able to uniquely identify the records using single column,
+     and we need combinations of columns to uniquely identify the records and that combination
+     should be declared as Primary Key at table level
+   > If combination of columns decalred then it is called Composite Primary key
+   > In Composite Primary Key combination should not be dubplicate
+   > Example
+     > In registrations table SID, CID combinations uniquely identifing the records so declare
+       this combination as Primary Key at table level
+       > CREATE TABLE STUDENT ( SID INT PRIMARY KEY, SNAME VARCHAR(10) NOT NULL)
+         INSERT INTO STUDENT VALUES (1,'A'), (2,'B')
+         CREATE TABLE COURSE ( CID INT PRIMARY KEY, CNAME VARCHAR(10) NOT NULL)
+         INSERT INTO COURSE VALUES ( 10, '.NET'), (11,'SQL SERVER')
+         
+         CREATE TABLE REGIESTRATION( SID INT REFERENCES STUDENT(SID), CID INT REFERENCES COUSE(CID), 
+         DOR DATE, FEE MONEY, PRIMARy KEY (SID,CID))
