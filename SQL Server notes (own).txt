@@ -1620,7 +1620,7 @@ Inserting Date into table
           )
       > Use TABLE LEVEL for declaring constraints for multiple or combination of columns
 
-    > Declating check constraints at table level
+    > Declaring check constraints at table level
       ------------------------------------------
       > PRODUCTS
         PRODID PRNAME PRICE MFD_DT      EXP_DT
@@ -1742,4 +1742,3 @@ Inserting Date into table
    ------------------------------
    > Modify column ENAME to NOT NULL
      > ALTER TABLE EMP88 ALTER COLUMN ENAME VARCHAR(10) NOT NULL
-     
