@@ -1655,5 +1655,91 @@ Inserting Date into table
          CREATE TABLE COURSE ( CID INT PRIMARY KEY, CNAME VARCHAR(10) NOT NULL)
          INSERT INTO COURSE VALUES ( 10, '.NET'), (11,'SQL SERVER')
          
-         CREATE TABLE REGIESTRATION( SID INT REFERENCES STUDENT(SID), CID INT REFERENCES COUSE(CID), 
-         DOR DATE, FEE MONEY, PRIMARy KEY (SID,CID))
+         CREATE TABLE REGIESTRATION( SID INT REFERENCES STUDENT(SID), CID INT REFERENCES COURSE(CID), 
+         DOR DATE, FEE MONEY, PRIMARY KEY (SID,CID))
+
+         INSERT INTO REGISTRATION VALUES (1,10,GETDATE(),5000)
+         INSERT INTO REGISTRATION VALUES (1,11,GETDATE(),5000)
+         INSERT INTO REGISTRATION VALUES (2,10,GETDATE(),5000)
+         INSERT INTO REGISTRATION VALUES (1,10,GETDATE(),5000) gives Error
+
+     > Assignment 
+       > Identify PRimary keys and foreign keys and write create table script
+        > CUST                               PRODUCTS
+          CID   NAME   ADDR                  PRODID PNAME PRICE
+          10                                 100
+          11                                 101
+
+          SALES 
+          DATEID   PRODID CUSTID  QTY  AMT
+          30       100    10      1    2000
+          30       101    10      1    1000
+          30       101    11      1    2000
+          31       100    10      1    2000
+
+ > NOTE: 
+   > All constraints can be decalred at table level except NOT NULL
+   > A column with UNIQUE constraints can contain NULL value
+   > NOT NULL cannot be decalred at Table level
+ 
+ > Adding constraints to existing table
+   ------------------------------------
+   > 'ALTER' command is used to add constraints to existing table
+
+   > Adding check constraint 
+     > Example
+       > Adding check constraint with condition sal >= 3000
+         > CREATE TABLE EMP88 ( EMPID INT, ENAME VARCHAR(10), SAL MONEY, DNO INT)
+         > ALTER TABLE EMP88 ADD CHECK(SAL>=3000)
+    > Note 
+      > While adding constraint SQL SERVER also validates existing data, if existing date 
+        satisfies the condition then constraint is added otherwise not added.
+    
+ > WITH NOCHECK
+   ------------
+   > If constraint added with NOCHECK then SQL SERVER will not validate existing date and it validates only
+     new data
+   > Example
+     > ALTER TABLE EMP WITH NOCHECK ADD CHECK(SAL>3000)
+ 
+ > Adding PRIMARY KEY
+   ------------------
+   > Adding PRIMARY KEY to an exisiting table
+   > PRIMARY KEY cannot be added on NULLABLE column // by default all columns are NULLABLE
+   > Process
+     > Change column to NOT NULL
+     > Add PRIMARY KEY 
+   > Example:
+     > Add PRIMARY KEY to EMPID of EMP88 Table
+       > Change column EMPID to NOT NULL
+         > ALTER TABLE EMP88 ALTER COLUMN EMPID INT NOT NULL
+       > Add PRIMARY KEY
+         > ALTER TABLE EMP88 ADD PRIMARY KEY( EMPID )
+       > SP_HELP EMP88
+ 
+ > Adding FOREIGN KEY
+   ------------------
+   > Add FOREIGN KEY to DNO that references DEPT table PRIMARY KEY i.e., DEPTNO
+     > CREATE TABLE DEPT
+       (DEPTNO INT primary key,
+       DNAME VARCHAR(14),
+       LOC VARCHAR(13) )
+
+       INSERT INTO DEPT VALUES (10, 'ACCOUNTING', 'NEW YORK')
+       INSERT INTO DEPT VALUES (20, 'RESEARCH', 'DALLAS')
+       INSERT INTO DEPT VALUES (30, 'SALES', 'CHICAGO')
+       INSERT INTO DEPT VALUES (40, 'OPERATIONS', 'BOSTON')
+
+       ALTER TABLE EMP88 
+       ADD FOREIGN KEY (DNO) REFERENCES DEPT(DEPTNO)
+
+   > After adding FOREIGN KEY one to many relationship is created
+     to establish one to one relationship 
+     > Add UNIQUE constraint to DNO
+       > ALTER TABLE EMP88 ADD UNIQUE(DNO)
+
+ > Changing from NULL to NOT NULL
+   ------------------------------
+   > Modify column ENAME to NOT NULL
+     > ALTER TABLE EMP88 ALTER COLUMN ENAME VARCHAR(10) NOT NULL
+     
