@@ -1792,4 +1792,67 @@ Inserting Date into table
    
    > ON DELETE CASCADE
      > If parent row is deleted then it is deleted along with child rows
-     
+     > Example
+       > CREATE TABLE DEPT66 (DNO INT PRIMARY KEY, DNAME VARCHAR(10) UNIQUE NOT NULL)
+        INSERT INTO DEPT66 VALUES(10,'HR'), (20,'IT')
+        CREATE TABLE EMP66 ( EMPNO INT PRIMARY KEY, ENAME VARCHAR(10) NOT NULL, DNO INT REFERENCES DEPT66(DNO) ON DELETE CASCADE)
+        INSERT INTO EMP66 VALUES(1,'A',10),(2,'B',10)
+     > Scenario
+       > ACCOUNTS 
+         ACCNO  BAL
+         100    10000
+
+         TRANSACTIONS
+         TRID  TTYPE TDATE TAMT ACCNO  REFERENCES ACCOUNTS(ACCNO)
+         1     W     ?     2000 100    ON DELETE CASCADE
+         2     D     ?     1000 100
+        > NOTE
+          > When account is closed, along with account delete transactions
+   
+   > ON DELETE SET NULL
+     > If Parent row is deleted then child are not deleted but FOREIGN KEYS are set to null value
+     > Example
+       > CREATE TABLE DEPT66 (DNO INT PRIMARY KEY, DNAME VARCHAR(10) UNIQUE NOT NULL)
+        INSERT INTO DEPT66 VALUES(10,'HR'), (20,'IT')
+        CREATE TABLE EMP66 ( EMPNO INT PRIMARY KEY, ENAME VARCHAR(10) NOT NULL, DNO INT REFERENCES DEPT66(DNO) ON DELETE SET NULL)
+        INSERT INTO EMP66 VALUES(1,'A',10),(2,'B',10)
+        > Testing
+          > DELETE FROM DEPT66 WHERE DNO = 10 gives one row affected
+            SELECT * FROM EMP66
+            EMPNO  ENAME  DNO
+            1       A      NULL
+            2       B      NULL
+       > Scenario
+         > PROJECTS
+           PROID  NAME   DURATION   COST   CLIENT
+           100    A      5 YEARS    500    TATA MOTORS
+
+           EMP
+           EMPID  ENAME  SAL  PROID  REFERENCES PROJECTS(PROID)
+           1      ....   ...  100    ON DELETE SET NULL
+           2      ....   ...  101
+           > NOTE 
+             > If project is completed set employee's PROID to null
+  
+   > ON DELETE SET DEFAULT
+     > If Parent row is deleted then childs are not deleted but FOREIGN KEY is set to default value
+     > Example
+       > REATE TABLE DEPT66 (DNO INT PRIMARY KEY, DNAME VARCHAR(10) UNIQUE NOT NULL)
+        INSERT INTO DEPT66 VALUES(10,'HR'), (20,'IT')
+        CREATE TABLE EMP66 ( EMPNO INT PRIMARY KEY, ENAME VARCHAR(10) NOT NULL, DNO INT DEFAULT 20 REFERENCES DEPT66(DNO) ON DELETE SET DEFAULT)
+        INSERT INTO EMP66 VALUES(1,'A',10),(2,'B',10)
+        DELETE FROM DEPT66 WHERE DNO=10 gives 1 row effected
+        SELECT * FROM EMP66
+        EMPNO ENAME DNO
+        1     A     20
+        2     B     20
+
+ > Summery:
+   > Importance of constraints
+   > Types of constraints
+   > DEcalreing constraints
+     > Column level
+     > Table level
+   > Adding constraints to existing table
+   > Delete rules
+   
