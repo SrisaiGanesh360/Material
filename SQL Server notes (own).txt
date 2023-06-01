@@ -1742,3 +1742,54 @@ Inserting Date into table
    ------------------------------
    > Modify column ENAME to NOT NULL
      > ALTER TABLE EMP88 ALTER COLUMN ENAME VARCHAR(10) NOT NULL
+
+010623
+
+ > DROP constraint
+   ---------------
+   > Syntax
+     > ALTER TABLE <table name> DROP CONSTRAINT <name>
+     > Example
+       > Drop CHECK constraint in EMP88 table
+         > ALTER TABLE EMP88 DROP CONSTRAINT CK__EMP88__SAL__5535A963
+       > Drop PRIMARY KEY in DEPT Table
+         > ALTER TABLE DEPT DROP CONSTRAINT PK__DEPT__E0EB08D7ACE20F53
+   > Note: 
+     > PRIMARY KEY constraint camnot be dropped if referenced by some FOREIGN KEY
+     > PRIMARY KEY table camnot be dropped if referenced by some FOREIGN KEY
+     > PRIMARY KEY table camnot be truncated if referenced by some FOREIGN KEY
+ 
+ > DELETE rules
+   ------------
+   > ON DELETE NO ACTION (DEFAULT)
+   > ON DELETE CASCADE 
+   > ON DELETE SET NULL
+   > ON DELETE SET DEFAULT
+   
+   > These rules are decalred with FOREIGN KEY
+   > Above rile specifies how child rows are affected if parent rows are deleted
+
+   > ON DELETE NO ACTION 
+     > Parent rows cannot be deleted if associatedwith child rows
+     > Example
+      > CREATE TABLE DEPT66 (DNO INT PRIMARY KEY, DNAME VARCHAR(10) UNIQUE NOT NULL)
+        INSERT INTO DEPT66 VALUES(10,'HR'), (20,'IT')
+        CREATE TABLE EMP66 ( EMPNO INT PRIMARY KEY, ENAME VARCHAR(10) NOT NULL, DNO INT REFERENCES DEPT66(DNO))
+        INSERT INTO EMP66 VALUES(1,'A',10),(2,'B',10)
+        DELETE FROM DEPT66 WHERE DNO=10 gives Error
+      > Scenario
+        > ACCOUNTS
+          ACCNO    BAL
+          100      100004
+          101      200000
+
+          LOANS 
+          ID  TYPE AMT  ACCNO REFERENCES
+          1   H    30   100
+          2   C    10   100
+          > Note
+            > Account closing is not possible if associated with loans
+   
+   > ON DELETE CASCADE
+     > If parent row is deleted then it is deleted along with child rows
+     
