@@ -1855,4 +1855,68 @@ Inserting Date into table
      > Table level
    > Adding constraints to existing table
    > Delete rules
-   
+
+ > JOINS
+  =====
+   > JOIN is an operation performed to get data from two or more tables
+   > In DB related data may be stored in multiple tables, to gather or to combine
+    data stored in multiple tables we need to join those tables
+   > Example
+     > ORDER talbe and CUSTOMER table joining
+   > Types of JOINS
+     > INNER JOIN / EQUI JOIN
+     > OUTER JOIN
+       > LEFT JOI
+       > RIGHT JOIN
+       > FULL JOIN
+     > NON EQUI JOIN
+     > SELFT JOIN
+     > CROSS JOIN / CARTESIAN JOIN 
+    
+020623
+
+   > INNER JOIN/EQUI JOIN
+     > To perform INNER JOIN between two tables, there must be a common field, name of 
+       the commong field need not be same and PRIMARY KEY FOREIGN KEY relationship is 
+       not compulsory
+     > EQUI JOIN is performed based on the common field with same data type
+     > Syntax
+       > SELECT column FROM table1 INNER JOIN table2 ON join condition
+     > JOIN Condition
+       > SQL Server join the records of two tables based on given join condition
+         > If condition is true records are joined and if false records are not joined
+       > Syntax
+         > TABLE1.<commonfield> = TABLE2.<commonfield>
+       > Example
+         > EMP 
+           EMPNO  ENAME SAL   DEPTNO
+           1      A     5000  10
+           2      B     3000  20
+           3      C     4000  30
+           4      D     2000  40
+           5      E     3000  50
+         > DEPT 
+           DEPTNO DNAME      LOC
+           10     ACCOUNTS   NY
+           20     RESEARCH   NY
+           30     SALES      NY
+           40     OPERATIONS NY
+         > Display ENAME SAL DNAME LOC
+                  ---------- ---------
+                     EMP       DEPT
+            > SELECT ENAME, SAL, DNAME, LOC FROM EMP INNER JOIN DEPT ON EMP.DEPTNO = DEPT.DEPTNO
+              > A  5000 ACCOUNTS NY
+                B  3000 RESEARCH NY
+                C  4000 SALES    NY
+                D  2000 RESEARCH NY
+            > SELECT EMP.ENAME, EMP.SAL, DEPT.DNAME, DEPT.LOC FROM EMP INNER JOIN DEPT ON EMP.DEPTNO = DEPT.DEPTNO // mentioning table like EMP. DEPT. after SELECT makes it faster to execute
+            > SELECT E.ENAME, E.SAL, D.DEPTNO, D.DNAME, D.LOC FROM EMP AS E INNER JOIN DEPT AS D ON E.DEPTNO = D.DEPTNO
+            > NOTE
+              > In join querries decalre table alias and prefix column names with talbe alias for two reasons
+                > To avoid ambiguity error
+                > for faster execution
+              > 
+            > Example
+              > Display employee details with dept details working at New York location
+                > SELECT E>ENAME, D.DNAME, D.LOC FROM EMP AS E INNER JOIN DEPT D ON E.DEPTNO = D>DEPTNO WHERE D.LOC = 'NY'
+                
