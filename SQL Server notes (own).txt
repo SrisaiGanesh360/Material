@@ -1883,6 +1883,7 @@ Inserting Date into table
      > Syntax
        > SELECT column FROM table1 INNER JOIN table2 ON join condition
      > JOIN Condition
+       --------------
        > SQL Server join the records of two tables based on given join condition
          > If condition is true records are joined and if false records are not joined
        > Syntax
@@ -1919,4 +1920,40 @@ Inserting Date into table
             > Example
               > Display employee details with dept details working at New York location
                 > SELECT E>ENAME, D.DNAME, D.LOC FROM EMP AS E INNER JOIN DEPT D ON E.DEPTNO = D>DEPTNO WHERE D.LOC = 'NY'
-                
+              > Display order details with custom details
+                > SELECT O.*, C.* FROM ORDERS AS O INNSER JOIN CUST AS C ON O.CID = C.CID
+              > Display order details with custom details to be delivered today
+                > SELECT O.*, C.* FROM ORDERS AS O INNSER JOIN CUST AS C ON O.CID = C.CID
+                  WHERE O.DEL_DT = GETDATE()
+      
+      > Joining more than two table
+       -----------------------------
+        > Number of join conditions also increase with numbre of talbes
+        > To join N talbes N-1 join conditions required
+        > syntax
+          > SELECT column FROM table1 INNER JOIN table2 ON join condition INNER JOIN table3 ON join condition INNER JOIN table4 ON join condition INNER JOIN table5 ON join condition...
+        > Example
+          > EMP      DEPT     LOCAITONS    COUNTRIES
+            EMPNO    DEPTNO   LOCID        COUNTRY_ID
+            ENAME    DNAME    CITY         COUNTRY_NAME
+            SAL      LOCID    STATE
+            DEPTNO            COUNTRY_ID
+            > Display ENAME DNAME CITY STATE COUNTRY_NAME
+              > SELECT E.ENAME, 
+                       D.DNAME,
+                       L.CITY,L.STATE,
+                       C.COUNTRY_NAME
+                FROM EMP AS E INNER JOIN DEPT AS D 
+                       ON E>DEPTNO = D.DEPTNO
+                                INNER JOIN LOCATIONS AS L
+                       ON D.LOCID = L.LOCID
+                                INNER JOIN COUNTRIES AS C 
+                       ON L.COUNTRY_ID = C.COUNTRY_ID
+    
+    > OUTER JOIN
+      ----------
+      > Inner jkoin returns only matching records , to display unmatched records preform outer join
+      > Outer Join is of 3 types
+        > LEFT JOIN
+        > RIGHT JOIN
+        > FULL JOIN
