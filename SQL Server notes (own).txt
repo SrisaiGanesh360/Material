@@ -1985,4 +1985,80 @@ Inserting Date into table
         > Returns all the rows from both the tables
         > Syntax
           > SELECT E.ENAME, D.DNAME FROM EMP AS E FULL JOIN  DEPT AS D ON E.DEPTNO = D.DEPTNO
-        
+            A ACCOUNTS
+            B RESEARCH
+            C SALES 
+            D RESEARCH
+            E NULL  => unmatched from EMP
+            NULL OPERATIONS => unmatched from DEPT
+    
+    > Display Unmatched records:
+      --------------------------
+      > Left side table
+        > syntax
+          > SELECT E.ENAME, D.DNAME FROM EMP AS LEFT JOIN DEPT AS D ON E.DEPTNO = D.DEPTNO WHERE D.DNAME IS NULL
+            E NULL
+      > Right side table
+        > Syntax
+          > SELECT E.ENAME, D.DNAME FROM EMP AS E RIGHT JOIN DEPT AS D ON E.DEPTNO = D.DEPTNO WHERE E.ENAME IS NULL
+            NULL OPERATIONS
+      > Both the tables
+        > Syntax
+          > SELECT E.ENAME, D.DNAME FROM EMP AS E FULL JOIN DEPT AS D ON E.DEPTNO = D.DEPTNO WHERE D.DNAME IS NULL OR E.ENANE IS NULL
+      
+      > Scenario:
+        > EMP                       PROJECTS
+          EMPID ENAME SAL PROJID    PROJID  NAME DURATION COST CLIENT
+          1               100       100
+          2               101       101
+          3               NULL      102
+        > Display employee details with project details
+        > Display employee details woth project details and also display employee not assigned to any project
+        > Display employee details woth project details and also display projects where no employee assignes to it
+
+ > NON EQUI JOIN
+   -------------
+   > NON EQUI JOIN is performed between the tables not sharing a common field
+   > Example
+      > EMP                          SALGRADE
+         EMPNO  ENAME  SAL            GRADE  LOSAL  HISAL
+         1      A      3000           1      700    1000
+         2      B      1500           2      1001   2000
+         3      C      2000           3      2001   3000
+         4      D      1000           4      3001   4000
+         5      E      4000           5      4001   9999
+         > Display ENAME SAL     GRADE
+                  ---------     -----
+                    EMP        SALGRADE
+          SELECT E.ENAME, E.SAL, S.GRADE FROM EMP AS E JOIN  SALGRADE S ON E.SAL BETWEEN S.LOSAL AND S.HISAL 
+           A  3000 3 
+           B  1500 2
+           C  2000 2
+           D  1000 1
+           E  4000 4
+      > Display grade 4 employee list
+        > SELECT E.ENAME, E.SAL, S.GRADE FROM EMP AS E JOIN  SALGRADE S ON E.SAL BETWEEN S.LOSAL AND S.HISAL WHERE S.GRADE = 4         
+      > Display ENAME DNAME GRADE ( data belongs to 3 tables EMP DEPT SALGRADE)
+        > EMP DEPT INNER JOIN and EMP SALGRADE NON EQUI JOIN
+        > SELECT E.ENAME, D.DNAME, S.GRADE FROM EMP AS E INNER JOIN DEPT AS D ON E.DEPTNO = D.DEPTNO JOIN SALGRADE AS S ON E.SAL BETWEEN S.LOSAL AND S.HISAL
+          > Steps
+            EMP                              SALGRADE
+            EMPNO ENAME SAL   DEPTNO         GRADE     LOSAL    HISAL
+            1     A     3000  10             1         700      1000
+            2     B     1000  20             2         1001     2000
+            3     C     4000  30             3         2001     3000
+                                             4         3001     4000
+            Output is joined with DEPT Table       DEPT
+            1 A 3000 3  10                          DEPTNO  DNAME     LOC
+            2 B 1000 1  20                          10      ACCOUNTS   
+            3 C 4000 4  30                          20      RESEARCH
+
+            Output ( ON E.DPETNO = D.DEPTNO )
+            1 A 3000 3 10 accounts
+            2 B 1000 1 20 RESEARCH
+            3 C 4000 4 30 SALES
+
+            SELECT E.ENANME, D.DNAME, S.GRADE
+            A ACCOUNTS 3
+            B RESEARCH 1
+            C SALES    4
