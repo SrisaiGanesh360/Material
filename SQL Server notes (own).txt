@@ -1957,3 +1957,32 @@ Inserting Date into table
         > LEFT JOIN
         > RIGHT JOIN
         > FULL JOIN
+
+030623
+
+      > LEFT JOIN
+        > Returns all rows ( matched + unmatched ) from left side table and matching rows fro mright side table
+        > Syntax
+          > SELECT E.ENAME, D.DNAME FROM EMP AS E LEFT JOIN  DEPT AS D ON E.DEPTNO = D.DEPTNO
+        > Returns all rows from EMP table and matching rows from dept table
+          A ACCOUNTS
+          B RESEARCH
+          C SALES
+          D RESEARCH
+          E NULL => unmatched rows from EMP
+      
+      > RIGHT JOIN
+        > Returns all rows from right side table matching rows from left side table
+        > Syntax
+          > SELECT E.ENAME, D.DNAME FROM EMP AS E RIGHT JOIN  DEPT AS D ON E.DEPTNO = D.DEPTNO
+            A ACCOUNTS
+            B RESEARCH
+            C SALES
+            D RESEARCH
+            NULL OPERATIONS => Unmatched from dept
+
+      > FULL JOIN
+        > Returns all the rows from both the tables
+        > Syntax
+          > SELECT E.ENAME, D.DNAME FROM EMP AS E FULL JOIN  DEPT AS D ON E.DEPTNO = D.DEPTNO
+        
