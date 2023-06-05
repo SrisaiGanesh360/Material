@@ -2092,4 +2092,25 @@ Inserting Date into table
        > SELECT X.ENAME, Y.ENAME AS MANAGER FROM EMP AS X JOIN EMP AS Y ON X.MGR = Y.EMPNO WHERE X.ENAME = 'BLAKE'
      > Display Emplouyees earning more than their managers
        > SELECT X.ENAME, X.SAL, Y.ENAME AS MGR, Y.SAL AS MGRSAL FROM EMP AS X JOIN EMP AS Y ON X.MGR = Y.EMPNO WHERE X.SAL > Y.SAL
-     
+     > Display employees joined before their manager
+       > SELECT X.ENAME, X.HIREDATE, Y.ENAME AS MGR, Y.HIREDATE FROM EMP AS X JOIN EMP AS Y ON X.MGR = Y.EMPNO WHERE X.HIREDATE < Y.HIREDATE
+     > Question
+       > TEAMS 
+         ID  COUNTRY
+         1   IND
+         2   AUS
+         3   ENG
+         > Write a querry to display
+           IND VS AUS
+           IND VS ENG
+           IND VS ENG
+           TEAMS A      TEAMS B
+           ID COUNTRY  ID COUNTRY
+           1  IND      1  IND
+           2  AUS      2  AUS
+           3  ENG      3  ENG
+           > CREATE TABLE TEAMS( ID INT, COUNTRY VARCHAR(3))
+           > SELECT A.COUNTRY + ' VS ' + B.COUNTRY FROM TEAMS AS A JOIN TEAMS AS B ON A.ID < B.ID
+       > Assignmet
+         > Display employees earnign same salary
+         > Display employees joined on smae day
