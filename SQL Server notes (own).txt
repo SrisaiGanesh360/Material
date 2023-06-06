@@ -2130,3 +2130,68 @@ Inserting Date into table
  > JOIN & GROUP BY
    ---------------
    > SELECT D.DNAME, SU<(E.SAL) AS TOTSAL FROM EMP AS E INNER JOIN DEPT AS D ON E.DEPTNO = D.DEPTNO GROUP BY D.DNAME
+
+060623
+
+ > SET OPERATIONS
+   --------------
+   > UNION 
+   > UNION ALL
+   > INTERSECT 
+   > EXCEPT
+   > Explaination
+     A = 1,2,3,4
+     B = 1,2,5,6
+     A UNION B = 1,2,3,4,5,6
+     A UNION ALL B = 1,2,3,4,5,6
+     A INTERSECT B = 1,2
+     A EXCEPT B = 3,4
+     B EXCEPT A = 5,6
+   > IN SQL Server SET OPERATIONS performed between records ( rows ) return by two querries
+   > Syntax:
+     > SELECT statement 1 UNION / UNION ALL / INTERSET / MINUS SELECT statement 2
+   > Rules
+     > No of columns return by both querries must be same
+     > Correspoinding columns datatype must be same
+   > Example
+     > SELECT JOB FROM EMP WHERE DEPT = 30
+
+   > UNION
+     > Comnines rows return by tow querries
+     > Duplicates are eliminated
+     > Result is sorted
+     > Syntax
+       > SELECT JOB FROM EMO WHERE DEPT = 20
+         UNION
+         SELECT JOB FROM EMO WHERE DEPT = 30
+         > ANALYST
+           CLERK
+           MANAGER
+           SALESMAN
+
+   > UNION VS JOIN
+     > UNION comnines rows , JOIN combines columns
+     > UNION is horizontal merge, JOIN is vertical merge
+     > UNION performed between tow similar structures, JOIN is performed between tow dissimilar structures
+     > Example
+       > T1 T2
+         F1 C1
+         1  10
+         2  20
+         3  30
+         > T1 U T2   T1 JOIN T2
+           1         1       10
+           2         2       20
+           3         3       30
+           10
+           20
+           30
+       > Scenario
+         > EMP_US
+           ENO ENAME SAL DNO
+           EMP_IND
+           ENO ENAME SAL DNO
+           DEPT 
+           DNO DNAME LOC
+           > Display total empleyee list
+             > 
