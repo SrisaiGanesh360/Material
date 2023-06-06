@@ -2214,4 +2214,20 @@ Inserting Date into table
      > UNION vs UNION ALL
        > UNION eleminates duplicates, UNION ALL doesn't
        > UNION sort resukts, UNION ALL doesn't
-       
+       > UNION is slower, UNION ALL is faster
+   
+   > INTERSECT
+     > Returns common values from the output of two select statements
+     > Example
+       > SELECT JOB FROM EMP WHERE DEPT = 20
+         INTERSECT 
+         SELECT JOB FROM EMP WHERE DEPT = 30
+         > CLERK
+           MANAGER
+   
+   > EXCEPT
+     > Returns values present in 1st querry output not present in 2nd querry output
+     > Example
+       > SELECT JOB FROM EMP WHERE DEPT = 20
+         EXCEPT
+         SELECT JOB FROM EMP WHERE DEPT = 30
