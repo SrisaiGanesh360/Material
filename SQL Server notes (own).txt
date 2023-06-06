@@ -2231,3 +2231,28 @@ Inserting Date into table
        > SELECT JOB FROM EMP WHERE DEPT = 20
          EXCEPT
          SELECT JOB FROM EMP WHERE DEPT = 30
+         > ANALYST
+       > SELECT JOB FROM EMP WHERE DEPT = 30
+         EXCEPT
+         SELECT JOB FROM EMP WHERE DEPT = 20
+
+ > Question
+   > T1 T2
+     F1 C1
+     1  1
+     2  2
+     3  3
+     10 40
+     20 50
+     30 60
+     > Write outpur from the following operations
+      > INNER JOIN
+       > LEFT JOIN
+      > RIGHT JOIN
+       > FULL JOIN
+       > UNION
+       > UNION ALL
+       > INTERSECT
+       > EXCEPT
+ 
+ // Google SQL ONLINE Compilers. visit hacker rank for complex querries
