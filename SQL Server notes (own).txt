@@ -2194,4 +2194,24 @@ Inserting Date into table
            DEPT 
            DNO DNAME LOC
            > Display total empleyee list
-             > 
+             > SELECT * FROM EMP_US UNION SELECT * FROM EMP_IND
+           > Display employees working at US loc with dept details
+             > SELECT E.*, D.* FROM EMP_US AS E INNER JOIN DEPT AS D ON E.DNO = D.DNO
+           > Display total employees with dept details
+             > SELECT E.*, D.* FROM EMP_US AS E INNER JOIN DEPT AS D ON E.DNO = D.DNO 
+               UNION
+               SELECT E.*, D.* FROM EMP_IND AS E INNER JOIN DEPT AS D ON E.DNO = D.DNO
+   
+   > UNION ALL
+     > Combines rows
+     > Duplicates are not eleminated
+     > Result is not sorted
+     > Example
+       > SELECT JOB FROM EMP WHERE DEPT = 20
+         UNION ALL
+         SELECT JOB FROM EMP WHERE DEPT = 30
+
+     > UNION vs UNION ALL
+       > UNION eleminates duplicates, UNION ALL doesn't
+       > UNION sort resukts, UNION ALL doesn't
+       
