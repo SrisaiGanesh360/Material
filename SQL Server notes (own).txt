@@ -2256,3 +2256,41 @@ Inserting Date into table
        > EXCEPT
  
  // Google SQL ONLINE Compilers. visit hacker rank for complex querries
+
+070623
+
+ > SUBQUERIES
+   ----------
+   > Also called NESTED QUERIES
+   > A Querry in another querry is called subquery or nested query
+   > There is inner/child/sub querry and outer/parent/main query
+   > First inner qurry is executed and then outer
+   > Outer of inner query is incput to outer qurry
+   > Use Subqueries when where condition based on unknown value
+   > Types of subquerries
+     > Single row
+     > Multi row
+     > Co-related 
+     > Derived
+     > Scalar
+
+   > Single row subquery
+     > If subquerry returns one row 
+     > Syntax
+       > SELECT colname FROM tabname WHERE colname OP (SELECT STATEMENT)
+       > Operator must be any relational operator like = > >= < <= <>
+     > Example
+       > Display empleyees earning more than Blake
+         > SELECT * FROM EMP WHERE SAL > (SELECT SAL FROM EMP WHERE ENAME = 'BLAKE')
+       > Display empleyees who are senior to king
+         > SELECT * FROM EMP WHERE HIREDATE < ( SELECT HIREDATE FROM EMP WHERE ENAME = 'KING')
+       > Display name of the empleyee earning max sal
+         > SELECT * FROM EMP WHERE SAL = MAX(SAL) gives error
+         > SELECT * FROM EMP WHERE SAL = ( SELECT MAX(SAL) FROM EMP)
+       > Find the name of the empleyee who's having maximum experience
+         > SELECT * FROM EMP WHERE HIREDATE = ( SELECT MIN(HIREDATE) FROM EMP)
+       > Display 2nd max salary
+         > SELECT MAX(SAL) FROM EMP WHERE SAL < ( SELECT MAX(SAL) FROM EMP)
+       > Display name of employee earning 2nd max salary
+         > SELECT ENAME FROM EMP WHERE SAL = ( SELECT MAX(SAL) FROM EMP WHERE SAL < (SELECT MAX(SAL) FROM EMP))
+         
