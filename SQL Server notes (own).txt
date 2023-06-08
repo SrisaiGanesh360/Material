@@ -2339,4 +2339,36 @@ Inserting Date into table
    > If inner query referecnces values of outer query then it is called CO-RELATED subquery
    > In CO-RELATED subquery execution starts from outer query and inner query execution 
      depends on number rows returned by outer query
-   > 
+   > Use CO-RELATED subquery to execute subquery for each row return by outer query
+   > Example
+     > EMP 
+       EMPNO ENAME SAL  DEPTNO
+       1     A     3000 10
+       2     B     5000 20
+       3     c     4000 30
+       4     D     6000 10
+       5     E     3000 20
+       > Display empleyees earning more than avg(SAL) of their dept
+         > SELECT * FROM EMP AS X WHERE SAL > ( SELECT AVG(SAL) FROM EMP WHERE DEPTNO = X.DEPTNO )
+         1 A 3000 10 3000>(4500) FALSE
+         2 B 5000 20 5000>(4000) TRUE
+         3 C 4000 30 4000>(4000) FALSE
+         4 D 6000 10 6000>(4500) TRUE
+         5 E 3000 20 3000>(4500) FALSE
+       > Display employees earning max salaries in their department
+         > SELECT * FROM EMP AS X WHERE SAL = ( SELECT MAX(SAL) FROM EMP WHERE DEPTNO = X.DEPTNO )
+         1 A 3000 10 3000 = (6000) FALSE
+         2 B 5000 20 5000 = (5000) TRUE
+         3 C 4000 30 4000 = (4000) TRUE
+         4 D 6000 10 6000 = (6000) TRUE
+         5 E 3000 20 3000 = (6000) FALSE
+
+       > Display top 3 max salaries
+         EMPA  EMPB
+         SAL   SAL
+         5000  5000 3>(0) TRUE
+         1000  1000 3>(4) FALSE
+         3000  3000 3>(2) TRUE
+         2000  2000 3>(3) FALSE
+         4000  4000 3>(1) TRUE
+         > SELECT DISTINCT A.SAL FROME EMP AS A WHERE 3 > ( SELECT COUNT (B.SAL) FROM EMP AS B WHERE A.SAL < B.SAL) ORDER BY SAL DESC // DISTINCT to eleminate duolicates
