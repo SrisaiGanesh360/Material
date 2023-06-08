@@ -2293,4 +2293,17 @@ Inserting Date into table
          > SELECT MAX(SAL) FROM EMP WHERE SAL < ( SELECT MAX(SAL) FROM EMP)
        > Display name of employee earning 2nd max salary
          > SELECT ENAME FROM EMP WHERE SAL = ( SELECT MAX(SAL) FROM EMP WHERE SAL < (SELECT MAX(SAL) FROM EMP))
-         
+         (57:34)
+
+080623
+ 
+ > MULTI-SUBQUERRY
+   --------------
+   > If a subquerry returns more than one row then it is called multi-row subquerry
+   > Syntax
+     > SELECT columns FROM tabname WHERE colname OP ( SELECT STATEMENT)
+     > OP must be IN, NOT IN, ANY, ALL
+   > Example
+     > Display employees working at NEW YORK, CHICAGO locations
+       > SELECT * FROM EMP WHERE DEPTNO = ( SELECT DEPTNO FROM DEPT WHERE LOC IN ('NEW YORK', 'CHOCAGO'))
+       
