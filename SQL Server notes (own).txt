@@ -2306,4 +2306,37 @@ Inserting Date into table
    > Example
      > Display employees working at NEW YORK, CHICAGO locations
        > SELECT * FROM EMP WHERE DEPTNO = ( SELECT DEPTNO FROM DEPT WHERE LOC IN ('NEW YORK', 'CHOCAGO'))
-       
+
+   > ANY 
+     > Use ANY operator for > < comparision with multiple values
+       > WHERE X > ANY ( 1000, 2000, 3000)
+         IF X = 800 FALSE
+                1500  TRUE
+                4500  TRUE
+       > WHERE X < ANY ( 1000, 2000, 3000)
+         IF X = 800 TRUE
+                1500  TRUE
+                4500  FALSE
+   > ALL
+     > Use ALL operator for > < comparision with multiple values
+       > WHERE X > ALL ( 1000, 2000, 3000)
+         IF X = 800  FALSE
+                1500  FALSE
+                4500  TRUE
+       > WHERE X < ALL ( 1000, 2000, 3000)
+         IF X = 800  TRUE
+                1500  FALSE
+                4500  FALSE
+   
+   > Example
+     > Display empleyees earning more than all managers
+       > SELECT SAL FROM EMP WHERE SAL > ANY ( SELECT SAL FROM EMP WHERE JOB = 'MANAGER' )
+     > Display employees earning more than at least one manager
+       > SELECT * FROM EMP WHERE SAL > ANY ( SELECT SAL FROM EMP WHERE JOB = 'MANAGER' )
+ 
+ > CO-RELATED subqueries
+   ---------------------
+   > If inner query referecnces values of outer query then it is called CO-RELATED subquery
+   > In CO-RELATED subquery execution starts from outer query and inner query execution 
+     depends on number rows returned by outer query
+   > 
