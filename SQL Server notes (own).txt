@@ -2372,3 +2372,36 @@ Inserting Date into table
          2000  2000 3>(3) FALSE
          4000  4000 3>(1) TRUE
          > SELECT DISTINCT A.SAL FROME EMP AS A WHERE 3 > ( SELECT COUNT (B.SAL) FROM EMP AS B WHERE A.SAL < B.SAL) ORDER BY SAL DESC // DISTINCT to eleminate duolicates
+
+090623
+
+ > DERIVED TABLES
+   --------------
+   > Subqueries in FROM clause are called derived tables
+   > Syntax
+     > SELECT columns FROM ( SELECT STATEMENT ) AS <alias> [WHERE COND]
+     > Here subquery output acts like a table for outer query
+   > Derived tables are used in following scenarios
+     > To control order of execution of a clauses
+       > Default order of SQL Server FROM WHERE GROUP BY HAVING SELECT ORDER BY
+       > Example
+         > Display rank of employees based on sal
+           > SELECT ENAME, SAL, DENSE_RANK() OVER (ORDER BY SAL DESC) AS RANK FROM EMP gives ranks of all the empleyees,
+             but to display TOP 5 empleyees
+           > SELECT ENAME, SAL, DENSE_RANK() OVER (ORDER BY SAL DESC) AS RANK FROM EMP WHERE RANK <= 5 gives error as
+             Alias cannot be used in where clause because where clause is executed before SELECT
+           > To overcome this problem first execute SELECT then execute WHERE, use DERIVED TABLE
+           > SELECT DISTINCT SAL FROM ( SELECT ENAME, SAL, DENSE_RANK() OVER (ORDER BY SAL DESC) AS RANK FROM EMP) AS E WHERE RANK <= 5 ORDER BY SAL DESC
+         > SELECT EMPNO, ENAME, SAL, ROW_NUMBER() OVER ( ORDER BY EMPNO ASC ) AS RNO FROM EMP
+           > The above query returns all the records with record number
+           > To display first 5 rows
+             SELECT * FROM (SELECT EMPNO, ENAME, SAL, ROW_NUMBER() OVER ( ORDER BY EMPNO ASC ) AS RNO FROM EMP ) AS E WHERE RNO <= 5
+             > Also different condions you can write
+               > WHERE RNO IN ( 5,7,11 )
+                 WHERE RNO BETWEEN 5 AND 10
+                 WHERE RNO %2 = 0
+           > Display last 3 rows
+             > SELECT * FROM (SELECT EMPNO, ENAME, SAL, ROW_NUMBER() OVER ( ORDER BY EMPNO ASC ) AS RNO FROM EMP ) AS E WHERE RNO >= ( SELECT COUNT (*) -2 FROM EMP )
+     > To use result of one operation in another operation
+     > To join query outputs
+     
