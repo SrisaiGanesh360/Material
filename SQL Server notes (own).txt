@@ -2402,6 +2402,32 @@ Inserting Date into table
                  WHERE RNO %2 = 0
            > Display last 3 rows
              > SELECT * FROM (SELECT EMPNO, ENAME, SAL, ROW_NUMBER() OVER ( ORDER BY EMPNO ASC ) AS RNO FROM EMP ) AS E WHERE RNO >= ( SELECT COUNT (*) -2 FROM EMP )
+           > Delete first 3 rows from EMP table
+             > DELETE SELECT * FROM (SELECT EMPNO, ENAME, SAL, ROW_NUMBER() OVER ( ORDER BY EMONO ASC ) AS RNO FROM EMP ) AS E WHERE RNO <= 3 gives error
+             > In derives talbes outer query cannot be DML and it c=must be select, to overcome this use CTEs
+               > CTE
+                 ---
+                 > Common Table Expression, is a named query 
+                 > Using CTE we can give name to the query output and we can refer that name in another query like SELECT/INSERT/UPDATE/DELETE
+                 > CETs outer query can be SELECT/INSERT/UPDATE/DELETE
+                 > Syntax:
+                   > WITH <STE-NAME> AS ( SELECT STATEMENT ), ..SELECT/ INSER/ UPDATE/ DELETE
+                 > Example
+                   > Delete first 3 rows
+                     > WITH E AS (SELECT EMPNO, ENAME, SAL, ROW_NUMBER() OVER ( ORDER BY EMONO ASC ) AS RNO FROM EMP ) DELETE FROM E WHERE RNO <= 3
+                   > Delete duolicate rows
+                     > Step 1 
+                       > Generate row numbers with in the group ( ENO, ENAME, SAL)
+                       > SELECT EMNO, ENAME, SAL, ROW_NUMBER() OVER ( PARTITION BY ENO,ENAME,SAL ORDER BY ENO ASC) FROM EMP44
+                         1 A 5000 1
+                         1 A 5000 2
+                         2 B 6000 1
+                         2 B 6000 2
+                         3 C 7000 1
+                     > Step 2 
+                       > Delete the records where RNO > 1
+                         > WITH E AS ( SELECT EMNO, ENAME, SAL, ROW_NUMBER() OVER ( PARTITION BY ENO,ENAME,SAL ORDER BY ENO ASC) FROM EMP44 ) DELETE FROM E WHERE RNO > 1
+                       NOTE: Distinct only deletes from output not from table
      > To use result of one operation in another operation
      > To join query outputs
      
