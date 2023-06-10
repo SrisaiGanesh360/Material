@@ -2293,7 +2293,25 @@ Inserting Date into table
          > SELECT MAX(SAL) FROM EMP WHERE SAL < ( SELECT MAX(SAL) FROM EMP)
        > Display name of employee earning 2nd max salary
          > SELECT ENAME FROM EMP WHERE SAL = ( SELECT MAX(SAL) FROM EMP WHERE SAL < (SELECT MAX(SAL) FROM EMP))
-         (57:34)
+       > Delete the employee having max experience
+         > DELETE FROM EMP WHERE HIREDATE = ( SELECT MIN(HIREDATE) FROM EMP )
+       > Swap employee salaries whose empno = 7499, 7521
+         > UPDATE EMP SET SAL = CASE EMPNO WHEN 7499 THEN ( SELECT SAL FROM EMP WHERE EMPNO = 7521 ) WHEN 7521 THEN ( SELECT SAL FROM EMP WHERE EMPNO = 7499 ) END
+           > ALTER TABLE EMP DROP CONSTRAINT CK__EMP__SAL__59063A47
+           > this results in effecting all rows keeping others blank
+         > Recreate the table from SQL Server demo tables
+         > UPDATE EMP SET SAL = CASE EMPNO WHEN 7499 THEN ( SELECT SAL FROM EMP WHERE EMPNO = 7521 ) WHEN 7521 THEN ( SELECT SAL FROM EMP WHERE EMPNO = 7499 ) END WHERE EMPNO IN ( 7499,7521 )
+       > Display name of the employees working at NEWYORK location
+         > SELECT * FROM EMP WHERE DEPT = ( SELECT DEPTNO FROM DEPT WHERE LOC = ' NEW YORK' )
+         > SELECT E.NAME FROM EMP AS E INNER JOIN DEPT AS D ON E.DEPT = D.DEPTNO WHERE D.LOC = 'NEW YORK'
+       > Display ENAME DNAME working at new york location
+         > JOIN
+           > SELECT E.ENAME, D.DNAME FROM EMP AS E INNER JOIN DEPT AS D ON E.DEPT = D.DEPTNO WHERE D.LOC = 'NEW YORK'
+         > SUBQUERRY  
+           > not possible
+   > JOIN vs SUBQUERRY
+     > To display data from one table and condition based on another table then use join or subquerry
+     > To display data from two tables then use join operation
 
 080623
  
