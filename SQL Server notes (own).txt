@@ -2449,3 +2449,58 @@ Inserting Date into table
      > To use result of one operation in another operation
      > To join query outputs
      
+120623
+
+ > SCALAR SUBQUERIES
+   -----------------
+   > Subqueries in SELECT clause are called Scalar Subqueries
+   > Syntax
+     > SELECT (subquer1), (subquer2),......FROM tabname WHERE condition
+   > The Subquery output acts like a column for outer query
+   > Use Scalar Subquery to show the query output in seperate column
+   > Examples
+     > SELECT ( SELECT COUNT (*) FROM EMP ) AS EMP, ( SELECT COUNT (*) FROM DEPT ) AS DEPT
+     > Display department wise total salary
+       > SELECT DEPT, SUM(SAL) AS DEPT_TOTSAL, ( SELECT SUM( SAL) FROM EMP ) AS TOTSAL FROM EMP GROUP BY DEPTNO
+     > Display DEPTNO DEPT_TOTSAL TOTSAL PCT
+       > PCT = ( DEPT_TOTSAL/TOTSAL ) * 100
+       > SELECT DEPT, SUM(SAL) AS DEPT_TOTSAL, ( SELECT SUM( SAL) FROM EMP ) AS TOTSAL,( SUM(SAL)/(SELECT SUM(SAL) FROM EMP )) * 100 AS PCT FROM EMP GROUP BY DEPTNO
+   > Assignment 
+     > SALES
+       DATEID PRODID CUSTID QTY AMT
+
+       PRODUCTS
+       PRODID PNAME PRICE CATEGORY BRAND
+       > Display category wise total amount 
+         > CATEGORY    CAT_AMT
+           ELECTRONICS ?
+           MENS        ?
+           > Display CATEGORY CAT_AMT TOTAL_AMT
+       > T1
+         AMT
+         1000
+         -200
+         2000
+         -500
+         3000
+         -1000
+         > Display POS NEG 
+                  1000 -200
+                  2000 -500
+                  3000 -1000
+       > T1  T2
+         F1  C1
+         1   A
+         2   B
+         3   C
+         > Write a query display following output
+           > 1 A
+             2 B
+             3 C
+ > PIVOT Operator
+   --------------
+   > Operator used to convert rows into columns
+   > Used for cross tabulation or to display data in matrix form
+   > Syntax 
+     > SELECT * FROM ( SELECT STATEMENT ) AS <alias> PIVOT ( AGGRE-EXPR FOR COLNAME IN ( V1, V2, V3,...)) AS <PIVOT-TBL-NAME> ORDER BY COLNAME ASC/DESC
+     
