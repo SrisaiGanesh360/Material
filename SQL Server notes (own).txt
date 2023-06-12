@@ -2535,4 +2535,10 @@ Inserting Date into table
    --------------------------------------------------
    > Syntax 
      > SELECT COLUMNS INTO <new-tablename> FROM <old-tabname> WHERE CONDITION
-     
+   > Example
+     > SELECT * INTO EMP11 FROM EMP
+       > A new table is created with name EMP11 with rows and columns return by select statement
+     > Copying specific rows and columns
+       > SELECT EMPNO, ENAME, JOB, SAL INTO EMP12 FROM EMP WHERE JOB IN ( 'CLERK', 'MANAGER' )
+     > Copy only the columns ( structure ) but not rows ( data ) 
+       > SELECT * INTO EMP13 FROM EMP WHERE 1 = 2 // any false condition 
