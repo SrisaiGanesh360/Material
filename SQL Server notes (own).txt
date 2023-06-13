@@ -2542,3 +2542,75 @@ Inserting Date into table
        > SELECT EMPNO, ENAME, JOB, SAL INTO EMP12 FROM EMP WHERE JOB IN ( 'CLERK', 'MANAGER' )
      > Copy only the columns ( structure ) but not rows ( data ) 
        > SELECT * INTO EMP13 FROM EMP WHERE 1 = 2 // any false condition 
+
+130623
+
+ > MERGE Command
+   -------------
+   > Command used to merge data into a table
+   > Merge is the combination of insert, update and delete
+   > Used to manage replicas ( duplicate copy )
+   > Using merge command we can apply changes made for one table to another table
+   > syntax
+     > MERGE INTO <target-table> AS <alias> USING <source-table> AS <alias> ON <condition> WHEN MATCHED THEN UPDATE WHEN NOT MATCHED THEN INSERT [WHEN NOT MATHED BY SOURCE THEN DELETE]
+   > Example:
+     > Step 1:
+       > Create source table 
+         CREATE TABLE CUSTS ( CID INT, NAME VARCHAR(10), CITY CHAR(3) ) INSERT INTO CUSTS VALUES ( 10, 'A', 'HYD'), (11, 'B', 'MUM')
+         CUSTS
+         CID NAME CITY
+         10  A    HYD
+         11  B    MUM
+       > Step 2:
+         > Create Replica
+           SELECT * INTO CUSTT FROM CUSTS
+           CUSTT
+           CID NAME CITY
+           10  A    HYD
+           11  B    MUM
+       > Step 3:
+         > Modify Source Table
+           INSERT INTO CUSTS VALUES ( 12, 'C', 'DEL') UPDATE CUST SET CITY = 'BLR' WHERE CID = 10
+           CUSTS
+           CID NAME CITY
+           10  A    BLR // updated 
+           11  B    MUM
+           12  C    DEL // updated
+       > Step 4:
+         > Execute MERGE command to apply changes to replica
+           MERGE INTO CUSTT AS T  USING CUSTS AS S ON ( S.CID = T.CID ) WHEN MATCHED THEN UPDATE SET T.CITY = S.CITY WHEN NOT MATHCHED THEN INSERT VALUES ( S.CID. S.NAME, S.CITY )
+           SELECT * FROM CUSTT
+           CID NAME ADDR
+           10  A    BLR
+           11  B    MUM
+           12  C    DEL
+   > Assignment
+     > EMPS 
+       EMPID ENAME SAL
+       1     A     5000
+       2     B     3000
+       3     C     4000
+       EMPT
+       EMPID ENAME SAL
+       1     A
+       2     B
+       3     C
+       > Copy salaries from EMPS to EMPT
+
+ > DATABASE TRANSACTIONS
+   =====================
+   > A transaction is a unit of work that contains one of more DMLs
+     that must be saved as a whole or cancelled as a whole
+   > Example
+     > Money transfer
+       Acc1             Rs1000    Acc2
+       update1                    update2
+       (bal=bal-1000)             (bal=acc1+1000)
+       successful                 Failed             gives invalid
+       failed                     Successful         gives invalid
+       Successful                 Successful         gives valid
+       failed                     failed             gives valid
+   > Every transaction must gurantee a property called automocity i.e., all or none
+   > If transaction contains multiple operations, if all operations are successful then if must be saved,
+     if any of the operations fails then entire transaction must be cancelled.
+     
