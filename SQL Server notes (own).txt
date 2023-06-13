@@ -2613,4 +2613,53 @@ Inserting Date into table
    > Every transaction must gurantee a property called automocity i.e., all or none
    > If transaction contains multiple operations, if all operations are successful then if must be saved,
      if any of the operations fails then entire transaction must be cancelled.
-     
+   > The following commands provided by SQL Server to handle the transactions
+     > COMMIT           = to save transaction
+     > ROLLBACK         = to cancel transaction
+     > SAVE TRANSACTION = to cancel part of transaction
+   > In SQL Server a transaction begins implicitly with DML command and ends implicitly with commit
+   > User can also start transaction explicitly by executing "BEGIN TRANSACTION" command and 
+     end exaclty with COMMIT/ROLLBACK
+   > Example
+     > CREATE TABLE A( A INT )     => Implictly committed
+       BEGIN TRANSACTION         => Transaction begins T1
+       INSERT INTO A VALUES(10)  
+       INSERT INTO A VALUES(20) 
+       INSERT INTO A VALUES(30)
+       COMMIT                    => Ends Transaction
+       > If transaction ends with commit then its called successful transaction and operations are saved
+
+     > CREATE TABLE A( A INT )     => Implictly committed
+       BEGIN TRANSACTION         => Transaction begins T1
+       INSERT INTO A VALUES(10)  
+       INSERT INTO A VALUES(20) 
+       INSERT INTO A VALUES(30)
+       ROLLBACK                  => Transaction cancelled // all the aboce inserts cancelled
+       > If a transaction ends with rollback then it is called aborted transaction and operations are cancelled
+
+     > CREATE TABLE A( A INT )     => Implictly committed
+       BEGIN TRANSACTION         => Transaction begins T1
+       INSERT INTO A VALUES(10)  
+       INSERT INTO A VALUES(20) 
+       COMMIT                    => Ends Transaction     // above transactions are saved
+       INSERT INTO A VALUES(30)  => Implicitly committed
+       INSERT INTO A VALUES(40)  => Implicitly committed
+       ROLLBACK                  => Trying to end transaction without starting // gives error
+
+   > SAVE TRANSACTION
+     ----------------
+     > We can declare save transaction and we can rollback upto  the save transaction
+     > Using SAVE TRANSACTION we can cancel part of the transaction
+     > Example
+       > CREATE TABLE A( A INT )     
+         BEGIN TRANSACTION         
+         INSERT INTO A VALUES(10)  
+         INSERT INTO A VALUES(20)
+         SAVE TRANSACTION ST1 
+         INSERT INTO A VALUES(30)
+         INSERT INTO A VALUES(40)
+         SAVE TRANSACTION ST2
+         INSERT INTO A VALUES(50)
+         INSERT INTO A VALUES(60)
+         ROLLBACK TRANSACTION ST1
+         
