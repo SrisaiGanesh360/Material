@@ -2663,3 +2663,67 @@ Inserting Date into table
          INSERT INTO A VALUES(60)
          ROLLBACK TRANSACTION ST1
          
+150623
+
+ > Granting permission on view to user
+   -----------------------------------
+   > GRANT SELECT, INSERT, UPDATE, DELETE ON V1 TO VIJAY
+     > VIJAY
+       > SELECT * FROM V1
+         UPDATE V1 SET JOB = 'CLERK' WHERE EMPNO = 7566
+         UPDATE V1 SET SAL = '5000' WHERE EMPNO = 7566 gives error
+   > ROW LEVEL SECURITY
+     ------------------
+     > CREATE VIEW V2 AS SELECT EMPNO, ENAME, JOB, DEPT FROM EMP WHERE DEPT = 20
+     > GRANT SELECT, INSERT, UPDATE, DELETE ON V2 TO VIJAY
+       > VIJAY 
+         > INSERT INTO V2 VALUES(8888, 'ABC', 'MANAGER',30) shows 1 row effected
+           > The above INSERT command executed successfully eventhough its violating where condition
+   > WITH CHECK OPTION
+     -----------------
+     > Any view created "WITH CHECK OPTION" then any dml cmd throught view violates condition then that dml is not accepted
+       > CREATE VIEW V3 AS SELECT EMPNO, ENAME, JOB, DEPT FROM EMP WHERE DEPT = 20 WIHT CHECK OPTION
+       > GRANT SELECT, INSERT, UPDATE, DELETE ON V3 TO VIJAY
+         > VIJAY
+           >  INSERT INTO V3 VALUES( 7777, 'KLM', 'CLERK', 30 ) gives error
+   > COMPLEX VIEWS
+     -------------
+     > A VIEW said to be complex view if 
+       > Based on multiple tables
+       > Querry contains GROUP BY, DISTINCT, AGGREGATE functions, SUBQUERRIES, SET OPERATORS
+       > With the help of views complex querries can be converted into simple querries
+     > Example
+       > CREATE VIEW CV1
+         AS 
+         SELECT E.EMPNO, E.ENAME, E.SAL, D.DEPTNO, D.DNAME, D.LOC 
+         FROM EMP AS E INNER JOIN DEPT AS D 
+         ON E.DEPT = D.DEPTNO
+         > After creating VIEW whenever we want data from EMP and DEPT tables then instead of writing join querry 
+           write the simple querry as follows
+           > SELECT * FROM CV1
+       > SELECT DEPT, SUM ( E.SAL ) AS TOTSAL 
+         FROM EMP AS E INNER JOIN DEPT AS D
+         ON E.DEPT = D.DEPTNO
+         GROUP BY D.DNAME 
+         or 
+         CREATE VIEW CV2 AS
+         SELECT D.DNAME, SUM ( E.SAL ) AS TOTSAL 
+         FROM EMP AS E INNER JOIN DEPT AS D
+         ON E.DEPT = D.DEPTNO
+         GROUP BY D.DNAME 
+         > Now whenever we want dept wise summery execute 
+           SELECT * FROM CV2
+   > Difference between SIMPLE and COMPLEX views
+     > SIMPLE based on single table, COMPLEX based on multiple tables
+     > SIMPLE performs simple operations, COMPLEX performs complex operations like JOIN, GROUP BY, AGGREGATE
+     > SIMPLE views always updatable i.e., allows DML operaions, COMPLEX views not updatable i.e., does't allow DML operations
+   > LIST of TABLES & VIEWS created by users
+     ----------------------------------------
+     > SELECT * FROM INFORMATION_SCHEMA.TABLES
+     > SELECT * FROM INFORMATION_SCHEMA.VIEWS
+   > DROPING VIEW
+     ------------
+     > DROP VIEW V1
+       > Can we access views if the talbes are dropped ?
+         > VIEWS are not DROPPED but VIEWS cannot be querried
+         
