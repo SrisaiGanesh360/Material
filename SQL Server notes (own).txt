@@ -2726,4 +2726,56 @@ Inserting Date into table
      > DROP VIEW V1
        > Can we access views if the talbes are dropped ?
          > VIEWS are not DROPPED but VIEWS cannot be querried
-         
+   > SYNONYMS
+     --------
+     > Another name for a TABLE/VIEW
+     > If TABLE name is lengthy then we can give a simple and short name to the talbe called synonym
+       and instead of using tablename we can use synonym name in SELECT/INSET/UPDATE/DELETE querries
+     > Syntax
+       > CREATE SYNONYM <name> FOR <tabname>
+     > Example
+       > CREATE SYNONYM E FOR EMP
+     > After creating synonym use system name in SELECT/INSET/UPDATE/DELETE querries
+       > SELECT * FROM E
+       > UPDATE E SET SAL = 2000 WHERE EMPNO = 7369
+     > Questions
+       > CREATE SYNONYM E FOR EMP,
+         SELECT * FROM EMP AS E,
+         SP_RENAME 'EMP','E'
+         Difference between these querries
+         > SYNONYM is Permanent, ALIAS is not permanent
+         > SYNONYM is stored in DB, ALIAS is not stored in DB
+         > SYNONYM can be used with in SCHEMA, ALIAS can be used with in with in a querry
+     > DROP SYNONYM
+       ------------
+       > DROP SYNONYM E
+   > Generating vlaues for PRIMARY key columns
+     -----------------------------------------
+     > 1. IDENTITY
+       2. SEQUENCE
+     > IDENTITY
+       > Used to generate sequence number
+       > Used to auto increment column values
+       > Syntax
+         > IDENTITY ( SEED, INCR )
+           > SEED means start, its optional, default is 1
+           > INCR means increment, its optional, default is 1
+       > Example
+         > CREATE TABLE CUST
+           ( 
+            CID INT IDENTITY ( 100, 1 ), 
+            NAME VARCAHR(10)
+           )
+         > INSERT INTO CUST(NAME) VALUES('A')
+         > INSERT INTO CUST(NAME) VALUES('B')
+         > INSERT INTO CUST(NAME) VALUES('C')
+         > INSERT INTO CUST(NAME) VALUES('D')
+         > INSERT INTO CUST(NAME) VALUES('E')
+         > SELECT * FROM CUST
+           CID NAME
+           100 A
+           101 B
+           102 C
+           103 D
+           104 E
+           
