@@ -2779,3 +2779,37 @@ Inserting Date into table
            103 D
            104 E
            
+160623
+
+         > DELETE FROM CUST // deletes all rows
+         > INSERT INTO CUST (NAME) VALUES( 'K')
+           > CID NAME   
+             105 K  // identity not recet 
+         > TRUNCATE TABLE CUST // delete all rows
+         > INSERT INTO CUST (NAME) VALUES( 'X')
+           > CID NAME
+             100 X    // identity recet
+         > NOTE: 
+           > DELETE will not recet identity but TRUNCATE will recet identity
+         > INSERT INTO CUST (NAME) VALUES ('C')
+         > INSERT INTO CUST (NAME) VALUES ('k')
+
+     > How to reset the identity manually ( DATA BASE CONSISTENCY CHECK )
+       ----------------------------------
+       > Syntax
+        > DBCC CEHCKIDENT ( TABLE NAME, RESEED, VALUE)
+       > Example
+        > Here to recet the identity
+           > DBCC CEHCKIDENT ('CUST', RESEED, 99) // identity is recet to 99
+         > INSERT INTO CUST (NAME) VALUES ('P')   // identity starts from 100
+
+     > IDENTITY INSERT
+       ---------------
+       > By default explicit value not allowed into identity column
+       > Execute the following command to insert value into identity column explicitly
+       > Syntax
+         > SET IDENTITY_INSERT CUST ON
+       > Example
+         > SET IDENTITY_INSERT CUST ON
+         > INSERT INTO CUST (CID,NAME) VALUES(110,'Q') // ome row created
+         
