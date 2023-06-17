@@ -2663,6 +2663,38 @@ Inserting Date into table
          INSERT INTO A VALUES(60)
          ROLLBACK TRANSACTION ST1
          
+140623
+
+ > DATABASE SECURITY
+   -----------------
+   > There are 4 facilities to provide security in SQL SERVER
+     LOGINS (SERVER)              => Provides security at server level
+       USERS (DATABASE)           => Provides security at DB level
+         PRIVILAGES (TABLES)      => Provides security at table level
+           VIEWS (ROWS & COLUMNS) => Provides security at row and column level
+
+ > Creating LOGIN
+   --------------
+   > Object Explorer
+     > SECURITY
+       > LOGINS
+         > SQL SERVER Auth
+         > Password
+         > Login
+         > ...
+         > ...
+         > ...
+         > ...
+         > OK  // New login is created
+     > 
+ > CREATING NEW USER
+   -----------------
+   > DB 
+    > SECURITY 
+       > USERS 
+         > (right click) New User
+           > 
+
 150623
 
  > Granting permission on view to user
@@ -2917,3 +2949,118 @@ Inserting Date into table
          > IDENTITY, SEQUENCE both can be reset
          > MAXVALUE cannot be decalered for IDENTITY but can be decalred for SEQUENCE
          
+170623
+
+ > INDEXES
+   -------
+   > A DB object created to improve the performance of data accessing
+   > Index in DB is similar to index in a book, in a book using index a particular topic can be located quickly and in same way here in DB
+     using INDEX a particular row can be located quickly
+   > Indexes are created on columns and  that column is called index key
+   > Indexes are created on columns that are used in 
+      WHERE Clause
+      JOIN operaions
+      
+   > Where to find INDEXES?
+     ---------------------
+       > DB
+         > TABLES
+           > <table>
+             > INDEXES
+
+   > To view INDEXES of a table
+     ---------------------------
+     > SP_HELPINDEX <table name> 
+
+   > Types of INDEXES
+     > Non Clustered
+       > Simple 
+       > Composite
+       > Unique
+     > CLustered
+   > Simple Non-Clustered Index
+     --------------------------
+     > If Index created on single column then it is called Simple Index
+     > Syntax
+       > CREATE INDEX <name> ON <tabname> ( COLNAME )
+     > Example
+       > CREATE INDEX I1 ON EMP (SAL)
+       > After executing above command SQL SERVER creates a structure called BTREE ( Balanced Binary Tree )
+       > EMP                       3000
+         SAL                       
+         5000
+         1000                2000               4000
+         3000          
+         2000          1000*       2500*  4000*
+         1500          1500*       3000*,*
+         4000          2000*
+         3000
+         2500
+
+     > When we submit a querry, SQL Server uses the following methods to find the record
+       > TABLE SCAN
+       > INDEX SCAN
+       > In TABLE SCAN SQL Server scans complete table i.e., and every row but in INDEX SCAN only half
+         of the talbe, so INDEX SCAN is much faster then TABLE SCAN
+       > SELECT * FROM EMP WHERE SAL = 3000 for this querry SQL SERVER uses INDEX SCAN
+       > SELECT * FROM EMP WHERE SAL >= 3000 for this querry SQL SERVER uses INDEX SCAN
+       > SELECT * FROM EMP WHERE SAL <= 3000 for this querry SQL SERVER uses INDEX SCAN
+       > SELECT * FROM EMP WHERE ENAME = 'BLAKE' ( TABLE SCAN )
+
+     > COMPOSITE INDEX
+       ---------------
+       > If INDEX created on multiple columns then INDEX is called composite index
+       > CREATE INDEX I2 ON EMP(DEPTNO, JOB)
+         EMP 
+         DEPTNO  JOB
+         10      CLERK
+         20      MGR
+         30      SALESMAN
+         20      CLERK
+         30      CLERK
+         10      MGR
+         30      SALESMAN
+         20      CLERK
+         > The following structure is created after executing command 
+                                              20  
+
+                         10                                         30
+           
+           10  CLERK *         20 CLERK *,*         30 CLERK *
+           10  MGR *           20 MGR *             30 SALESMAN *, *
+         > SQL SERVER uses aboice INDEX when WHERE condition is based on first column of index i.e., DEPTNO
+       > SELECT * FROM EMP WHERE DEPTNO = 20 ( INDEX SCAN )
+       > SELECT * FROM EMP WHERE DEPTNO = 20 AND JOB = 'CLERK' ( INDEX SCAN )
+       > SELECT * FROM EMP WHERE JOB = 'CLERK' ( TABLE SCAN )
+    
+
+     > UNIQUE INDEX 
+       ------------
+       > UNIQUE INDEX doesn't allow duolicate values into which index is created
+       > Example
+         > CREATE UNICODE INDEX I3 ON EMP( ENAME )
+                                                
+                                                K
+
+                              G                                  Q
+
+          ADAMS *                   JAMES *           MARTIN *        SACHIN *
+          ALLEN *                   JONES *           MILLER *        SMITH *
+          BLAKE *
+
+          > SELECT * FROM EMO WHERE ENAME = 'BLAKE'
+          > INSER INTO EMP ( EMPNO, ENAME, SAL ) VALUES ( 8888, 'BLAKE', 4000 ) gives error
+       > Other Methods to enforce UNIQUE
+         > Declare PRIMARY KEY / UNIQUE CONSTRAINT
+         > CREATE UNIQUE INDEX
+         > Example
+           > CREATE TABLE STUDENT
+             (
+              SID INT PRIMARY KEY,
+              SNAME VARCAHR ( 10 )
+             )                         // UNIQUE INDEX is created
+             
+       > NOTE:
+         > PRIMARY KEY / UNIQUE columns are automatically indexed by SQL SERVER
+         > A Unique index is created on PRIMARY KEY / UNIQUE columns and UNIQUE INDEX allow 
+           duplicates so PRIMARY KEY / UNIQUE also doen't allow duplicates
