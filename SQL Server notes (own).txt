@@ -3145,3 +3145,67 @@ Inserting Date into table
        SYNONYMS
        SEQUENCES
        INDEXES
+
+   > PROCEDURES // this is in programming part
+     FUNCTIONS
+     TRIGGERS
+ ----------------------------------------------------------------------------------------------------
+
+ > T-SQL PROGRAMMING ( TRASANCT-SQL )
+   -----------------
+   > Topics
+     > Basic Programming
+     > Conditional statements
+     > Loops
+     > Cursors
+     > Qeeoe Handling
+     > Procedures
+     > Fucntions
+     > Triggers
+     > Dynamic SQL
+   
+   > Features of T-SQL Programming
+     > Improves performance
+       > SQL Commands can be grouped into one block and can be submitted to SQL SERVER
+         > Number of requests and responses are reduced resulting in imporvemt of preformance
+     > T-SQL Supports Conditional Statments
+       > We can Execute SQL conmmands based on conditions
+     > T-SQL Supports Looping statements
+       >  like WHILE, so T-SQL we can execute SQL commands repeatedly multiple times
+     > T-SQL Supports Error handling
+       > In T-SQL if any statement causes error then we can handle that error  and we can replace
+         system generated message with our own simple and user friendly message
+     > T-SQL supports resuability
+       > T-SQL preogramms can be stored in DB and applications which are connected to DB can resuse these programs
+  
+   > The following statements are used in T-SQL Programming
+     > DECLARE
+     > SET
+     > PRINT
+   > DECLARE
+     -------
+     > Used to declare variables
+     > Synatax
+       > DECALRE @VARNAME DATATYPE(SIZE)
+     > Examples
+       > DECLARE @X INT
+       > DECLARE @S VARCHAR(10)
+       > DECLARE @D DATE
+       > DECLARE @X INT, @S VARCHAR(10), @D DATE
+   > SET 
+     ---
+     > Used to assign value to variable
+     > Syntax
+       > SET @VARNAME = VALUE
+     > Example
+       > SET @X = 100
+       > SET @S = 'ABC'
+       > SET @D = GETDATE()
+   > PRINT
+     -----
+     > Used to print messages or values stored in variables
+     > Syntax
+       > PRINT message / variable
+     > Example
+       > PRINT 'hello'
+       > PRINT @X
