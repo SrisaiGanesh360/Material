@@ -2781,7 +2781,7 @@ Inserting Date into table
      > DROP SYNONYM
        ------------
        > DROP SYNONYM E
-   > Generating vlaues for PRIMARY key columns
+   > Generating values for PRIMARY key columns
      -----------------------------------------
      > 1. IDENTITY
        2. SEQUENCE
@@ -3064,3 +3064,84 @@ Inserting Date into table
          > PRIMARY KEY / UNIQUE columns are automatically indexed by SQL SERVER
          > A Unique index is created on PRIMARY KEY / UNIQUE columns and UNIQUE INDEX allow 
            duplicates so PRIMARY KEY / UNIQUE also doen't allow duplicates
+
+190623
+
+ > Cluster Index
+   -------------
+   > Cluster index stores actual records, where as Non-Clustered index stores pointer to actual records
+   > In Cluster Index Index and table is one, Non-Clustered index index and table are seperate
+   > By default Index is Non-Clustered for SQL Server, to create Cluster Index use keyword 'CLUSTERED'
+   > Example
+     > CREATE TABLE CUST
+       (
+        CID INT,
+        CNAME VARCHAR(10)
+       )
+       CREATE CLUSTERED INDEX I10 ON CUST(CID)
+       INSERT INTO CUST VALUES ( 10,'A' )
+       INSERT INTO CUST VALUES ( 60,'B' )
+       INSERT INTO CUST VALUES ( 40,'C' )
+       INSERT INTO CUST VALUES ( 80,'D' )
+
+                                                 50
+                          30                                            70
+              10 A                  40C                     60 B                80 D
+       SELECT * FROM CUST WHERE CID = 60 
+       SELECT * FROM CUST here SQL SERVER goes to clustered index and access all the leaf nodes from left to right
+       10 A
+       40 C
+       60 B
+       80 D
+   > Note :
+     > Only One Clustered Index is allowed per table
+     > By default Clustered Index is created on PRIMARY KEY Column
+     > Because of cluster index in tables data automatically sorted based on PRIMARY KEY Column
+   > Difference between Non-Clustered Index and Clustered Index
+     > Non-Clustered Index stores pointers to actual records where as Clustered Index stores actual records
+     > Non-Clustered Index needs extra memory, Clustered Index don't need extra memory
+     > Non-Clustered Table and Index are seperate objects and Clustered Index Table and Index are one
+     > Non-Clustered Index requires two lookups to find required row/rows and Clustered Index requires only one lookup to find row/rows
+     > 999 Non-Clustered Indexes allowed per table and Only One Clustered Index allowed per table
+     > By default Non-Clustered Indexes is created on UNIQUE KEY column where as by Default Clustered Index is created on PRIMARY KEY column
+
+ > Dropping Index
+   --------------
+   > Syntax
+     > DROP INDEX EMP.I1
+   > If Table is dropped Indexes are also dropped
+
+ --------------------------------------------------------------------------------------------------------------------------
+
+ > Summary
+   =======
+   > Commands
+     > DDL 
+       DML 
+       DQL 
+       TCL 
+       DCL
+   > clauses
+     > WHERE 
+       ORDER BY 
+       DISTINCT 
+       TOP 
+       GROUP BY 
+       HAVING
+       ON
+   > operations
+     > FILTERING
+       SORTING
+       ELEIMINATING DUPLICATES
+       TOP N ROWS
+       GROUPING
+       JOINING
+       SET OPERATIONS
+       FUNCTIONS
+       SUBQUERIES
+   > OBJECTS
+     > TABLES
+       VIEWS
+       SYNONYMS
+       SEQUENCES
+       INDEXES
