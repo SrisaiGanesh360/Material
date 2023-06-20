@@ -3230,7 +3230,7 @@ Inserting Date into table
        DQL ( SELETCT )
        TCL ( COMMIT, ROLLBACK, SAVE TRANSACTION )
 
-   > SELECT statement sybtax
+   > SELECT statement syntax
      -----------------------
      > SELECT @var1 = col1, 
               @var2 = col2,....
