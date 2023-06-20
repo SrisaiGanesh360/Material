@@ -3209,3 +3209,118 @@ Inserting Date into table
      > Example
        > PRINT 'hello'
        > PRINT @X
+
+200623
+
+       > DECLARE @a INT, @b INT, @c INT
+         SET @a = 100
+         SET @b = 200
+         SET @c = @a + @b
+         PRINT @c
+       > Write program to input date and print day of the week
+         > DECLARE @d DATE
+           SET @d = '2023-01-01'
+           PRINT DATENAME( DW,@d)
+ 
+ > DB Programming with T-SQL
+   -------------------------
+   > To perform operations over db execute SQL commands from T-SQL program
+   > The following commands can be executed from T-SQL program
+     > DML ( INSERT, UPDATE, DELETE, MERGE )
+       DQL ( SELETCT )
+       TCL ( COMMIT, ROLLBACK, SAVE TRANSACTION )
+
+   > SELECT statement sybtax
+     -----------------------
+     > SELECT @var1 = col1, 
+              @var2 = col2,....
+       FROM TABNAME
+       WHERE CONDITION
+     > Example
+       > SELECT @N = ENAME, @S = SAL
+         FROM EMP
+         WHERE EMPNO = 110
+       > Write program to print name & salary of particular empleyee
+         > DECALRE @N VARCHAR(10), @S MONEY
+           SELECT @N = ENAME, @S = SAL FROM EMP WHERE EMPNO = 110
+           PRINT @N + '' + CAST( @S AS VARCHAR )
+       > Write a program to input empno and print experience of the employee
+         > DECALRE @ENO INT, @HIRE DATE, @EXPR INT
+           SET @ENO = 107
+           SELECT @HIRE = HIREDATE FROM EMP WHERE EMPNO = @ENO
+           SET @EXPR = DATEDIFF(  YY, @HIRE, GETDATE() )
+           PRINT CAST( @EXPR AS VARCHAR ) + 'YEARS'
+   
+   > Conditional statements
+     ----------------------
+     > T-SQL supports
+       > IF-ELESE
+         MULTI IF
+         NESTED IF
+     
+     > IF-ELSE
+       > IF condition
+           BEGIN 
+             STATEMENTS
+           END
+         ELSE
+           BEGIN
+             STATEMENTS
+           END
+     
+     > MULTI IF 
+       > IF condition1
+           BEGIN 
+             STATEMENTS
+           END
+         ELSE IF condition2
+           BEGIN 
+             STATEMENTS
+           END
+         ELSE IF condition3
+           BEGIN 
+             STATEMENTS
+           END
+         ELSE
+           BEGIN 
+             STATEMENTS
+           END
+
+     > NESTED IF
+       > Example
+         > Write a program to input EMPNO and increment SAL by specific amount and after increment if SAL exceeds 5000 then cancel that increment
+           > DECALRE @ENO INT, @AMT MONEY, @SAL MONEY
+             SET @ENO = 107
+             SET @AMT = 2500
+             BEGIN TRANSACTION   // by default SQL implicitly commits all changes, to make it explicituse BEGIN TRANSACTION
+             UPDATE EMP SET SAL = SAL + @AMT WHERE EMPNO = @ENO
+             SELECT @SAL = SAL FROM EMP WHERE EMPNO = @ENO
+             IF @SAL > 5000
+                ROLLBACK       
+             ELSE 
+                COMMIT
+         > Write a program to input the EMPNO and increment SAL as follows
+           > if JOB is CLERK increment SAL by 10%
+             if JOB is SALESMAN increment SAL by 20%
+             if JOB is MANAGER increment SAL by 30%
+             if JOB is OTHERS increment SAL by 5%
+           > DECLARE @ENO INT, @JOB VARCHAR(10), @PCT INT
+             SET @ENO = 110
+             SELECT @JOB = JOB FROM EMP WHERE EMPNO = @ENO
+             IF @JOB = 'CLERK'
+                SET @PCT = 10
+             ELSE IF @JOB = 'SALESMAN'
+                SET @PCT = 20
+             ELSE IF @JOB = 'MANAGER'
+                SET @PCT = 30
+             ELSE 
+                SET @PCT = 5
+             UPDATE EMO SET SAL = SAL + ( SAL * @PCT/100 ) WHERE EMPNO = @ENO
+         
+         > Write a program to input EMPNO and increment salary as follows 
+           > if year of JOIN = 1980 incr SAL by 30%
+             if year of JOIN = 1981 incr SAL by 20%
+             if year of JOIN = 1982 incr SAL by 10%
+             if others incr SAL by 5%
+           > SELECT @YEAR = DATEPART(YY, HIREDATE) FROM EMP WHERE EMPNO = @ENO
+             
