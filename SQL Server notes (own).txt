@@ -3324,3 +3324,140 @@ Inserting Date into table
              if others incr SAL by 5%
            > SELECT @YEAR = DATEPART(YY, HIREDATE) FROM EMP WHERE EMPNO = @ENO
              
+220623
+
+ > DECALRE @D1 DATE, @D2 DATE
+   SET @D1 = '2023-01-02'
+   SET @D2 = '2023-12-31'
+   /* to find 1st sunday */
+   WHILE( DATENAME (DW, @D1) <> 'SUNDAY')
+   BEGIN
+   SET @D1 = DATEADD(DD, 1,@d1)
+   END/* to print saundays */
+   WHILE (@D1 <= @D2)
+   BEGIN 
+   PRINT CAST (@D1 AS VARCHAR) + '    ' + DATENAME ( DW, @D1)
+   SET @D1 = DATEADD( DD,7,@D) 
+ 
+ > Write a prog to input string and print the following Pattern
+   Output 
+    > N
+      A
+      R
+      E 
+      S 
+      H
+    > DECALRE @S VARCHAR(20), @X INT = 1
+      SET @S = 'NARESH'
+      WHILE (@X <= LEN (@S))
+      BEGIN
+      PRINT SUBSTRING ( @S, @X, 1 )
+      SET @X = @X + 1
+      END
+ > SUBSTRING syntax
+   > SUBSTRING ( STRING, START, LEN )
+ 
+ > Write a program to input string and print the following 
+   > Output
+     > N
+       NA
+       NAR
+       NARE
+       NARES
+       NARESH
+   > DECALRE @S VARCHAR(20), @X INT = 1
+     SET @S = 'NARESH'
+     WHILE (@X <= LEN (@S))
+     BEGIN
+     PRINT SUBSTRING ( @S, 1, @X )
+     SET @X = @X + 1
+     END
+ 
+ > CURSORS
+   -------
+   > Used to process multiple rows row-ny-row into T-SQL program
+   > Using cursor we can process multiple rows in T-SQL program
+   > From T-SQL Program if you submit a query, SQL SErver goes to 
+     DB and copies table data into temporay memory called cursor 
+     and in T-SQL  program we can give name to that memory and access 
+     row-by-row into T-SQL program and process the row
+   > Follow the below steps to use cursor in T-SQL program
+     > 1 DECALRE CURSOR
+     > 2 OPEN CURSOR
+     > 3 FETCH RECORDS FROM CURSOR
+     > 4 CLOSE CURSOR
+     > 5 DEALLOCATE CURSOR
+
+   > DECLARE CURSOR
+     --------------
+     > Syntax
+       > DECALRE <name> CURSOR FOR SELECT STATEMENT
+     > Example
+       > DECLARE C1 CURSOR FOR SELECT * FROM EMP
+
+   > OPEN CURSOR
+     -----------
+     > Syntax
+       > OPEN <cursor-name>
+     > Example
+       > OPEN C1
+     > Steps happening
+       > 1 Select statement submitted to SQL Server
+       > 2 Data returned by querry is copied to cursor
+
+   > FETCHING RECORDS FROM CURSOR
+     -----------------------------
+     > "FETCH" statement is used to fetch record from cursor
+     > Syntax
+       > FETCH NEXT FROM <cursor> INTO <variables>
+     > Example
+       > FETCH NEXT FROM C1 INTO @a, @b, @c,......
+     > FETCH Statement fetches one row at a time but to process muilple rows FETCH statement should be in a loop
+   
+   > CLOSING CURSOR
+     --------------
+     > Synatax
+       > CLOSE <cursor-name>
+     > Example
+       > CLOSE C1
+
+   > DEALLOCATE Cursor
+     -----------------
+     > Syntax
+       > DEALLOCATE <cursor-name>
+     > Example
+       > DEALLOCATE C1
+
+  > @@FETCH_STATUS
+    --------------
+    > In '@' prefix means User Defined, with '@@' prefix its a system defined variable
+    > @@FETCH_ STATUS is a system or predefined variable that returns fetch status
+    > Returns 0 if fetch is successful
+              -1 if fetch is not successful
+    > Syntax example
+      > Write a program to print all employee names and salaries
+        > DECALRE C1 CURSOR FOR SELECT ENAME, SAL FROM EMP
+          DECALRE @NAME VARCHAR(10), @SAL MONEY
+          OPEN C1
+          FETCH NEXT FROM C1 INTO @NAME, @SAL
+          WHILE ( @@FETCH_STATUS = 0 )
+          BEGIN
+          PRINT @NAME + ' ' + CAST( @SAK AS VARCHAR )
+          FETCH NEXT FROM C1 INTO @NAME, @SAL
+          END
+          CLOSE C1
+          DEALLOCATE C1
+
+      > Write a program to calculate total SAL without using SUM function
+        > DECALRE C1 CURSOR FOR SELECT SAL FROM EMP
+          DECALRE @SAL MONEY, @TOTSAL MONEY = 0
+          OPEN C1
+          FETCH NEXT FROM C1 INTO @SAL
+          WHILE ( @@FETCH_STATUS = 0 )
+          BEGIN
+          SET @TOTSAL = @TOTSAL + @SAL
+          FETCH NEXT FROM C1 INTO @SAL
+          END
+          PRINT @TOTSAL
+          CLOSE C1
+          DEALLOCATE C1
