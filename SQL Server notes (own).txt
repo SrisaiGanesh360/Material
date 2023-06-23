@@ -3461,3 +3461,152 @@ Inserting Date into table
           PRINT @TOTSAL
           CLOSE C1
           DEALLOCATE C1
+
+230623
+
+ > Write a program to calculate max salary without using max function
+   > DECLARE C1 CURSOR FOR SELECT SAL FROM EMP
+     DECALRE @SAL MONEY, @MAX MONEY=0
+     OPEN C1
+     FETCH NEXT FROM C1 INTO @SAL
+     WHILE ( @@FETCH_STATUS = 0)
+     BEGIN
+     IF @SAL > @MAX
+     SET @MAX = @SAL 
+     FETCH NEXT FROM C1 INTO @SAL
+     END
+     PRINT @MAX
+     CLOSE C1
+     DEALLOCATE C1
+   > Method 2
+     DECLARE C1 CURSOR FOR SELECT SAL FROM EMP ORDER BY SAL DESC
+     DECALRE @SAL MONEY 
+     OPEN C1
+     FETCH NEXT FROM C1 INTO @SAL
+     PRINT @SAL
+     CLOSE C1
+     DEALLOCATE C1
+ > Write a program to print min salary without using min function
+   > DECALRE C1 CURSOR FOR SELECT SAL FROM EMP
+     DECLARE @SAL MONEY, @MIN MONEY = 0
+     OPEN C1
+     FETCH NEXT FROM C1 INTO @MIN
+     WHILE ( @@FETCH_STATUS = 0 )
+     BEGIN 
+     FETCH NEXT FROM C1 INTO @SAL
+     IF @SAL < @MIN
+     SET @MIN = @SAL
+     END
+     PRINT @MIN
+     CLOSE C1
+     DEALLOCATE C1
+   > Method 2
+     DECLARE C1 CURSOR FOR SELECT SAL FROM EMP ORDER BY SAL ASC
+     DECALRE @SAL MONEY 
+     OPEN C1
+     FETCH NEXT FROM C1 INTO @SAL
+     PRINT @SAL
+     CLOSE C1
+     DEALLOCATE C1
+ > Write a program to calcualte all the students total, avg, result and insert into result table
+   > STUDENT
+     SNO SNAME S1 S2 S3 
+     1   A     80 90 70
+     2   B     30 60 50
+     RESULT 
+     SNO TOTAL AVG RESULT
+     
+     > DECALRE C1 CURSOR FOR SELECT SNO, S1, S2, S3 FROM STUDENT
+       DECLARE @SNO INT, @S1 INT, @S2 INT, @S3 INT
+       DECALRE @TOTAL INT, @AVG DECIMAL(5,2), @ RES CHAR(4)
+       OPEN C1
+       FETCH NEXT FROM C1 INTO @SNO, @S1, @S2, S3
+       WHILE ( @@FETCH_STATUS= 0 )
+       BEGIN
+       SET @TOTAL = @S1 + @S2 + @S3
+       SET @AVG = @TOTAL/3
+       IF @S1 >= 35 AND @S2 >= 35 AND @S3 >= 35
+       SET @RES = 'PASS'
+       ELSE 
+       SET @RES = 'FAIL'
+       INSERT INTO RESULT VALUES ( @SNO, @TOTAL, @AVG, @RES )
+       FETCH NEXT FROM C1 INTO @SNO, @S1, @S2, @S3
+       END 
+       CLOSE C1
+       DEALLOCATE C1 
+ 
+ > Assignment
+   ----------
+   > RAISE_SALARY
+     EMPNO PCT
+     100   20
+     101   25
+     102   15
+     103   10
+     104   20
+   > Write a program to increment employee salaries based on pct in raise_salary table
+ 
+ > SCROLLABLE CURSOR
+   -----------------
+   > By default cursor is forward only cursor and forward only cursot supports forward
+     navigation but doesn't support backward navigation.
+   > If cursor declared with SCROLL then it is called scrollable cursor and it supports both forward and backward navigation
+   > A Forward only cursor sypports FETCH NEXT statement but scrollable cursor supports the following fetch statements
+     > FETCH FIRST       => Fetches first record
+     > FETCH NEXT        => Fetches next record
+     > FETCH PRIOR       => Fetches previous record
+     > FETCH LAST        => Fetches last record
+     > FETCH ABSOLUTE N  => Fetches Nth record from first record
+     > FETCH RELATIVE N  => Fetches Nth record from current record
+   > Examples
+     > DECALRE C1 CURSOR SCROLL FOR SELECT ENAME FROM EMP
+       DECLARE @NAME VARCHAR(10)
+       OPEN C1
+       FETCH FIRST FROM C1 INTO @NAME
+       PRINT @NAME
+       FETCH ABSOLUTE 5 FROM C1 INTO @NAME
+       PRINT @NAME
+       FETCH RELATIVE 5 FROM C1 INTO @NAME
+       PRINT @NAME
+       FETCH LAST FROM C1 INTO @NAME
+       PRINT @NAME
+       FETCH PRIOR FROM C1 INTO @NAME
+       PRINT @NAME
+       CLOSE C1 
+       DEALLOCATE C1
+
+     > Write a program to display every 5th record from EMP
+       > DECLARE C1 CURSOR SCROLL FOR SELECT ENAME FROM EMP
+         DECLARE @NAME VARCHAR(10)
+         OPEN C1
+         FETCH RELATIVE 5 FROM C1 INTO @NAME
+         WHILE ( @@FETCH_STATUS=0 )
+         BEGIN 
+         PRINT @NAME
+         FETCH RELATIVE 5 FROM C1 INTO @NAME
+         END 
+         CLOSE C1
+         DEALLOCATE C1
+     
+     > Write a program to print names from last to first 
+       > DECLARE C1 CURSOR SCROLL FOR SELECT ENAME FROM EMP
+         DECLARE @NAME VARCHAR(10)
+         OPEN C1
+         FETCH LAST FROM C1 INTO @NAME
+         WHILE (@@FETCH_STATUS=0)
+         BEGIN 
+         PRINT @NAME
+         FETCH PRIOR FROM C1 INTO @NAME
+         END 
+         CLOSE C1 
+         DEALLOCATE C1
+     
+     > Write a program to print 5th max salary
+       > DECALRE C1 CURSOR SCROLL FOR SELECT DISTINCT SAL FROM EMP ORDER BY SAL DESC
+         DECALRE @SAL MONEY 
+         OPEN C1 
+         FETCH ABSOLUTE 5 FROM C1 INTO @SAL
+         PRINT @SAL
+         CLOSE C1 
+         DEALLOCATE C1
+         
