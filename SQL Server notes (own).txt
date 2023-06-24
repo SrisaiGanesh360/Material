@@ -3610,3 +3610,115 @@ Inserting Date into table
          CLOSE C1 
          DEALLOCATE C1
          
+240623
+
+ > ERROR Handling / EXCEPTION HANDLING
+   -----------------------------------
+   > Syntax errors
+     Logical errors
+     Runtime errors (exceptions)
+   
+   > Errors that are raised during program execution are called runtime errors
+   > If any statement causes runtime error then SQL server displays error message 
+     and continues program execution. To replace ssytem generated message with our 
+     own simple and user friendly message then we need to handle that runtime error
+   > To handle runtime error include a block called TRY---CATCH block
+   > Syntax
+     > BEGIN TRY 
+       statement 1 
+       statement 2  => statements causes exception
+       statement 3
+       statement 4 
+       statement 5
+       .
+       .
+       .
+       END TRY 
+       BEGIN CATCH   
+       statements   => statements handles exception
+       END CATCH
+     > If any statement in TRY block causes runtime error then control transferred to catch block 
+       and executes the statements in catch block 
+   > Example
+     > DECLARE @a TINYINT, @b TINYINT, @c TINYINT
+       BEGIN TRY 
+       SET @a = 100
+       SET @b = 2000
+       SET @v = @a/@b
+       PRINT @c
+       END TRY 
+       BEGIN CATCH
+       PRINT 'ERROR-------'
+       END CATCH
+       > OUTPUT
+         > ERROR-------
+   
+   > ERROR HANDLING FUCNTIONS
+     ------------------------
+     > ERROR_NUMBER()    => Returns error code 
+     > ERROR_MESSAGE()   => Returns error message
+     > ERROR_SEVERITY()  => Returns error severity level
+     > ERROR_STATE()     => Returns error state
+     > ERROR_LINE()      => Returns error line number
+
+     > Example
+       > DECLARE @a TINYINT, @b TINYINT, @c TINYINT
+        BEGIN TRY 
+        SET @a = 100
+        SET @b = 2000
+        SET @v = @a/@b
+        PRINT @c
+        END TRY 
+        BEGIN CATCH
+        PRINT 'ERROR-------'
+        END CATCH
+        IF ERROR_NUMBER() = 220
+        PRINT 'value should be between 0 and 255'
+        ELSE IF ERROR_NUMBER() = 8134
+        PRINT 'divisor cannot be zero'
+        END CATCH
+       
+       > CREATE TABLE EMP99
+         (
+          EMPNO INT PRIMARY KEY,
+          ENAME VARCHAR(10) NOT NULL,
+          SAL MONEY CHECK(SAL>=3000),
+          DNO INT REFERENCES DEPT(DEPTNO)
+         )
+         ALTER TABLE DEPT 
+         ALTER COLUMN DEPTNO INT NOT NULL
+         ALTER TABLE DEPT
+         ADD PRIMARY KEY (DEPTNO)
+         > Write a program to insert data into EMP99 table
+           > DECALRE @ENO INT, @NAME VARCHAR(10), @SAL MONEY, @DNO INT
+             BEGIN TRY
+             SET @ENO = 100
+             SET @NAME = 'A'
+             SET @SAL = 3000
+             SET @DNO = 10
+             INSERT INTO EMP99 VALUES (@ENO, @NAME, @SAL, @DNO)
+             END TRY
+             BEGIN CATCH
+             OF ERROR_NUMBER() = 2627
+             PRINT 'Name should not be null'
+             ELSE IF ERROR-NUMBER() = 515
+             PRINT 'Name should not be null'
+             ELSE IF ERROR-NUMBER() = 547
+             PRINT 'sal >= 3000 or parent key not found'
+             END CATCH
+
+   > USER DEFINED ERRORS
+     -------------------
+     > Errors raised by user are called user defined errors
+     > User defined errors are raised to stop program execution based on condition
+     > Raised by using RAISERROR procedure
+     > Syntax
+       > RAISERROR(erorr message, severity level, state)
+       > Severity level => 0 to 25
+         > 0 to 11 => informational message 
+         > 12 to 19 => errors
+         > 20 to 25 => fatal errors
+       > State => 0 to 255
+         > Useful if same error raises in multiple locations
+         > By using state we can identify which part of the program is causing error
+         
