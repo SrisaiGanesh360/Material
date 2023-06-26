@@ -3760,11 +3760,19 @@ Inserting Date into table
            RAISERROR ( @MSG, 15, 1 )
            END CATCH
 
-=========================================================================================
+=======================================================================================================================================
+
+> NAMED T-SQL BLOCKS :- 
+  --------------------
+   > 1 STORED PROCEDURES
+     2 FUNCTIONS 
+     3 TRIGGERS 
 
 > SUB-PROGRAMS
   -------------
- > 
+ > 1  STORED PROCEDURES
+   2  FUNCTIONS 
+
  > Advantages: 
    ----------
    > 1. Modular programming
@@ -3783,6 +3791,11 @@ Inserting Date into table
    -----------------
    > A stored procedure is a names T-SQL block that accepts some input performs some action on DB and may or may not returns a value
    > Procedures are created to perform one or more actions like insert, update, delete, select on DB
+   > Syntax 
+     > CREATE OR ALTER  PROCEDURE <NAME>
+       parameters if any 
+       AS
+       STATEMENTS 
 
  > Parameters: 
    ----------
