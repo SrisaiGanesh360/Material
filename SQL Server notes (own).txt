@@ -3764,10 +3764,48 @@ Inserting Date into table
 
 > SUB-PROGRAMS
   -------------
-  > 
-  > Advantages: 
-    ----------
-    > 1. Modular programming
-      > With the help of procedures and functions a big T-SQL program can be divided into small modules
-    > 2. Reusability
-      > Procedures and functions are stored in DB
+ > 
+ > Advantages: 
+   ----------
+   > 1. Modular programming
+     > With the help of procedures and functions a big T-SQL program can be divided into small modules
+   > 2. Reusability
+     > Procedures and functions are stored in DB, so applications which are connected to DB can reuse this programs
+   > 3. Invoked from front-end applications
+     > front applications like JAVA/.Net
+   > 4. Security
+     > Because there programs are stored in DB, so only authorized users can execute these programs
+   > 5. Improves preformance
+     > Procedures imporves performance because they are precompiled i.e., when we create a procedure program is compiled 
+       and stored in DB and whenever we call only execution is repeated but not compilation, so this impoves performance.
+ 
+ > STORED PROCEDURES
+   -----------------
+   > A stored procedure is a names T-SQL block that accepts some input performs some action on DB and may or may not returns a value
+   > Procedures are created to perform one or more actions like insert, update, delete, select on DB
+
+ > Parameters: 
+   ----------
+   > We can declare parameters and we can pass valeus to parameters
+   > Parameters are 2 types 
+     > INPUT ( DEFAULT )
+     > OUTPUT
+   > INPUT
+     > Always recieves value
+   > OUTPUT 
+     > Always sends value
+ 
+ > How to view/change STORED PROCEDURES
+   ------------------------------------
+     > DB ( right click )
+       > PROGRAMMABILTY
+         > Stored procedures
+           > Modify
+
+ > Examples (Procedures without parameters)
+   > Create procedure to increment all employee salaries by 1000
+     CREATE OR ALTER PROCEDURE raise_salary
+     AS
+     UPDATE EMP SET SAL = SAL + 1000
+
+     procedure created ( compiled + stored in DB )
