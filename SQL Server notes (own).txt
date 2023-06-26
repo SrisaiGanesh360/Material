@@ -3722,3 +3722,52 @@ Inserting Date into table
          > Useful if same error raises in multiple locations
          > By using state we can identify which part of the program is causing error
          
+260623
+
+     > Examples
+       > Write a program to increment an employee salary by specific amount
+         but sunday updates are not allowed 
+         > DECLARE @ENO INT, @AMT MONEY
+           SET @ENO = 100
+           SET @AMT = 1000
+           IF DATENAME(DW, GETDATE()) = 'SUNDAY'
+           RAISERROR( 'sunday not allowed', 15,1 )
+           ELSE
+           UPDATE EMP SET SAL = SAL + @AMT WHERE EMPNO = @ENO
+       
+       > ACCOUTNS
+         ACCNO  ACTYP BAL
+         100    S     10000
+         101    S     20000
+         Write a program to process money transfer 
+         > DECALRE @SACNO INT, @TACNO INT, @AMT MONEY, @BAL MONEY
+           DECLARE @MSG VARCHAR (100)
+           SET @SACNO = 100
+           SET @TACNO = 101
+           SET @AMT = 1000
+           IF EXISTS ( SELECT * FROM ACCOUNTS WHERE ACCNO = @SACNO )
+           RAISERROR ( 'source account does not exist', 15, 1 )
+           IF NOT EXISTS ( SELECT * FROM ACCOUTNS WHERE ACCNO = @TACNO )
+           RAISERROR ( 'target accounts does not exist', 15, 1 )
+           SELECT @BAL = BAL FROM ACCOUTNS WHERE ACCNO = @SACNO
+           IF @AMT > @BAL
+           RAISERROR ( 'insufficient balance', 15, 1 )
+           UPDATE ACCOUTNS SET BAL = BAL - @AMT WHERE ACCNO = @SACNO
+           UPDATE ACCOUTNS SET BAL = BAL + @AMT WHERE ACCNO = @ TACNO
+           END TRY 
+           BEGIN CATCH
+           SET @MSG ERROR_MESSAGE()
+           RAISERROR ( @MSG, 15, 1 )
+           END CATCH
+
+=========================================================================================
+
+> SUB-PROGRAMS
+  -------------
+  > 
+  > Advantages: 
+    ----------
+    > 1. Modular programming
+      > With the help of procedures and functions a big T-SQL program can be divided into small modules
+    > 2. Reusability
+      > Procedures and functions are stored in DB
