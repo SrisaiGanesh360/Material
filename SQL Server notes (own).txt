@@ -3822,3 +3822,134 @@ Inserting Date into table
      UPDATE EMP SET SAL = SAL + 1000
 
      procedure created ( compiled + stored in DB )
+
+270623
+
+ > EXECUTION
+   ---------
+   > Syntax example
+     > EXECUTE raise_salary
+   > Refer Calling procedure image file
+   > Examples ( procedure with parameters)
+     > Create procedure to increment specific employee sal by specific amount
+       > CREATE OR ALTER PROCEDURE RAISE_SALARY
+         @ENO INT, 
+         @AMT MONEY
+         AS 
+         UPDATE EMP SET SAL = SAL + @AMT WHERE EMPNO = @ENO
+         > EXECUTION
+           > EXECUTE RAISE_SALARY_ 100, 1000              (postional association)  // method 1
+           > EXECUTE RAISE_SALARY @ENO = 100, @AMT = 1000 (named association)  // method 2
+           > EXECUTE RAISE_SALARY @AMT = 1000, @ENO = 100
+  
+       
+     > Create procedure to increment specific employee sal by specific amount and after increment 
+       send the updated sal to calling program
+       > CREATE OR ALTER PROCEDURE RAISE_SALARY
+         @ENO INT,
+         @AMT MONEY,
+         @NEWSAL MONEY OUTPUT
+         AS
+         UPDATE EMP SET SAL = SAL + @AMT WHERE EMPNO = @ENO
+         SELECT @NEWSAL = SAL FROM EMP WHERE EMPNO = @ENO
+         > EXECUTION
+           > DECLARE @S MONEY
+             EXECUTE RAISE_SALARY 100,1000, @S OUTPUT
+              PRINT @S                                  // positional
+            
+             > DECLARE @S MONEY
+              EXECUTE RAISE_SALARY @ENO = 100, @AMT = 1000, @NEWSAL = @S OUTPUT
+              PRINT @S                                  // named
+ 
+     > Example: Parameters with default values
+       > A parameter can be decalred with default value as follows
+         @AMT MONEY = 500
+       > While calling procedure, if we don't pass value to parameter then SQL Server assigns default value 
+          > CREATE OR ALTER PROCEDURE RAISE_SALARY
+           @ENO INT
+           @AMT MONEY = 500
+            @NEWSAL MONEY OUTPUT
+           AS
+            UPDATE EMP SET SAL = SAL + @AMT WHERE EMPNO = @ENO
+            SELECT @NEWSAL = SAL FROM EMP WHERE EMPNO = @ENO
+           > Execution
+             > DECLARE @S MONEY
+               EXECUTE RAISE_SALARY 100, DEFAULT, @S OUTPUT
+                PRINT @S
+    
+                DECLARE @S MONEY
+                EXECUTE RAISE_SALARY @ENO = 100, @NEWSAL = @S OUTPUT
+                PRINT @S
+       
+     > CREATE TABLE CUST
+       (
+        CUSTID INT PRIMARY KEY,
+        CNAME VARCHAR(10) NOT NULL,
+        EMAILID VARCHAR(20) UNIQUE,
+        AGE INT CHECK(AGE>=20)
+       )
+       > Create a procedure to insert data into CUST table
+         > CREATE OR ALTER PROCEDURE INSERT_NEW_CUST
+           @CID INT, 
+           @NAME VARCHAR(10),
+           @EMAILID VARCHAR(20),
+           @AGE INT
+           AS
+           DECALRE @MSG VARCHAR(100)
+           BEGIN TRY
+           INSERT INTO CUST VALUES (@CID, @NAME, @EMAILID, @AGE)
+           END TRY
+           BEGIN CATCH
+           BEGIN CATCH 
+           SET @MSG = ERROR_MESSAGE()
+           RAISERROR(@MSG, 15, 1)
+           END CATCH
+           > EXECUTION
+             EXECUTE INSERT_NEW_CUST 100, 'A', 'abc@gmail.com', 30
+     
+     > ACCOUNTS
+       ACCNO ACTYPE BAL
+       100   S      10000
+       101   S      20000
+
+       TRANSACTIONS
+       TRID  TTYPE  TDATE  TAMT  ACCNO
+
+       CREATE TABLE ACCOUNTS
+       (
+        ACCNO PRIMARY KEY,
+        ACTYPE CAHR(1),
+        BAL MONEY
+       )
+
+       CREATE TABLE TRANSACTIONS
+       (
+        TRID INT IDENTITY,
+        TTYPE CHAR(1) CHECK(TTYPE IN ('W', 'D')),
+        TDATE DATETIME DEFAULT GETDATE(),
+        TAMT MONEY,
+        ACCNO INT REFERENCES ACCOUNTS(ACCNO)
+       )
+
+       INSERT INTO ACCOUNTS VALUES (100,'S',10000), (101,'S',20000)
+       > Create procedure foe money withdrawl
+         > CREATE OR ALTER PROCEDURE DEBIT
+           @ACNO INT,
+           @AMT MONEY,
+           @NEWBAL MONEY OUTPUT
+           AS
+           DECLARE @BAL MONEY
+           BEGIN TRY
+           IF NOT EXISTS (SELECT * FROM ACCOUNTS WHERE ACCNO = @ACNO)
+           RAISERROR('invalid accno',15,1)
+           SELECT @BAL = BAL FROM ACCOUTNS WHERE ACCNO = @ACNO
+           IF @AMT > @BAL
+           RAISERROR('insufficient balance', 15, 1)
+           UPDATE ACCOUNTS SET BAL = BAL - @AMT WHERE ACCNO = @ACNO
+           INSERT INTO TRANSACTIONS ( TTYPE, TAMT, ACCNO ) VALUES ( 'W', @AMT, @ACNO )
+           SELECT @NEWBAL = BAL FROM ACCOUNTS WHERE ACCNO = @ACNO
+           END TRY
+           BEGIN CATCH
+           SET @MSG = ERROR_MESSAGE()
+           RAISERROR ( @MSG, 15, 1)
+           END CATCH
