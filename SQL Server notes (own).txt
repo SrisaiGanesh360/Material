@@ -3760,20 +3760,20 @@ Inserting Date into table
            RAISERROR ( @MSG, 15, 1 )
            END CATCH
 
-=======================================================================================================================================
+ =======================================================================================================================================
 
-> NAMED T-SQL BLOCKS :- 
+ > NAMED T-SQL BLOCKS :- 
   --------------------
    > 1 STORED PROCEDURES
      2 FUNCTIONS 
      3 TRIGGERS 
 
-> SUB-PROGRAMS
+ > SUB-PROGRAMS
   -------------
- > 1  STORED PROCEDURES
-   2  FUNCTIONS 
+  > 1  STORED PROCEDURES
+    2  FUNCTIONS 
 
- > Advantages: 
+  > Advantages: 
    ----------
    > 1. Modular programming
      > With the help of procedures and functions a big T-SQL program can be divided into small modules
