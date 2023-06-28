@@ -3953,3 +3953,118 @@ Inserting Date into table
            SET @MSG = ERROR_MESSAGE()
            RAISERROR ( @MSG, 15, 1)
            END CATCH
+
+280623
+
+ > Assignment
+   ----------
+   > Create procedure for moeny deposit
+   > Create procedure for moeny transfer 
+ 
+ > PROCEDURES RETURNING RECORDS
+   ----------------------------
+   > To return records from procedure take output parameter of cursor type
+   > Example
+     > Create procedure to accept deptno and returns list of employees working for that dept
+       > CREATE OR ALTER PROCEDURE getEmpList
+         @DNO INT,
+         @curEMP CURSOR VARYING OUPUT
+         AS
+         SET @curEmp = CURSOR FOR SELECT EMPNO, ENAME, SAL FROM EMP WHERE DEPTNO = @DNO
+         OPEN @curEMP
+         > EXECUTION
+           > DECLARE @c1 CURSOR, @ENO INT, @NAME VARCHAR(10), @SAL MONEY
+             EXECUTE getEMPLIST @DNO = 30, @curEMP = @c1 OUTPUT
+             WHILE (@@FETCH_STATUS = 0)
+             BEGIN 
+             PRINT CAST(@ENO AS VARCHAR) + '' + @NAME + '' + CAST(@SAL AS VARCHAR)
+             FETCH NEXT FROM @c1 INTO @ENO, @NAME, @SAL
+             END
+             CLOSE @c1
+             DEALLOCATE @c1
+
+ > USER DEFINED FUNCTIONS
+   ----------------------
+   > When predefined funcrtions not meeting our requirements then we create our own fucntions
+     called user define functions
+   > A function accepts some input preforms some calculation and must return a value
+   > Functions are of two types
+     > Scalar valued 
+     > Table valued
+   > Scalar valued functions
+     -----------------------
+     > These functions accpets one or more values and returns one value
+     > Return type of these fucntions must be scalr types like int, varchar etc
+     > Return expression must be a scalar variable
+     > Syntax
+       > CREATE OR ALTER 
+         FUNCTION <name> ( parameters if any ) RETURNS <type>
+         AS
+         BEGIN
+         STATEMENTS
+         RETURN <expr>
+         END
+     > Example
+       > CREATE OR ALTER FUCTION 
+         FUCNTION CALC ( @a INT, @b INT, @op CHAR(1)) RETURNS INT
+         AS
+         BEGIN
+         DECALRE @c INT
+         IF @op = '+'
+         SET @c = @a + @b
+         ELSE IF @op = '-'
+         SET @c = @a - @b
+         ELSE IF @op = '*'
+         SET @c = @a * @b
+         ELSE 
+         SET @c = @a/@b
+         RETURN @c
+         END
+         > Execution
+           > SELECT DBO.CALC( 10, 20, '*' )
+             > Output 200
+       
+       > Create a function that accepts deptno and returns names of the 
+         employees working for that dept as follows
+         > input: Deptno = 20
+           output: SMITH, JONES, SCOTT, ADAMS, FORD
+           > CREATE OR ALTER
+             FUNCTION getNames(@dno INT) RETURNS VARCHAR(500)
+             AS
+             BEGIN
+             DECLARE C1 CURSOR FOR
+             SELECT ENAME FROM EMP WHERE DEPTNO = @dno 
+             DECLARE @NAME VARCHAR(10), @S VARCHAR(500) = ''
+             OPEN C1
+             FETCH NEXT FROM C1 INTO @NAME
+             WHILE(@@FETCH_STATUS = 0)
+             BEGIN
+             SET @S = @S + @NAME + ','
+             FETCH NEXT FROM C1 INTO @NAME
+             END 
+             CLOSE C1
+             DEALLOCATE C1
+             RETURN STUFF(@S, LEN(@S),1,'') // to remove last ','
+             END
+             > EXECUTION
+               > SELECT DBO.GETNAME(20) gives SMITH, JONES, SCOTT, ADAMS, FORD
+       
+       > Display DEPT wise EMPLOYEE names
+         > 10 --,--,--
+           20 --,--,---
+           30 --,--,---
+           SELECT DEPTNO, DBO.GETNAMES(DEPTNO) AS NAMES
+           FROM EMP
+           GROUP BY DEPTNO
+ 
+ > STRING_AGG()
+   ------------
+   > Built-in function introduced in 2017 version and used to concatenate column values.
+   > Syntax:
+     > STRING_AGG(colname, seperator)
+   > Example
+     > SELECT STRING_AGG(ENAME,',') FROM EMP
+     > SEELCT DEPTNO, STRING_AGG(ENAME, ',') AS NAMES 
+       FROM EMP
+       GROUP BY DEPTNO
+       
