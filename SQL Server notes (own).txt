@@ -4068,3 +4068,153 @@ Inserting Date into table
        FROM EMP
        GROUP BY DEPTNO
        
+300623
+
+ > Create trigger to not allow DMLS on EMP table before 10am and after 4pm
+   > CREATE OR ALTER TRIGGER T2
+     ON EMP 
+     AFTER INSERT, UPDATE, DELETE
+     AS
+     IF DATEPAR(HH,GETDATE()) < 10 OR DATEPART(HH,GETDATE()) > 16
+     BEGIN 
+     ROLLBACK
+     RAISERROR('only betwen 10am abd 4pm',15,1)
+     END
+
+ > Create trigger to not allow DMLs on EMP table as follows
+   > MON - FRI <10AM AND >4PM
+     SAT       <10AM AND >2PM
+     SUN       --------------
+
+ > Create trigger to not allow to update EMPNO
+   > CREATE OR ALTER TRIGGER T2
+     ON EMP
+     AFTER UPDATE
+     AS
+     ROLLBACK
+     RAISERROR('empno cannot be updated',15,1)
+     END
+     > Testing
+       > UPDATE EMP SET EMPNO = 999 WHERE EMPNO = 101 => Error
+
+ > Magic Tables:
+   ------------
+   > 1 INSERTED
+     2 DELETED
+   
+   > These talbes are called magic tables because they are collected and destroyed automatically
+   > Using these tables we can access data effected by DML in triggers
+   > These talbes exists during trigger execution
+   > Record we try to insert is copied to INSERTED table
+   > The record we try to delete is copied to DELETED table
+   > The record we try to update is copied to bothe INSERTED & DELTED tables
+
+   > Syntax example
+     > INSERT INTO EMP VALUES(100,'A','CLERK',4000)
+       INSERTED 
+       EMPNO ENAME JOB   SAL
+       100   A     CLERK 4000
+     > UPDATE EMP SET SAL= 5000 WHERE EMPNO = 100
+       INSERTED
+       EMPNO SAL
+       100   5000
+       DELETED 
+       EMPNO SAL
+       100   4000
+     > DELETE FROM EMP WHERE EMPNO = 100 
+       DELETED 
+       EMPNO ENAME JOB   SAL
+       100   A     CLERK 5000
+
+   > Example
+     > Create trigger to not to allow to decrement salary
+       > CREATE OR ALTER TRIGGER T4
+         ON EMP
+         ALTER UPDATE
+         AS
+         DECALARE @OLDSAL MONEY, @NEWSAL MONEY
+         SELECT @OLDSAL = SAL FROM DELETED
+         SELECT @NEWSAL = SAL FROM INSERTED
+         IF @NEWSAL < @OLDSAL
+         BEGIN
+         ROLLBACK
+         RAISERROR('sal cannot be decremented',15,1)
+         END
+         > Testing
+           > UPDATE EMP SET SAL = SAL - 1000 WHERE EMPNO = 100 => ERROR
+
+     > Create trigger to insert details into EMP_RESIGN table when employee resigns
+       > EMP_RESIGN 
+         EMPNO 
+         CREATE TABLE EMO_RESIGN
+         (
+          EMPNO  INT,
+          ENAME  VARCHAR(10),
+          HIREDATE DATE,
+          DOR DATE
+         )
+
+         CREATE OR ALTER TRIGGER T5
+         ON EMP 
+         AFTER DELETE 
+         AS
+         DECALRE @ENO INT, @NAME VARCHAR(10), @HIRE DATE
+         SELECT @ENO = EMPNO, @NAME = ENAME, @HIRE = HIREDATE FROM DELETED
+         INSERT INTO EMO_REDIGN VALUES(@ENO, @NAME, @HIRE, GETDATE())
+         > Testing
+           > DELETE FROM EMP WHERE EMPNO = 100 gives DELETED
+             SELECT * FROM EMP_RESIGN
+             100  SMITH  1980-12-17  2023-06-30
+ 
+ > INSTEAD OF triggers:
+   --------------------
+   > If trigger is instead of then SQL Server executes the trigger instead of executing DML
+   > DML is replaced with trigger 
+   > Example
+     > Create trigger to not allow more than 4 employees per department
+       > EMP123
+         ENO ENAME DNO
+         1   A     10
+         2   B     10
+         3   C     10
+         4   D     10
+         5   E     10 gives INVALID
+         > CREATE TABLE EMP123
+           (
+            ENO INT,
+            ENAME VARCHAR(10),
+            DNO INT
+           )
+
+           CREATE OR ALTER TRIGGER T6
+           ON EMP123
+           INSTEAD OF INSERT
+           AS
+           DECLARE @ENO INT, @NAME VARCHAR(10), @DNO INT
+           SELECT @ENO = ENO, @NAME = ENAME, @DNO = DNO FROM INSERTED
+           SELECT @CNT = COUNT(*) FROM EMP123 WHERE DNO = @DNO
+           IF @CNT = 4
+           RAISERROR('max 4 emps per dept', 15,1)
+           ELSE
+           INSERT INTO EMP123 VALUES(@ENO, @NAME, @DNO)
+
+           > Testing
+             -------
+             > INSERT INTO EMP123 VALUES(1,'A',10)
+               INSERT INTO EMP123 VALUES(2,'B',10)
+               INSERT INTO EMP123 VALUES(3,'C',10)
+               INSERT INTO EMP123 VALUES(4,'D',10)
+               INSERT INTO EMP123 VALUES(5,'E',10) gives error
+
+ > ALTER trigger
+   > IF COND
+     BEGIN
+     ROLLBACK
+     RAISERROR
+     END
+
+ > INSTEAD OF trigger
+   > IF COND
+     RAISERROR
+     ELSE 
+     DML
