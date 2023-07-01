@@ -4291,15 +4291,15 @@ Inserting Date into table
          SELECT * FROM #TEMP
    
  > Global Temporary table
-    ----------------------
-    > These tables are created in 1 session and can be accessed in another session
-   > CREATE TABLE ##TEMP
+   ----------------------
+   > These tables are created in 1 session and can be accessed in another session
+    > CREATE TABLE ##TEMP
       (
        EMPNO INT,
        ENAME VARCHAR(10),
-      SAL MONEY
-     )
-     INSERT INTO ##TEMP
+       SAL MONEY
+      )
+      INSERT INTO ##TEMP
       SELECT EMPNO, ENAME, SAL FROM EMP
      Method 2
       SELECT * INTO ##TEMP FROM EMP
@@ -4334,4 +4334,3 @@ Inserting Date into table
        SELECT EMPNO, ENAME, SAL FROM EMP
        
        SELECT * FROM @EMP
-       
