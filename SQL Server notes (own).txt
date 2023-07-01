@@ -4218,3 +4218,120 @@ Inserting Date into table
      RAISERROR
      ELSE 
      DML
+     
+010723
+
+ > Dynamic SQL
+   -----------
+   > SQL commands generated at runtime 
+   > Examples
+     > DROP TABLEMP (static SQL)
+     > DECALRE @TNAME VARCHAR(10)
+       SET @TNAME = 'EMP'
+       DROP TABLE @TNAME (dynamic SQL)
+   > Dynamic SQL is useful when we don't know tablenames and column names until runtime
+   > Dynamic SQL commands are executed using EXEC
+     EXEC ('Dynamic SQL command')
+   > Example
+     > Create a procedure to drop table from DB
+       > CREATE OR ALTER PROCEDURE DROP_TABLE
+         @TNAME VARCHAR(20)
+         AS
+         EXEC ('DROP TABLE ' + @TNAME)
+         Execution
+         > EXECUTE DROP_TABLE 'CUST' gives "Commands comepleted successfully"  // Table is dropped
+           SELECT * FROM 'CUST'
+     
+     > Create a procedure to drop all the tables from DB
+       > SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES         //gives list of tables and views
+         WHERE TABLE_TYPE = 'BASE TABLE'                          //gives list of tables
+         
+         CREATE OR ALTER PROCEDURE DROP_ALL_TABLES
+         AS
+         DECALRE C1 CURSOR FOR SELECT TABLE_NAME
+         FROM INFORMATION_SCHEMA.TABLES
+         WHERE TABLE_TYPE = 'BASE TABLE'
+         DECLARE @TNAME VARCHAR(100)
+         OPEN C1
+         FETCH NEXT FROM C1 INTO @TNAME
+         WHILE (@@FETCH_STATUS=0)
+         BEGIN
+         EXEC('DROP TABLE' + @TNAME)
+         FETCH NEXT FROM C1 INTO @TNAME
+         END
+         CLOSE C1
+         DEALLOCATE C1
+         > Execution
+           > EXECUTE DROP_ALL_TABLES  // referenced tables by some foreign key table cannot be dropped, 
+           table name which is not following the rules(not starting with alphabets) should be mentioned in [] like Drop table [123]
+    
+ > Temporary Tables
+   ----------------
+   > They exist only upto the session and once session is closed these are destroyed
+   > Created to store data temporaryly
+   > Temporary Tables are 2 types
+     > Local Temporary Tables
+     > Global Temporary Tables
+
+   > Local Temporary Tables
+     ----------------------
+     > These tables can be accessed only with in the 
+       session where it is created and cannot be accessed in another session
+     > Example synatax
+       > CREATE TABLE #TEMP   // prefix table with '#'
+         (
+          EMPNO INT, 
+          ENAME VARCHAR(10),
+          SAL MONEY
+         )
+
+         INSERT INTO #TEMP
+         SELECT EMPNO, ENAME, SAL FROM EMP
+
+         SELECT * FROM #TEMP
+   
+ > Global Temporary table
+    ----------------------
+    > These tables are created in 1 session and can be accessed in another session
+   > CREATE TABLE ##TEMP
+      (
+       EMPNO INT,
+       ENAME VARCHAR(10),
+      SAL MONEY
+     )
+     INSERT INTO ##TEMP
+      SELECT EMPNO, ENAME, SAL FROM EMP
+     Method 2
+      SELECT * INTO ##TEMP FROM EMP
+       
+    > Global temporary table is destroyed automatically when the session in which it
+      is creted is closed
+
+ > Table variables
+   ---------------
+   > The table variable is a special type of the variable that helps to store date temporarily,
+     similar to the temp table in SQL Server
+   > Table variables exists upto the program execution, once program execution
+     is completed then table variables are destroyed automatically
+   > Syntax
+     > DECLARE @VARNAME TABLE
+       ( 
+        COL1 DATATYPE(SIZE),
+        COL2 DATATYPE(SIZE),
+        .
+        .
+        .
+        .
+       )
+   > Example
+     > DECLARE @EMP TABLE 
+       (
+        EMPNO INT,
+        ENAME VARCHAR(10),
+        SAL MONEY
+       )
+       INSERT INTO @EMP 
+       SELECT EMPNO, ENAME, SAL FROM EMP
+       
+       SELECT * FROM @EMP
+       
