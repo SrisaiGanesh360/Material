@@ -4347,7 +4347,74 @@ Inserting Date into table
    > How to take backup
      ------------------
      > DB (rightclick)
-       > Back Up Database
-         > Backup type: Full ( everything )
-                        Differential ( Only changes from last baclup )
-                        
+       > Task
+         > Backup
+           > Back Up Database
+             > Backup type: Full ( everything )
+                            Differential ( Only changes from last backup )
+             > Destination
+               > Back up to: Disk (Local. .BAK file)
+               > 
+     
+     > Command to execute backup
+       -------------------------
+       > USE MASTER
+         BACKUP DATABASE [DB6PM] TO DISK = N'D:\BACKUPS\DB6PM.BAK'
+         GO
+         
+     > How to take backup of all DATABASES
+       -----------------------------------
+        // SELECT * FROM sys.databases  // master, tempdb, model, msdb these system DBs created by the system
+        // WHERE DATABASE_id > 4
+       > CREATE OR ALTER PROCEDURE BACKUP_DBS
+         AS
+         DECALRE C1 CUSRSOR FOR SELECT NAME FROM SYS.DATABASE_ID > 4
+         DECALRE @DBNAME VARCAHR(100)
+         DECALRE @FNAME VARCAHR(100)
+         OPEN C1
+         FETCH NEXT FROM C1 INTO @DBNAME
+         WHILE(@@FETCH_STATUS=0)
+         BEGIN
+         SET @FNAME = 'D:\BACKUPS\' + @DBNAME + '.BAK'
+         BACKUP DATABASE @DBNAME TO DISK = @FNAME
+         END
+         CLOSE C1
+         DEALLOCATE C1
+         > EXECUTION 
+           > EXECUTE BACKUP_BDS
+     
+     > How to restore
+       --------------
+       > Creating database from .BAK file is called restore 
+         > Select Databases => Restore Database
+         > Select source => Device
+           Select Backup file => D:\BACKUPS\DB6PM.BAK
+         > Click OK
+       > Command
+         -------
+         > USE [master]
+           RESTORE DATABASE [DB6PM] FROM DISK = N'D:\backups\DB6PM.BAK'
+           GO
+
+ > Export & Import
+   ---------------
+   > Export is SQL Server table to XL... file type
+   > Import is XL... table to SQL Server table
+   > Select DB
+     > TASK ( right click)
+       > Export 
+         > SQL Server Import and Export Wizard
+           > ..
+             > ..
+               > 
+   > For Import to select .csv file select 'Flat'
+
+
+ > CLOUD
+   > AZURE DATA ENGINEERING
+     ( AZURE SQL + ADF + ADB + SYNAPSE )
+ 
+ > DATA ANALYSTICS
+   > SQL 
+   > PYTHON
+   > POWER BI / TABLEAU
