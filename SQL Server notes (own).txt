@@ -4334,3 +4334,20 @@ Inserting Date into table
        SELECT EMPNO, ENAME, SAL FROM EMP
        
        SELECT * FROM @EMP
+
+020723
+
+ > Backup & Restore
+   ----------------
+   > DB must be protected from various failures like hardware, software, program etc.
+   > Backups are created to protect data from failure
+   > Copying data from db to .bak file is called Backup
+   > Recovering db from backup is called restore
+   
+   > How to take backup
+     ------------------
+     > DB (rightclick)
+       > Back Up Database
+         > Backup type: Full ( everything )
+                        Differential ( Only changes from last baclup )
+                        
